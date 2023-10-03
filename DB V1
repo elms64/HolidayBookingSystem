@@ -1,0 +1,94 @@
+Customers
+CustomerID (Primary Key)
+FirstName
+LastName
+Email
+PhoneNo
+PassportNo
+Bookings
+BookingID (Primary Key)
+CustomerID (Foreign Key referencing Customers)
+Date
+Hotels
+HotelID (Primary Key)
+HotelName
+HotelAddress
+HotelPostCode
+Description
+ImageURL
+Flights
+FlightID (Primary Key)
+Airline
+Time
+Date
+Invoices
+InvoiceID (Primary Key)
+BookingID (Foreign Key referencing Bookings)
+InvoiceDate
+Holidays
+HolidayID (Primary Key)
+Destination
+StartDate
+EndDate
+PricePerPerson
+Description
+ImageURL
+CarHireCompanies
+CompanyID (Primary Key)
+CompanyName
+Address
+ContactInfo
+CarHireBookings
+CarBookingID (Primary Key)
+CustomerID (Foreign Key referencing Customers)
+CompanyID (Foreign Key referencing CarHireCompanies)
+BookingID (Foreign Key referencing Bookings)
+PickupDate
+ReturnDate
+AvailabilityStatus
+AvailabilityStatusID (Primary Key)
+HolidayID (Foreign Key referencing Holidays)
+HotelID (Foreign Key referencing Hotels)
+FlightID (Foreign Key referencing Flights)
+AvailabilityDate
+RoomsAvailable
+SeatsAvailable
+PaymentTransactions
+TransactionID (Primary Key)
+BookingID (Foreign Key referencing Bookings)
+TransactionDate
+Amount
+PaymentMethod
+ActivityBookings
+ActivityBookingID (Primary Key)
+CustomerID (Foreign Key referencing Customers)
+ActivityName
+ActivityDate
+ActivityTime
+Reviews
+ReviewID (Primary Key)
+CustomerID (Foreign Key referencing Customers)
+HolidayID (Foreign Key referencing Holidays)
+Rating
+Comment
+ReviewDate
+HotelInformation
+HotelID (Primary Key)
+HotelName
+HotelAddress
+HotelPostCode
+Description
+ImageURL
+HotelAvailability
+HotelAvailabilityID (Primary Key)
+HotelID (Foreign Key referencing HotelInformation)
+AvailabilityDate
+RoomsAvailable
+PricePerRoom
+FlightAvailability
+FlightAvailabilityID (Primary Key)
+FlightID (Foreign Key referencing Flights)
+AvailabilityDate
+SeatsAvailable
+PricePerSeat
+
