@@ -1,0 +1,40 @@
+Hotels:
+HotelID - Integer
+HotelName - Text
+DestinationID - Integer
+HotelAddress - Text
+HotelPhoneNumber - Text
+
+Users:
+UserID - Integer
+Username - Text
+Password - Text
+
+Flights:
+FlightID - Integer
+FlightDepartingFrom - Text
+FlightArrivingAt - Text
+FlightAirline - Text
+
+Regions:
+RegionID - Integer
+RegionName - Text
+CountryID - Integer
+
+Countries:
+CountryID - Integer
+CountryName - Text
+
+Destinations:
+DestinationID - Integer
+CountryID - Integer
+RegionID - Integer
+
+Bookings:
+BookingID - Integer
+UserID - Integer
+HotelID - Integer
+DestinationID - Integer
+FlightID - Integer
+CarHire - Text
+Insurance - Text
