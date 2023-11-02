@@ -1,1 +1,6 @@
 .DS_Store
+
+Program 2/BookingProcessor/.vs/
+
+Program 2/BookingProcessor/Data/booking_data.db-shm
+Program 2/BookingProcessor/Data/booking_data.db-wal
