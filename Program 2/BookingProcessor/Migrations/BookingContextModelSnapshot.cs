@@ -194,7 +194,7 @@ namespace BookingProcessor.Migrations
                     b.Property<int>("PlanID")
                         .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("PreimumCost")
+                    b.Property<decimal>("PremiumCost")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("StartDate")
@@ -320,7 +320,7 @@ namespace BookingProcessor.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("PhoneNumber")
+                    b.Property<string>("Telephone")
                         .IsRequired()
                         .HasColumnType("TEXT");
 

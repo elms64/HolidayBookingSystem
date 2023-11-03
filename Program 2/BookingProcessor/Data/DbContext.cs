@@ -19,6 +19,7 @@ namespace BookingProcessor.Models
         public DbSet<User> User { get; set; }
         public DbSet<VehicleHire> VehicleHire { get; set; }
         public DbSet<Vehicle> Vehicle { get; set; }
+      
        
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

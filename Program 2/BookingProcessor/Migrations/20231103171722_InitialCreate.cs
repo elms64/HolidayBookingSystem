@@ -129,7 +129,7 @@ namespace BookingProcessor.Migrations
                     PlanID = table.Column<int>(type: "INTEGER", nullable: false),
                     StartDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     EndDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    PreimumCost = table.Column<decimal>(type: "TEXT", nullable: false),
+                    PremiumCost = table.Column<decimal>(type: "TEXT", nullable: false),
                     Active = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -211,7 +211,7 @@ namespace BookingProcessor.Migrations
                     LastName = table.Column<string>(type: "TEXT", nullable: false),
                     BirthDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Password = table.Column<string>(type: "TEXT", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: false)
+                    Telephone = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingProcessor.Migrations
 {
     [DbContext(typeof(BookingContext))]
-    [Migration("20231102001622_InitialCreate2")]
-    partial class InitialCreate2
+    [Migration("20231103171722_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -197,7 +197,7 @@ namespace BookingProcessor.Migrations
                     b.Property<int>("PlanID")
                         .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("PreimumCost")
+                    b.Property<decimal>("PremiumCost")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("StartDate")
@@ -323,7 +323,7 @@ namespace BookingProcessor.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("PhoneNumber")
+                    b.Property<string>("Telephone")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
