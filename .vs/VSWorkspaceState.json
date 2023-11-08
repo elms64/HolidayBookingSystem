@@ -1,0 +1,11 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Program 1",
+    "\\Program 2",
+    "\\Program 2\\BookingProcessor",
+    "\\Program 2\\BookingProcessor\\Models"
+  ],
+  "SelectedNode": "\\Program 2\\BookingProcessor\\Program.cs",
+  "PreviewInSolutionExplorer": false
+}

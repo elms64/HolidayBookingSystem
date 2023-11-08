@@ -11,15 +11,29 @@ namespace BookingProcessor.Models
         public int FlightID { get; set; }
 
         [ForeignKey("Airport")]
-        [DisplayName("Airport ID")]
-        public int AirportID { get; set; }
+        [DisplayName("Departure Airport ID ")]
+        public int DepartureAirportID { get; set; }
+
+        [ForeignKey("Airport")]
+        [DisplayName("Arrival Airport ID")]
+        public int ArrivalAirportID { get; set; }
 
         [ForeignKey("Airline")]
         [DisplayName("Airline ID")]
         public int AirlineID { get; set; }
 
-        [ForeignKey("SpecificFlight")]
-        [DisplayName("Specific Flight ID")]
-        public int SpecificFlightID { get; set; }
+        [DisplayName("Booked Seats")]
+        public int BookedSeats { get; set; }
+        
+
+        [DisplayName("Max Seats")]
+        public int MaxSeats { get; set; }
+        
+        [DisplayName ("Departure Date Time")]
+        public DateTime DepartureDateTime { get; set; }
+
+        [DisplayName ("Arrival Date Time")]
+        public DateTime ArrivalDateTime { get; set; }
+
     }
 }

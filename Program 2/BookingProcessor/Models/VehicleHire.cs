@@ -13,7 +13,7 @@ namespace BookingProcessor.Models
         [ForeignKey("Vehicle")]
         [DisplayName("Vehicle ID")]
         public int VehicleID { get; set;  }
-
+        
         [ForeignKey("User")]
         [DisplayName("User ID")]
         public int UserID { get; set; }
