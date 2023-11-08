@@ -27,10 +27,9 @@ namespace BookingProcessor.Models
             optionsBuilder.UseSqlite("Data Source=Data/booking_data.db");
         }
 
-
-
-
-
-
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            SeedData.Initialize(modelBuilder);
+        }
     }
 }

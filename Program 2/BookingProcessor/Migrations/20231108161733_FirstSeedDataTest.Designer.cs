@@ -3,6 +3,7 @@ using System;
 using BookingProcessor.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingProcessor.Migrations
 {
     [DbContext(typeof(BookingContext))]
-    partial class BookingContextModelSnapshot : ModelSnapshot
+    [Migration("20231108161733_FirstSeedDataTest")]
+    partial class FirstSeedDataTest
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.13");
@@ -60,20 +63,6 @@ namespace BookingProcessor.Migrations
                     b.HasKey("AirportID");
 
                     b.ToTable("Airport");
-
-                    b.HasData(
-                        new
-                        {
-                            AirportID = 1,
-                            AirportName = "Gatwick",
-                            CountryID = 0
-                        },
-                        new
-                        {
-                            AirportID = 2,
-                            AirportName = "Luton",
-                            CountryID = 0
-                        });
                 });
 
             modelBuilder.Entity("BookingProcessor.Models.Booking", b =>
