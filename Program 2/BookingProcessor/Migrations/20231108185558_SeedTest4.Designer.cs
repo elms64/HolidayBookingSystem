@@ -3,6 +3,7 @@ using System;
 using BookingProcessor.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingProcessor.Migrations
 {
     [DbContext(typeof(BookingContext))]
-    partial class BookingContextModelSnapshot : ModelSnapshot
+    [Migration("20231108185558_SeedTest4")]
+    partial class SeedTest4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.13");
@@ -504,7 +507,7 @@ namespace BookingProcessor.Migrations
                         new
                         {
                             UserID = 1,
-                            BirthDate = new DateTime(2003, 8, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            BirthDate = new DateTime(2003, 8, 22, 17, 26, 11, 0, DateTimeKind.Unspecified),
                             Email = "Kloakk2@gmail.com",
                             FirstName = "Alex",
                             LastName = "Lovelock",
