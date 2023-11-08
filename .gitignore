@@ -1,5 +1,7 @@
 .DS_Store
 
+.vs
+
 Program 2/BookingProcessor/.vs
 Program 1/BookingSystemUI/.vs
 Program 2/BookingProcessor/bin
