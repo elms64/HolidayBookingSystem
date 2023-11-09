@@ -5,7 +5,7 @@
 namespace BookingProcessor.Migrations
 {
     /// <inheritdoc />
-    public partial class ContextUpdate : Migration
+    public partial class InitialCommit3 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

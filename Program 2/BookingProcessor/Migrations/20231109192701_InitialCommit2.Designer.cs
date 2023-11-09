@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingProcessor.Migrations
 {
     [DbContext(typeof(BookingContext))]
-    [Migration("20231103171722_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20231109192701_InitialCommit2")]
+    partial class InitialCommit2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,6 +33,18 @@ namespace BookingProcessor.Migrations
                     b.HasKey("AirlineID");
 
                     b.ToTable("Airline");
+
+                    b.HasData(
+                        new
+                        {
+                            AirlineID = 1,
+                            AirlineName = "EasyJet"
+                        },
+                        new
+                        {
+                            AirlineID = 2,
+                            AirlineName = "British Airways"
+                        });
                 });
 
             modelBuilder.Entity("BookingProcessor.Models.Airport", b =>
@@ -51,6 +63,20 @@ namespace BookingProcessor.Migrations
                     b.HasKey("AirportID");
 
                     b.ToTable("Airport");
+
+                    b.HasData(
+                        new
+                        {
+                            AirportID = 1,
+                            AirportName = "Gatwick",
+                            CountryID = 0
+                        },
+                        new
+                        {
+                            AirportID = 2,
+                            AirportName = "Luton",
+                            CountryID = 0
+                        });
                 });
 
             modelBuilder.Entity("BookingProcessor.Models.Booking", b =>
@@ -83,6 +109,30 @@ namespace BookingProcessor.Migrations
                     b.HasKey("BookingID");
 
                     b.ToTable("Booking");
+
+                    b.HasData(
+                        new
+                        {
+                            BookingID = 1,
+                            DestinationID = 1,
+                            FlightID = 1,
+                            HotelID = 1,
+                            InsuranceID = 1,
+                            PurchaseDate = new DateTime(2023, 11, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserID = 1,
+                            VehicleHireID = 1
+                        },
+                        new
+                        {
+                            BookingID = 2,
+                            DestinationID = 2,
+                            FlightID = 2,
+                            HotelID = 2,
+                            InsuranceID = 2,
+                            PurchaseDate = new DateTime(2023, 11, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserID = 2,
+                            VehicleHireID = 2
+                        });
                 });
 
             modelBuilder.Entity("BookingProcessor.Models.Country", b =>
@@ -102,6 +152,20 @@ namespace BookingProcessor.Migrations
                     b.HasKey("CountryID");
 
                     b.ToTable("Country");
+
+                    b.HasData(
+                        new
+                        {
+                            CountryID = 1,
+                            Climate = "Temperate",
+                            CountryName = "England"
+                        },
+                        new
+                        {
+                            CountryID = 2,
+                            Climate = "Incredibly Unbelievably Rainy",
+                            CountryName = "Wales"
+                        });
                 });
 
             modelBuilder.Entity("BookingProcessor.Models.Destination", b =>
@@ -120,6 +184,26 @@ namespace BookingProcessor.Migrations
                     b.HasKey("DestinationID");
 
                     b.ToTable("Destination");
+
+                    b.HasData(
+                        new
+                        {
+                            DestinationID = 1,
+                            DestinationName = "London",
+                            RegionID = 1
+                        },
+                        new
+                        {
+                            DestinationID = 2,
+                            DestinationName = "Cornwall",
+                            RegionID = 1
+                        },
+                        new
+                        {
+                            DestinationID = 3,
+                            DestinationName = "Dubai",
+                            RegionID = 2
+                        });
                 });
 
             modelBuilder.Entity("BookingProcessor.Models.Flight", b =>
@@ -131,15 +215,51 @@ namespace BookingProcessor.Migrations
                     b.Property<int>("AirlineID")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("AirportID")
+                    b.Property<int>("ArrivalAirportID")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("SpecificFlightID")
+                    b.Property<DateTime>("ArrivalDateTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("BookedSeats")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("DepartureAirportID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("DepartureDateTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("MaxSeats")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("FlightID");
 
                     b.ToTable("Flight");
+
+                    b.HasData(
+                        new
+                        {
+                            FlightID = 1,
+                            AirlineID = 1,
+                            ArrivalAirportID = 1,
+                            ArrivalDateTime = new DateTime(2023, 11, 8, 17, 26, 11, 0, DateTimeKind.Unspecified),
+                            BookedSeats = 5,
+                            DepartureAirportID = 1,
+                            DepartureDateTime = new DateTime(2023, 12, 8, 17, 26, 11, 0, DateTimeKind.Unspecified),
+                            MaxSeats = 100
+                        },
+                        new
+                        {
+                            FlightID = 2,
+                            AirlineID = 2,
+                            ArrivalAirportID = 1,
+                            ArrivalDateTime = new DateTime(2024, 1, 8, 17, 26, 11, 0, DateTimeKind.Unspecified),
+                            BookedSeats = 5,
+                            DepartureAirportID = 1,
+                            DepartureDateTime = new DateTime(2024, 1, 8, 17, 26, 11, 0, DateTimeKind.Unspecified),
+                            MaxSeats = 100
+                        });
                 });
 
             modelBuilder.Entity("BookingProcessor.Models.Hotel", b =>
@@ -180,6 +300,32 @@ namespace BookingProcessor.Migrations
                     b.HasKey("HotelID");
 
                     b.ToTable("Hotel");
+
+                    b.HasData(
+                        new
+                        {
+                            HotelID = 1,
+                            AddressLine1 = "SampleAddressLine1",
+                            AddressLine2 = "SampleAddressLine2",
+                            City = "Fleet",
+                            DestinationID = 1,
+                            HotelName = "The Lismoyne",
+                            Postcode = "GU51 4HG",
+                            Rating = 4,
+                            Telephone = 1252810170
+                        },
+                        new
+                        {
+                            HotelID = 2,
+                            AddressLine1 = "SampleAddress2Line1",
+                            AddressLine2 = "SampleAddress2Line2",
+                            City = "Farnborough",
+                            DestinationID = 2,
+                            HotelName = "The Four Seasons",
+                            Postcode = "GU52 3EB",
+                            Rating = 5,
+                            Telephone = 1252810171
+                        });
                 });
 
             modelBuilder.Entity("BookingProcessor.Models.Insurance", b =>
@@ -206,6 +352,17 @@ namespace BookingProcessor.Migrations
                     b.HasKey("InsuranceID");
 
                     b.ToTable("Insurance");
+
+                    b.HasData(
+                        new
+                        {
+                            InsuranceID = 1,
+                            Active = true,
+                            EndDate = new DateTime(2023, 12, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            PlanID = 1,
+                            PremiumCost = 100m,
+                            StartDate = new DateTime(2023, 11, 8, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("BookingProcessor.Models.Plan", b =>
@@ -224,6 +381,20 @@ namespace BookingProcessor.Migrations
                     b.HasKey("PlanID");
 
                     b.ToTable("Plan");
+
+                    b.HasData(
+                        new
+                        {
+                            PlanID = 1,
+                            Cost = 100m,
+                            CoverType = "Comprehensive"
+                        },
+                        new
+                        {
+                            PlanID = 2,
+                            Cost = 100m,
+                            CoverType = "Comprehensive"
+                        });
                 });
 
             modelBuilder.Entity("BookingProcessor.Models.Region", b =>
@@ -246,6 +417,15 @@ namespace BookingProcessor.Migrations
                     b.HasKey("RegionID");
 
                     b.ToTable("Region");
+
+                    b.HasData(
+                        new
+                        {
+                            RegionID = 1,
+                            CountryID = 1,
+                            RegionName = "London",
+                            TimeZone = "GMT"
+                        });
                 });
 
             modelBuilder.Entity("BookingProcessor.Models.Room", b =>
@@ -273,29 +453,17 @@ namespace BookingProcessor.Migrations
                     b.HasKey("RoomID");
 
                     b.ToTable("Room");
-                });
 
-            modelBuilder.Entity("BookingProcessor.Models.SpecificFlight", b =>
-                {
-                    b.Property<int>("SpecificFlightID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("AirlineID")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("ArrivalDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("DepartureDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("FlightID")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("SpecificFlightID");
-
-                    b.ToTable("SpecificFlight");
+                    b.HasData(
+                        new
+                        {
+                            RoomID = 1,
+                            Available = true,
+                            HotelID = 1,
+                            PricePerNight = 100m,
+                            RoomNo = 69,
+                            RoomType = "Double"
+                        });
                 });
 
             modelBuilder.Entity("BookingProcessor.Models.User", b =>
@@ -334,6 +502,19 @@ namespace BookingProcessor.Migrations
                     b.HasKey("UserID");
 
                     b.ToTable("User");
+
+                    b.HasData(
+                        new
+                        {
+                            UserID = 1,
+                            BirthDate = new DateTime(2003, 8, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "Kloakk2@gmail.com",
+                            FirstName = "Alex",
+                            LastName = "Lovelock",
+                            Password = "Admin1",
+                            Telephone = "01252810170",
+                            Username = "Alex"
+                        });
                 });
 
             modelBuilder.Entity("BookingProcessor.Models.Vehicle", b =>
@@ -360,6 +541,16 @@ namespace BookingProcessor.Migrations
                     b.HasKey("VehicleID");
 
                     b.ToTable("Vehicle");
+
+                    b.HasData(
+                        new
+                        {
+                            VehicleID = 1,
+                            BodyType = "Coupe",
+                            HireRate = 500m,
+                            Make = "BMW",
+                            Model = "3 Series"
+                        });
                 });
 
             modelBuilder.Entity("BookingProcessor.Models.VehicleHire", b =>
@@ -398,6 +589,20 @@ namespace BookingProcessor.Migrations
                     b.HasKey("VehicleHireID");
 
                     b.ToTable("VehicleHire");
+
+                    b.HasData(
+                        new
+                        {
+                            VehicleHireID = 1,
+                            CollectionDate = new DateTime(2023, 11, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CollectionDepot = "FCoT",
+                            DailyRate = 600m,
+                            RentalStatus = "Unavailable",
+                            ReturnDate = new DateTime(2023, 12, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ReturnDepot = "FCoT",
+                            UserID = 1,
+                            VehicleID = 1
+                        });
                 });
 #pragma warning restore 612, 618
         }

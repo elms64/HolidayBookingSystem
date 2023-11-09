@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingProcessor.Migrations
 {
     [DbContext(typeof(BookingContext))]
-    [Migration("20231109134909_ContextUpdate")]
-    partial class ContextUpdate
+    [Migration("20231109193412_InitialCommit3")]
+    partial class InitialCommit3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

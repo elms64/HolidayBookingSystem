@@ -5,7 +5,7 @@
 namespace BookingProcessor.Migrations
 {
     /// <inheritdoc />
-    public partial class BookingSeedTest : Migration
+    public partial class InitialCommit4 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

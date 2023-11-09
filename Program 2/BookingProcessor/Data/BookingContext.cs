@@ -2,8 +2,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookingProcessor.Models
 {
+    
     public class BookingContext : DbContext
     {
+
+        public BookingContext(){}
+
+
         public DbSet<Airline> Airline { get; set; }
         public DbSet<Airport> Airport { get; set; }
         public DbSet<Booking> Booking { get; set; }
