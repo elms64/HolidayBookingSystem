@@ -13,7 +13,7 @@ class Program
 {
     static async Task Main(string[] args)
     {
-        string url = "http://*:8080/";
+        string url = "http://+:8080/";
 
         var serviceProvider = new ServiceCollection()
             .AddDbContext<BookingContext>(options =>
@@ -33,7 +33,7 @@ class Program
                 HttpListenerResponse response = context.Response;
 
                 Console.WriteLine($"Received request from {request.RemoteEndPoint}.");
-                Console.WriteLine($"Request URL: {request.Url}");
+                Console.WriteLine($"Request URL: {request.Url}");   
                 Console.WriteLine($"HTTP Method: {request.HttpMethod}");
              
              //   Console.WriteLine("Headers:");
