@@ -15,7 +15,6 @@ namespace BookingProcessor.Models
         public DbSet<Plan> Plan { get; set; }
         public DbSet<Region> Region { get; set; }
         public DbSet<Room> Room { get; set; }
-        
         public DbSet<User> User { get; set; }
         public DbSet<VehicleHire> VehicleHire { get; set; }
         public DbSet<Vehicle> Vehicle { get; set; }

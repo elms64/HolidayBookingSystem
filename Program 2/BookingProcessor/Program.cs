@@ -1,18 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
 using BookingProcessor.Models;
-
-
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 class Program
 {
     static async Task Main(string[] args)
     {
-
-
-        
         string url = "http://*:8080/";
+
+        var serviceProvider = new ServiceCollection()
+            .AddDbContext<DbContext>(options =>
+                options.UseSqlite("Data Source=booking.db"))
+            .BuildServiceProvider();
 
         using (HttpListener listener = new HttpListener())
         {
@@ -35,41 +41,39 @@ class Program
                     Console.WriteLine($"{key}: {request.Headers[key]}");
                 }
 
-
-                using (var client = new HttpClient())
+                if (request.HttpMethod == "GET" && request.Url.AbsolutePath == "/flights")
                 {
-                    var values = new Dictionary<string, string>
-                    {
-                        { "thing1", "hello" },
-                        { "thing2", "world" }
-                    };
-
-                    var content = new FormUrlEncodedContent(values);
-
-                    var postResponse = await client.PostAsync("http://*:8080/", content);
-
-                    var postResponseString = await postResponse.Content.ReadAsStringAsync();
-
-                    Console.WriteLine($"POST response received: {postResponseString}");
+                    await HandleGetFlightsRequest(response, serviceProvider);
                 }
-
-
-
-
-
-
-                string responseString = "Hello, World!";
-                byte[] buffer = Encoding.UTF8.GetBytes(responseString);
-
-                response.ContentLength64 = buffer.Length;
-                response.OutputStream.Write(buffer, 0, buffer.Length);
-                response.Close();
+                else
+                {
+                    // Handle other types of requests as needed
+                    string responseString = "Invalid request";
+                    byte[] buffer = Encoding.UTF8.GetBytes(responseString);
+                    response.ContentLength64 = buffer.Length;
+                    response.OutputStream.Write(buffer, 0, buffer.Length);
+                    response.Close();
+                }
 
                 Console.WriteLine("Response sent.");
             }
         }
+    }
 
+    static async Task HandleGetFlightsRequest(HttpListenerResponse response, IServiceProvider serviceProvider)
+    {
+        using (var scope = serviceProvider.CreateScope())
+        {
+            var dbContext = scope.ServiceProvider.GetRequiredService<BookingContext>();
+            List<int> flights = await dbContext.Flight.Select(f => f.FlightID).ToListAsync();
 
-        
-    }  
+            string jsonResponse = JsonSerializer.Serialize(flights);
+            byte[] buffer = Encoding.UTF8.GetBytes(jsonResponse);
+
+            response.ContentType = "application/json";
+            response.ContentLength64 = buffer.Length;
+            response.OutputStream.Write(buffer, 0, buffer.Length);
+            response.Close();
+        }
+    }
 }
