@@ -35,16 +35,22 @@ class Program
                 Console.WriteLine($"Received request from {request.RemoteEndPoint}.");
                 Console.WriteLine($"Request URL: {request.Url}");
                 Console.WriteLine($"HTTP Method: {request.HttpMethod}");
-                Console.WriteLine("Headers:");
-                foreach (string key in request.Headers.AllKeys)
-                {
-                    Console.WriteLine($"{key}: {request.Headers[key]}");
-                }
+             
+             //   Console.WriteLine("Headers:");
+             //   foreach (string key in request.Headers.AllKeys)
+             //   {
+             //       Console.WriteLine($"{key}: {request.Headers[key]}");
+             //   }
 
-   // && request.Url.AbsolutePath == "/flights"
+             // && request.Url.AbsolutePath == "/flights"
+             
                 if (request.HttpMethod == "GET" )
                 {
                     await HandleGetFlightsRequest(response, serviceProvider);
+                }
+                else if (request.HttpMethod == "POST")
+                {
+                    //REFERENCE POST METHOD
                 }
                 else
                 {
@@ -77,4 +83,4 @@ class Program
             response.Close();
         }
     }
-}
+}   

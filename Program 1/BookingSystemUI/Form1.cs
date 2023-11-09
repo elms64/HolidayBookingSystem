@@ -21,12 +21,15 @@ namespace BookingSystemUI
             {
                 using (HttpClient client = new HttpClient())
                 {
-                    HttpResponseMessage response = await client.GetAsync($"{ConsoleAppUrl}/flights");
+                    HttpResponseMessage response = await client.GetAsync($"{ConsoleAppUrl}");
 
                     if (response.IsSuccessStatusCode)
                     {
                         string jsonString = await response.Content.ReadAsStringAsync();
-                        List<string> flights = JsonSerializer.Deserialize<List<string>>(jsonString);
+                        
+                        List<int> flights = JsonSerializer.Deserialize<List<int>>(jsonString);
+
+                       
 
                         flightBox.DataSource = flights;
                     }
