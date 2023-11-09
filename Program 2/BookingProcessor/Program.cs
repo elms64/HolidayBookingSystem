@@ -16,8 +16,8 @@ class Program
         string url = "http://*:8080/";
 
         var serviceProvider = new ServiceCollection()
-            .AddDbContext<DbContext>(options =>
-                options.UseSqlite("Data Source=booking.db"))
+            .AddDbContext<BookingContext>(options =>
+        options.UseSqlite("Data Source=booking_data.db"))
             .BuildServiceProvider();
 
         using (HttpListener listener = new HttpListener())
@@ -41,7 +41,8 @@ class Program
                     Console.WriteLine($"{key}: {request.Headers[key]}");
                 }
 
-                if (request.HttpMethod == "GET" && request.Url.AbsolutePath == "/flights")
+   // && request.Url.AbsolutePath == "/flights"
+                if (request.HttpMethod == "GET" )
                 {
                     await HandleGetFlightsRequest(response, serviceProvider);
                 }
@@ -64,8 +65,8 @@ class Program
     {
         using (var scope = serviceProvider.CreateScope())
         {
-            var dbContext = scope.ServiceProvider.GetRequiredService<BookingContext>();
-            List<int> flights = await dbContext.Flight.Select(f => f.FlightID).ToListAsync();
+            var BookingContext = scope.ServiceProvider.GetRequiredService<BookingContext>();
+            List<int> flights = await BookingContext.Flight.Select(f => f.FlightID).ToListAsync();
 
             string jsonResponse = JsonSerializer.Serialize(flights);
             byte[] buffer = Encoding.UTF8.GetBytes(jsonResponse);
