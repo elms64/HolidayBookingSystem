@@ -3,9 +3,11 @@ using System.Net;
 using System.Text;
 using BookingProcessor.Models;
 
+
+
 class Program
 {
-    static void Main(string[] args)
+    static async Task Main(string[] args)
     {
 
 
@@ -33,6 +35,29 @@ class Program
                     Console.WriteLine($"{key}: {request.Headers[key]}");
                 }
 
+
+                using (var client = new HttpClient())
+                {
+                    var values = new Dictionary<string, string>
+                    {
+                        { "thing1", "hello" },
+                        { "thing2", "world" }
+                    };
+
+                    var content = new FormUrlEncodedContent(values);
+
+                    var postResponse = await client.PostAsync("http://*:8080/", content);
+
+                    var postResponseString = await postResponse.Content.ReadAsStringAsync();
+
+                    Console.WriteLine($"POST response received: {postResponseString}");
+                }
+
+
+
+
+
+
                 string responseString = "Hello, World!";
                 byte[] buffer = Encoding.UTF8.GetBytes(responseString);
 
@@ -44,8 +69,7 @@ class Program
             }
         }
 
+
         
-
-
-    }
+    }  
 }
