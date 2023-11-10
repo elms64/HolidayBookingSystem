@@ -50,7 +50,7 @@ class Program
                 }
                 else if (request.HttpMethod == "POST")
                 {
-                    //REFERENCE POST METHOD
+                    await HandlePostRequest(request, response); // Process POST request
                 }
                 else
                 {
@@ -82,5 +82,24 @@ class Program
             response.OutputStream.Write(buffer, 0, buffer.Length);
             response.Close();
         }
+    }
+
+    static async Task HandlePostRequest(HttpListenerRequest request, HttpListenerResponse response){
+        string requestData;
+        
+        using(var reader = new System.IO.StreamReader(request.InputStream, request.ContentEncoding))
+        {
+            requestData = reader.ReadToEnd();
+
+            Console.WriteLine($"Recieved Program 1 Data :  {requestData}");
+        }
+
+        string responseString = "Data received successfully in Program 2";
+        byte[] buffer = Encoding.UTF8.GetBytes(responseString);
+        response.ContentLength64 = buffer.Length;
+        response.OutputStream.Write(buffer, 0, buffer.Length);
+        response.Close();
+
+
     }
 }   
