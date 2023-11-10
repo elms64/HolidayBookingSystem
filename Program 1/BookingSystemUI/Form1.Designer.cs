@@ -37,6 +37,7 @@
             flowLayoutPanel1 = new FlowLayoutPanel();
             btnLoadCountries = new Button();
             vScrollBar1 = new VScrollBar();
+            btnSendID = new Button();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -94,6 +95,7 @@
             // panel1
             // 
             panel1.AutoScroll = true;
+            panel1.Controls.Add(btnSendID);
             panel1.Controls.Add(flowLayoutPanel1);
             panel1.Controls.Add(btnLoadCountries);
             panel1.Controls.Add(vScrollBar1);
@@ -132,6 +134,16 @@
             vScrollBar1.Size = new Size(17, 80);
             vScrollBar1.TabIndex = 5;
             // 
+            // btnSendID
+            // 
+            btnSendID.Location = new Point(27, 312);
+            btnSendID.Name = "btnSendID";
+            btnSendID.Size = new Size(75, 23);
+            btnSendID.TabIndex = 10;
+            btnSendID.Text = "btnSendID";
+            btnSendID.UseVisualStyleBackColor = true;
+            btnSendID.Click += btnSendID_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -157,5 +169,6 @@
         private VScrollBar vScrollBar1;
         private Button btnLoadCountries;
         private FlowLayoutPanel flowLayoutPanel1;
+        private Button btnSendID;
     }
 }

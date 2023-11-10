@@ -131,6 +131,12 @@ namespace BookingSystemUI
                 panel.BorderStyle = BorderStyle.FixedSingle;
                 panel.Size = new Size(300, 60);
 
+                // Setting the tag to store the ID
+                panel.Tag = country.CountryID;
+
+                // Click event to select the panel
+                panel.Click += Panel_Click;
+
                 Label countryNameLabel = new Label();
                 countryNameLabel.Text = country.CountryName;
                 countryNameLabel.Location = new Point(10, 10);
@@ -139,13 +145,38 @@ namespace BookingSystemUI
                 countryIdLabel.Text = "ID: " + country.CountryID;
                 countryIdLabel.Location = new Point(10, 30);
 
+                // Add MouseClick event to labels to trigger the click event of the panel
+                countryNameLabel.MouseClick += (s, e) => Panel_Click(panel, e);
+                countryIdLabel.MouseClick += (s, e) => Panel_Click(panel, e);
+
                 panel.Controls.Add(countryNameLabel);
                 panel.Controls.Add(countryIdLabel);
 
                 flowLayoutPanel1.Controls.Add(panel);
             }
         }
+        int selectedPanelID;
 
+        private void Panel_Click(object sender, EventArgs e)
+        {
+            foreach (Panel pnl in flowLayoutPanel1.Controls)
+            {
+                pnl.BackColor = SystemColors.Control; // Reset all panels' color
+            }
+
+            Panel selectedPanel = (Panel)sender;
+            selectedPanel.BackColor = Color.LightBlue;
+
+            selectedPanelID = (int)selectedPanel.Tag; // Store the selected ID in the variable
+            label1.Text = selectedPanelID.ToString();
+        }
+
+        private void btnSendID_Click(object sender, EventArgs e)
+        {
+            // You can use the selectedPanelID here to access the ID of the selected panel
+            MessageBox.Show("Selected ID: " + selectedPanelID);
+            // Or perform any other action with the selectedPanelID
+        }
     }
 
 
