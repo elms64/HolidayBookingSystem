@@ -34,12 +34,9 @@
             btnSendToProgram2 = new Button();
             txtBoxMessage = new TextBox();
             panel1 = new Panel();
+            flowLayoutPanel1 = new FlowLayoutPanel();
             btnLoadCountries = new Button();
-            panel4 = new Panel();
-            panel3 = new Panel();
-            panel2 = new Panel();
             vScrollBar1 = new VScrollBar();
-            countryListBox = new ListBox();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -97,11 +94,8 @@
             // panel1
             // 
             panel1.AutoScroll = true;
-            panel1.Controls.Add(countryListBox);
+            panel1.Controls.Add(flowLayoutPanel1);
             panel1.Controls.Add(btnLoadCountries);
-            panel1.Controls.Add(panel4);
-            panel1.Controls.Add(panel3);
-            panel1.Controls.Add(panel2);
             panel1.Controls.Add(vScrollBar1);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(txtBoxMessage);
@@ -113,6 +107,14 @@
             panel1.Size = new Size(576, 575);
             panel1.TabIndex = 5;
             // 
+            // flowLayoutPanel1
+            // 
+            flowLayoutPanel1.AutoScroll = true;
+            flowLayoutPanel1.Location = new Point(113, 279);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new Size(373, 293);
+            flowLayoutPanel1.TabIndex = 9;
+            // 
             // btnLoadCountries
             // 
             btnLoadCountries.Location = new Point(411, 220);
@@ -123,48 +125,12 @@
             btnLoadCountries.UseVisualStyleBackColor = true;
             btnLoadCountries.Click += btnLoadCountries_Click;
             // 
-            // panel4
-            // 
-            panel4.BackColor = SystemColors.ActiveCaption;
-            panel4.Location = new Point(3, 483);
-            panel4.Name = "panel4";
-            panel4.Size = new Size(542, 100);
-            panel4.TabIndex = 7;
-            panel4.Tag = "Listing";
-            // 
-            // panel3
-            // 
-            panel3.BackColor = SystemColors.ActiveCaption;
-            panel3.Location = new Point(3, 377);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(542, 100);
-            panel3.TabIndex = 7;
-            panel3.Tag = "Listing";
-            // 
-            // panel2
-            // 
-            panel2.BackColor = SystemColors.ActiveCaption;
-            panel2.Location = new Point(2, 271);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(542, 100);
-            panel2.TabIndex = 6;
-            panel2.Tag = "Listing";
-            // 
             // vScrollBar1
             // 
             vScrollBar1.Location = new Point(422, 76);
             vScrollBar1.Name = "vScrollBar1";
             vScrollBar1.Size = new Size(17, 80);
             vScrollBar1.TabIndex = 5;
-            // 
-            // countryListBox
-            // 
-            countryListBox.FormattingEnabled = true;
-            countryListBox.ItemHeight = 15;
-            countryListBox.Location = new Point(243, 25);
-            countryListBox.Name = "countryListBox";
-            countryListBox.Size = new Size(120, 94);
-            countryListBox.TabIndex = 9;
             // 
             // Form1
             // 
@@ -188,12 +154,8 @@
         private Button btnSendToProgram2;
         private TextBox txtBoxMessage;
         private Panel panel1;
-        private Panel panel2;
         private VScrollBar vScrollBar1;
-        private Panel panel4;
-
-        private Panel panel3;
         private Button btnLoadCountries;
-        private ListBox countryListBox;
+        private FlowLayoutPanel flowLayoutPanel1;
     }
 }

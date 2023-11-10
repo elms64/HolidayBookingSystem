@@ -101,8 +101,8 @@ namespace BookingSystemUI
                         string jsonResponse = await response.Content.ReadAsStringAsync();
                         var countries = JsonSerializer.Deserialize<List<CountryData>>(jsonResponse);
 
-                        // Example: Assuming a list box 'countryListBox' is used to display the country names
-                        countryListBox.DataSource = countries.Select(c => c.CountryName).ToList();
+                        DisplayCountries(countries);
+
                     }
                     else
                     {
@@ -123,5 +123,30 @@ namespace BookingSystemUI
         }
 
 
+        private void DisplayCountries(List<CountryData> countries)
+        {
+            foreach (var country in countries)
+            {
+                Panel panel = new Panel();
+                panel.BorderStyle = BorderStyle.FixedSingle;
+                panel.Size = new Size(300, 60);
+
+                Label countryNameLabel = new Label();
+                countryNameLabel.Text = country.CountryName;
+                countryNameLabel.Location = new Point(10, 10);
+
+                Label countryIdLabel = new Label();
+                countryIdLabel.Text = "ID: " + country.CountryID;
+                countryIdLabel.Location = new Point(10, 30);
+
+                panel.Controls.Add(countryNameLabel);
+                panel.Controls.Add(countryIdLabel);
+
+                flowLayoutPanel1.Controls.Add(panel);
+            }
+        }
+
     }
+
+
 }
