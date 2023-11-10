@@ -3,6 +3,7 @@ using System;
 using BookingProcessor.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingProcessor.Migrations
 {
     [DbContext(typeof(BookingContext))]
-    partial class BookingContextModelSnapshot : ModelSnapshot
+    [Migration("20231110144519_ClassreturnCountryTest1")]
+    partial class ClassreturnCountryTest1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.13");
@@ -162,54 +165,6 @@ namespace BookingProcessor.Migrations
                             CountryID = 2,
                             Climate = "Incredibly Unbelievably Rainy",
                             CountryName = "Wales"
-                        },
-                        new
-                        {
-                            CountryID = 3,
-                            Climate = "Varied",
-                            CountryName = "France"
-                        },
-                        new
-                        {
-                            CountryID = 4,
-                            Climate = "Mediterranean",
-                            CountryName = "Italy"
-                        },
-                        new
-                        {
-                            CountryID = 5,
-                            Climate = "Diverse",
-                            CountryName = "Germany"
-                        },
-                        new
-                        {
-                            CountryID = 6,
-                            Climate = "Mediterranean",
-                            CountryName = "Spain"
-                        },
-                        new
-                        {
-                            CountryID = 7,
-                            Climate = "Diverse",
-                            CountryName = "USA"
-                        },
-                        new
-                        {
-                            CountryID = 8,
-                            Climate = "Varied",
-                            CountryName = "Japan"
-                        },
-                        new
-                        {
-                            CountryID = 9,
-                            Climate = "Tropical",
-                            CountryName = "Brazil"
-                        },
-                        new
-                        {
-                            CountryID = 10,
-                            Climate = "Varied",
-                            CountryName = "Canada"
                         });
                 });
 

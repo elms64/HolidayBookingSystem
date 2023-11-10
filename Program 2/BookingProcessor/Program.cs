@@ -50,7 +50,7 @@ class Program
                 }
                 else if (request.HttpMethod == "POST")
                 {
-                    await HandlePostRequest(request, response); // Process POST request
+                    await HandlePostRequest(request, response, serviceProvider); // Process POST request
                 }
                 else
                 {
@@ -84,22 +84,37 @@ class Program
         }
     }
 
-    static async Task HandlePostRequest(HttpListenerRequest request, HttpListenerResponse response){
-        string requestData;
+ public static async Task HandlePostRequest(HttpListenerRequest request, HttpListenerResponse response, IServiceProvider serviceProvider)
+{
+    string requestData;
+
+    using (var reader = new System.IO.StreamReader(request.InputStream, request.ContentEncoding))
+    {
+        requestData = reader.ReadToEnd();
+        Console.WriteLine($"Received Program 1 Data: {requestData}");
+    }
+
+    string responseString = "Data received successfully in Program 2";
+    byte[] buffer = Encoding.UTF8.GetBytes(responseString);
+
+    if (requestData == "SEND_COUNTRY")
+    {
+        returnCountry countryHandler = new returnCountry();
         
-        using(var reader = new System.IO.StreamReader(request.InputStream, request.ContentEncoding))
-        {
-            requestData = reader.ReadToEnd();
-
-            Console.WriteLine($"Recieved Program 1 Data :  {requestData}");
-        }
-
-        string responseString = "Data received successfully in Program 2";
-        byte[] buffer = Encoding.UTF8.GetBytes(responseString);
+        var countryData = await countryHandler.sendCountry(serviceProvider);
+        Console.WriteLine("Country data sent to Program 1!");
+        
+        // Set the response after the async operation completes
+        response.ContentType = "application/json";
+        response.ContentLength64 = countryData.Length;
+        response.OutputStream.Write(countryData, 0, countryData.Length);
+    }
+    else
+    {
         response.ContentLength64 = buffer.Length;
         response.OutputStream.Write(buffer, 0, buffer.Length);
-        response.Close();
-
-
     }
+
+    response.Close(); // Close the response after processing is complete
+}
 }   
