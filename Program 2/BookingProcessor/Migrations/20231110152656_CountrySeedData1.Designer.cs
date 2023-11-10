@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingProcessor.Migrations
 {
     [DbContext(typeof(BookingContext))]
-    [Migration("20231108185655_SeedTest5")]
-    partial class SeedTest5
+    [Migration("20231110152656_CountrySeedData1")]
+    partial class CountrySeedData1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -165,6 +165,54 @@ namespace BookingProcessor.Migrations
                             CountryID = 2,
                             Climate = "Incredibly Unbelievably Rainy",
                             CountryName = "Wales"
+                        },
+                        new
+                        {
+                            CountryID = 3,
+                            Climate = "Varied",
+                            CountryName = "France"
+                        },
+                        new
+                        {
+                            CountryID = 4,
+                            Climate = "Mediterranean",
+                            CountryName = "Italy"
+                        },
+                        new
+                        {
+                            CountryID = 5,
+                            Climate = "Diverse",
+                            CountryName = "Germany"
+                        },
+                        new
+                        {
+                            CountryID = 6,
+                            Climate = "Mediterranean",
+                            CountryName = "Spain"
+                        },
+                        new
+                        {
+                            CountryID = 7,
+                            Climate = "Diverse",
+                            CountryName = "USA"
+                        },
+                        new
+                        {
+                            CountryID = 8,
+                            Climate = "Varied",
+                            CountryName = "Japan"
+                        },
+                        new
+                        {
+                            CountryID = 9,
+                            Climate = "Tropical",
+                            CountryName = "Brazil"
+                        },
+                        new
+                        {
+                            CountryID = 10,
+                            Climate = "Varied",
+                            CountryName = "Canada"
                         });
                 });
 

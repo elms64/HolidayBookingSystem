@@ -2,8 +2,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookingProcessor.Models
 {
+    
     public class BookingContext : DbContext
     {
+
+        public BookingContext(){}
+
+
         public DbSet<Airline> Airline { get; set; }
         public DbSet<Airport> Airport { get; set; }
         public DbSet<Booking> Booking { get; set; }
@@ -15,7 +20,6 @@ namespace BookingProcessor.Models
         public DbSet<Plan> Plan { get; set; }
         public DbSet<Region> Region { get; set; }
         public DbSet<Room> Room { get; set; }
-        
         public DbSet<User> User { get; set; }
         public DbSet<VehicleHire> VehicleHire { get; set; }
         public DbSet<Vehicle> Vehicle { get; set; }
@@ -25,6 +29,11 @@ namespace BookingProcessor.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite("Data Source=Data/booking_data.db");
+        }
+
+        public BookingContext(DbContextOptions<BookingContext> options) : base(options)
+        {
+            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

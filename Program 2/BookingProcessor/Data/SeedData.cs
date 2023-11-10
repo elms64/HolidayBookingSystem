@@ -33,8 +33,16 @@ public class SeedData {
 
         //Country Seed Data
         modelBuilder.Entity<Country>().HasData(
-            new Country {CountryID = 1, CountryName = "England", Climate = "Temperate" },
-            new Country {CountryID = 2, CountryName = "Wales", Climate = "Incredibly Unbelievably Rainy"}
+            new Country { CountryID = 1, CountryName = "England", Climate = "Temperate" },
+            new Country { CountryID = 2, CountryName = "Wales", Climate = "Incredibly Unbelievably Rainy" },
+            new Country { CountryID = 3, CountryName = "France", Climate = "Varied" },
+            new Country { CountryID = 4, CountryName = "Italy", Climate = "Mediterranean" },
+            new Country { CountryID = 5, CountryName = "Germany", Climate = "Diverse" },
+            new Country { CountryID = 6, CountryName = "Spain", Climate = "Mediterranean" },
+            new Country { CountryID = 7, CountryName = "USA", Climate = "Diverse" },
+            new Country { CountryID = 8, CountryName = "Japan", Climate = "Varied" },
+            new Country { CountryID = 9, CountryName = "Brazil", Climate = "Tropical" },
+            new Country { CountryID = 10, CountryName = "Canada", Climate = "Varied" }
         );
 
         //Destination Seed Data
