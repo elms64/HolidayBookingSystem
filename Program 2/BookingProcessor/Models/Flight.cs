@@ -35,5 +35,8 @@ namespace BookingProcessor.Models
         [DisplayName ("Arrival Date Time")]
         public DateTime ArrivalDateTime { get; set; }
 
+        [DisplayName ("Flight Cost")]
+        public int FlightCost { get; set; } 
+
     }
 }
