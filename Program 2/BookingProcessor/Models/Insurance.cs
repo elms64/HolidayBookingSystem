@@ -15,4 +15,5 @@ namespace BookingProcessor.Models
 
         [DisplayName("Price Per Day")]
         public double PricePerDay { get; set; }
+    }
 }

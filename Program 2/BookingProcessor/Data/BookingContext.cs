@@ -35,7 +35,7 @@ namespace BookingProcessor.Models
             
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+       protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             SeedData.Initialize(modelBuilder);
         }

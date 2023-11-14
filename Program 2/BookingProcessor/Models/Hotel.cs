@@ -25,7 +25,7 @@ public class Hotel
 
     public int PhoneNumber {get; set; }
 
-    public int Rating {get ; set; }
+    public double Rating {get ; set; }
 
     public int RoomCount { get; set; }
 
