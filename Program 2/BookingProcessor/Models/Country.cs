@@ -12,7 +12,6 @@ namespace BookingProcessor.Models
 
         [DisplayName("Country Name")]
         public string CountryName { get; set; }
-        
-        public string Climate { get; set; }
+
     }
 }

@@ -1,4 +1,5 @@
-//Authored by @elms64 and @Kloakk
+//Authored by @Kloakk
+//Initializes the database with some example data for testing
 
 using BookingProcessor.Models;
 using Microsoft.EntityFrameworkCore;
@@ -94,14 +95,6 @@ public class SeedData {
         new Client { ClientID = 3, FirstName = "Alice", LastName = "Johnson", BirthDate = new DateTime(1992, 8, 20), Email = "alice.johnson@example.com", PhoneNumber = "555-123-4567" },
         new Client { ClientID = 4, FirstName = "Bob", LastName = "Anderson", BirthDate = new DateTime(1980, 3, 10), Email = "bob.anderson@example.com", PhoneNumber = "333-777-8888" },
         new Client { ClientID = 5, FirstName = "Eva", LastName = "Williams", BirthDate = new DateTime(1988, 11, 5), Email = "eva.williams@example.com", PhoneNumber = "111-222-3333" }
-    );
-
-      modelBuilder.Entity<Country>().HasData(
-        new Country { CountryID = 1, CountryName = "Country 1", Climate = "Temperate" },
-        new Country { CountryID = 2, CountryName = "Country 2", Climate = "Tropical" },
-        new Country { CountryID = 3, CountryName = "Country 3", Climate = "Desert" },
-        new Country { CountryID = 4, CountryName = "Country 4", Climate = "Arctic" },
-        new Country { CountryID = 5, CountryName = "Country 5", Climate = "Mediterranean" }
     );
 
     modelBuilder.Entity<Flight>().HasData(

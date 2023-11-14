@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using BookingProcessor.Data;
 
 namespace BookingProcessor.Models
 {
@@ -38,6 +39,7 @@ namespace BookingProcessor.Models
        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             SeedData.Initialize(modelBuilder);
+            SeedCountries.Initialize(modelBuilder);
         }
     }
 }
