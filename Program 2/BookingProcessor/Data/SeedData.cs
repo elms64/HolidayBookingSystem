@@ -1,3 +1,5 @@
+//Authored by @elms64 and @Kloakk
+
 using BookingProcessor.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
@@ -12,14 +14,13 @@ public class SeedData {
         //Airline Seed Data
         modelBuilder.Entity<Airline>().HasData(
           
-            new Airline {AirlineID = 1, AirlineName = "EasyJet"},
-            new Airline {AirlineID = 2, AirlineName = "British Airways"}
+            new Airline {AirlineID = 1, AirlineName = "EasyJet", PhoneNumber = "0330 551 5151", Rating = 3.5 },
+            
         );
-
 
         //Airport Seed Data
         modelBuilder.Entity<Airport>().HasData(
-            new Airport {AirportID = 1, AirportName = "Gatwick"},
+            new Airport {AirportID = 1, CountryID = 0 AirportName = "Gatwick"},
             new Airport {AirportID = 2, AirportName = "Luton"}
         );
 
@@ -106,3 +107,4 @@ public class SeedData {
 
     }
 }
+

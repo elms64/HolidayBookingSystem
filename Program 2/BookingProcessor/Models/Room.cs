@@ -23,6 +23,6 @@ public class Room
     [DisplayName("Price Per Night")]
     public decimal PricePerNight { get; set; }
     
-    public bool Available { get; set; }
+    
 }
 }

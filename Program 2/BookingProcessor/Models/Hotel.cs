@@ -13,9 +13,6 @@ public class Hotel
     [DisplayName("Hotel")]
     public string HotelName { get; set; }
 
-    [ForeignKey("Destination")]
-    public int DestinationID { get; set; }
-
     [DisplayName("Address Line 1")]
     public string AddressLine1 { get; set; }
 
@@ -26,9 +23,11 @@ public class Hotel
 
     public string Postcode { get; set; }
 
-    public int Telephone {get; set; }
+    public int PhoneNumber {get; set; }
 
     public int Rating {get ; set; }
+
+    public int RoomCount { get; set; }
 
 }
 }

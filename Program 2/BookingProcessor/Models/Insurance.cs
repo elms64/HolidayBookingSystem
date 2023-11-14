@@ -10,20 +10,9 @@ namespace BookingProcessor.Models
         [DisplayName("Insurance ID")]
         public int InsuranceID { get; set; }
 
-        [ForeignKey("Plan")]
-        [DisplayName("Plan ID")]
-        public int PlanID { get; set; }
+        [DisplayName("Insurance Type")]
+        public string InsuranceType { get; set; }
 
-        [DisplayName("Start Date")]
-        public DateTime StartDate { get; set; }
-
-        [DisplayName("End Date")]
-        public DateTime EndDate { get; set; }
-
-        [DisplayName("Premium Cost")]
-        public decimal PremiumCost { get; set; }
-
-        public bool Active { get; set; }
-
-    }
+        [DisplayName("Price Per Day")]
+        public double PricePerDay { get; set; }
 }

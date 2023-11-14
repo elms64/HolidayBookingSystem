@@ -8,15 +8,11 @@ namespace BookingProcessor.Models
         [Key]
         [DisplayName("Vehicle ID")]
         public int VehicleID { get; set; }
-
-        [DisplayName("Body Type")]
-        public string BodyType { get; set; }
-
-        public string Make { get; set; }
-
-        public string Model { get; set; }
-
-        [DisplayName("Hire Rate")]
-        public decimal HireRate { get; set; }
+     
+        [DisplayName("Vehicle Type")]
+        public string VehicleType { get; set; }
+    
+        [DisplayName("PricePerDay")]
+        public decimal PricePerDay { get; set; }
     }
 }

@@ -3,15 +3,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BookingProcessor.Models 
 {
-    public class User
+    public class Client
     {
         [Key]
-        [DisplayName("User ID")]
-        public int UserID { get; set; }
-
-        public string Username { get; set; }
-
-        public string Email { get; set; }
+        [DisplayName("Client ID")]
+        public int ClientID { get; set; }
 
         [DisplayName("First Name")]
         public string FirstName { get; set; }
@@ -22,8 +18,8 @@ namespace BookingProcessor.Models
         [DisplayName("Date of Birth")]
         public DateTime BirthDate { get; set; }
 
-        public string Password { get; set; }
+        public string Email { get; set; }
 
-        public string Telephone { get; set; }
+        public string PhoneNumber { get; set; }
     }
 }

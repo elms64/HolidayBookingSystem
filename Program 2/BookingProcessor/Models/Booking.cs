@@ -10,17 +10,13 @@ namespace BookingProcessor.Models
         [DisplayName("Booking ID")]
         public int BookingID { get; set; }
 
-        [ForeignKey("User")]
-        [DisplayName("User ID")]
-        public int UserID { get; set; }
+        [ForeignKey("HotelBooking")]
+        [DisplayName("Hotel Booking ID")]
+        public int HotelBookingID { get; set; }
 
-        [ForeignKey("Hotel")]
-        [DisplayName("Hotel ID")]
-        public int HotelID { get; set; }
-
-        [ForeignKey("Destination")]
-        [DisplayName("Destination ID")]
-        public int DestinationID { get; set; }
+        [ForeignKey("Country")]
+        [DisplayName("Country ID")]
+        public int CountryID { get; set; }
 
         [ForeignKey("Flight")]
         [DisplayName("Flight ID")]
@@ -29,13 +25,17 @@ namespace BookingProcessor.Models
         [DisplayName("Date of Purchase")]
         public DateTime PurchaseDate { get; set; }
 
-        [ForeignKey("VehicleHire")]
-        [DisplayName("Vehicle Hire ID")]
-        public int VehicleHireID { get; set; }
+        [ForeignKey("VehicleBooking")]
+        [DisplayName("Vehicle Booking ID")]
+        public int VehicleBookingID { get; set; }
 
-        [ForeignKey("Insurance")]
-        [DisplayName("Insurance ID")]
-        public int InsuranceID { get; set; }
+        [ForeignKey("Client")]
+        [DisplayName("Client ID")]
+        public int ClientID { get; set; }
+
+        [ForeignKey("InsuranceBooking")]
+        [DisplayName("Insurance Booking ID")]
+        public int InsuranceBookingID { get; set; }
 
     }
 }

@@ -11,6 +11,12 @@ public class Airline
 
     [DisplayName("Airline Name")]
     public string AirlineName { get; set; }
+
+    [DisplayName("Customer Service Number")]
+    public string PhoneNumber { get; set; }
+
+    public double Rating { get; set; }
+
     
 }
 }
