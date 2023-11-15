@@ -10,6 +10,11 @@ public class Hotel
     [DisplayName("Hotel ID")]
     public int HotelID { get; set; }
 
+    [ForeignKey("Country")]
+    [DisplayName("CountryID")]
+    public int CountryID { get; set; }
+
+
     [DisplayName("Hotel")]
     public string HotelName { get; set; }
 

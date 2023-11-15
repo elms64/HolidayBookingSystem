@@ -14,20 +14,30 @@ public class SeedData {
         //              (2023,11,08, 17,26,11)
         //Airline Seed Data
         modelBuilder.Entity<Airline>().HasData(
-        new Airline { AirlineID = 1, AirlineName = "Example Airline 1", PhoneNumber = "123-456-7890", Rating = 4.5 },
-        new Airline { AirlineID = 2, AirlineName = "Example Airline 2", PhoneNumber = "987-654-3210", Rating = 3.8 },
-        new Airline { AirlineID = 3, AirlineName = "Example Airline 3", PhoneNumber = "555-123-4567", Rating = 4.2 },
-        new Airline { AirlineID = 4, AirlineName = "Example Airline 4", PhoneNumber = "333-777-8888", Rating = 3.5 },
-        new Airline { AirlineID = 5, AirlineName = "Example Airline 5", PhoneNumber = "111-222-3333", Rating = 4.0 }
+        new Airline { AirlineID = 1, AirlineName = "Example Airline 1", PhoneNumber = "123-456-7890", Rating = 4.5, HQ = "London, England" },
+        new Airline { AirlineID = 2, AirlineName = "Example Airline 2", PhoneNumber = "987-654-3210", Rating = 3.8  HQ = "France, Paris"},
+        new Airline { AirlineID = 3, AirlineName = "Example Airline 3", PhoneNumber = "555-123-4567", Rating = 4.2  HQ = "Moscow, Russia"},
+        new Airline { AirlineID = 4, AirlineName = "Example Airline 4", PhoneNumber = "333-777-8888", Rating = 3.5  HQ = "USA, LA"},
+        new Airline { AirlineID = 5, AirlineName = "Example Airline 5", PhoneNumber = "111-222-3333", Rating = 4.0  HQ = "Japan, Tokyo"}
     );
 
         //Airport Seed Data
         modelBuilder.Entity<Airport>().HasData(
-        new Airport { AirportID = 1, CountryID = 1, AirportName = "Example Airport 1" },
-        new Airport { AirportID = 2, CountryID = 2, AirportName = "Example Airport 2" },
-        new Airport { AirportID = 3, CountryID = 3, AirportName = "Example Airport 3" },
-        new Airport { AirportID = 4, CountryID = 4, AirportName = "Example Airport 4" },
-        new Airport { AirportID = 5, CountryID = 5, AirportName = "Example Airport 5" }
+        new Airport { AirportID = 1, CountryID = 840, AirportName = "Denver International Airport" }, //USA
+        new Airport { AirportID = 2, CountryID = 784, AirportName = "Dubai International Airport" },  //Dubai
+        new Airport { AirportID = 3, CountryID = 156, AirportName = "Beijing Internation Airport" },  //China
+        new Airport { AirportID = 4, CountryID = 792, AirportName = "Istanbul International Airport" }, //Turkey
+        new Airport { AirportID = 5, CountryID = 826, AirportName = "Heathrow Airport" }, //UK
+        new Airport { AirportID = 6, CountryID = 356, AirportName = "Indira Gandhi International Airport" }, //India
+        new Airport { AirportID = 7, CountryID = 250, AirportName = "Charles de Gaulle Airport" }, //France
+        new Airport { AirportID = 8, CountryID = 528, AirportName = "Amsterdam Airport Schiphol" }, //Amsterdam
+        new Airport { AirportID = 9, CountryID = 724, AirportName = "Adolfo Suárez Madrid-Barajas Airport" },//Spain
+        new Airport { AirportID = 10, CountryID = 392, AirportName = "Tokyo Haneda Airport" }, //Jpn
+        new Airport { AirportID = 11, CountryID = 276, AirportName = "Frankfurt Airport" }, //Germany
+        new Airport { AirportID = 12, CountryID = 484, AirportName = "Mexico City International Airport" }, //Mexico
+        new Airport { AirportID = 13, CountryID = 360, AirportName = "Soekarno-Hatta International Airport" }, //Indonesia
+        new Airport { AirportID = 14, CountryID = 124, AirportName = "Toronto Pearson International Airport" }, //Canada
+        new Airport { AirportID = 15, CountryID = 76, AirportName = "São Paulo/Guarulhos International Airport" } //Brazil
     );
 
         //Booking Seed Data
@@ -36,7 +46,7 @@ public class SeedData {
         {
             BookingID = 1,
             HotelBookingID = 1,
-            CountryID = 1,
+            CountryID = 826, //UK
             FlightID = 1,
             PurchaseDate = DateTime.Now,
             VehicleBookingID = 1,
@@ -47,7 +57,7 @@ public class SeedData {
         {
             BookingID = 2,
             HotelBookingID = 2,
-            CountryID = 2,
+            CountryID = 826, //UK
             FlightID = 2,
             PurchaseDate = DateTime.Now,
             VehicleBookingID = 2,
@@ -58,7 +68,7 @@ public class SeedData {
         {
             BookingID = 3,
             HotelBookingID = 3,
-            CountryID = 3,
+            CountryID = 826, //UK
             FlightID = 3,
             PurchaseDate = DateTime.Now,
             VehicleBookingID = 3,
@@ -69,7 +79,7 @@ public class SeedData {
         {
             BookingID = 4,
             HotelBookingID = 4,
-            CountryID = 4,
+            CountryID = 826, //UK
             FlightID = 4,
             PurchaseDate = DateTime.Now,
             VehicleBookingID = 4,
@@ -80,7 +90,7 @@ public class SeedData {
         {
             BookingID = 5,
             HotelBookingID = 5,
-            CountryID = 5,
+            CountryID = 826, //UK
             FlightID = 5,
             PurchaseDate = DateTime.Now,
             VehicleBookingID = 5,
@@ -89,7 +99,7 @@ public class SeedData {
         }
     );
         
-     modelBuilder.Entity<Client>().HasData(
+    modelBuilder.Entity<Client>().HasData(
         new Client { ClientID = 1, FirstName = "John", LastName = "Doe", BirthDate = new DateTime(1990, 1, 1), Email = "john.doe@example.com", PhoneNumber = "123-456-7890" },
         new Client { ClientID = 2, FirstName = "Jane", LastName = "Smith", BirthDate = new DateTime(1985, 5, 15), Email = "jane.smith@example.com", PhoneNumber = "987-654-3210" },
         new Client { ClientID = 3, FirstName = "Alice", LastName = "Johnson", BirthDate = new DateTime(1992, 8, 20), Email = "alice.johnson@example.com", PhoneNumber = "555-123-4567" },
@@ -166,6 +176,7 @@ public class SeedData {
         {
             HotelID = 1,
             HotelName = "Example Hotel 1",
+            CountryID = 826, //UK
             AddressLine1 = "123 Main St",
             AddressLine2 = "Apt 45",
             City = "Cityville",
@@ -178,6 +189,7 @@ public class SeedData {
         {
             HotelID = 2,
             HotelName = "Example Hotel 2",
+            CountryID = 826, //UK
             AddressLine1 = "456 Oak St",
             AddressLine2 = "Suite 22",
             City = "Townsville",
@@ -190,6 +202,7 @@ public class SeedData {
         {
             HotelID = 3,
             HotelName = "Example Hotel 3",
+            CountryID = 826, //UK
             AddressLine1 = "789 Pine St",
             AddressLine2 = "Unit 33",
             City = "Villagetown",
@@ -202,6 +215,7 @@ public class SeedData {
         {
             HotelID = 4,
             HotelName = "Example Hotel 4",
+            CountryID = 826, //UK
             AddressLine1 = "101 Cedar St",
             AddressLine2 = "Apt 10",
             City = "Mountainview",
@@ -214,6 +228,7 @@ public class SeedData {
         {
             HotelID = 5,
             HotelName = "Example Hotel 5",
+            CountryID = 826, //UK
             AddressLine1 = "202 Birch St",
             AddressLine2 = "Suite 5",
             City = "Laketown",

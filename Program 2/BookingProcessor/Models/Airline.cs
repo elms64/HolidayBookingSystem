@@ -15,8 +15,11 @@ public class Airline
     [DisplayName("Customer Service Number")]
     public string PhoneNumber { get; set; }
 
+    [DisplayName("Rating")]
     public double Rating { get; set; }
 
+    [DisplayName("HeadQuarters")]
+    public string HQ { get; set; }
     
 }
 }
