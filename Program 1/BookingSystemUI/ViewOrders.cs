@@ -10,21 +10,11 @@ using System.Windows.Forms;
 
 namespace BookingSystemUI
 {
-    public partial class Flight : Form
+    public partial class ViewOrders : Form
     {
-        public Flight()
+        public ViewOrders()
         {
             InitializeComponent();
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Flight_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

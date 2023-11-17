@@ -15,15 +15,48 @@ namespace BookingSystemUI
         public MainMenu()
         {
             InitializeComponent();
+
+            Startbooking.Click += Startbooking_Click;
+            Vieworder.Click += Vieworder_Click;
+
         }
 
-        private void Startbooking_Click(object sender, EventArgs e)
+        private void Startbooking_Click(object? sender, EventArgs e)
         {
+            Flight flight = new Flight();
+            flight.TopLevel = false;
+            MainPanel.Controls.Add(flight);
+            flight.Show();
+            flight.Size = MainPanel.Size;
+
+            foreach (Control control in MainPanel.Controls)
+            {
+                if (control is Button button)
+                {
+                    button.Visible = false;
+                }
+            }
+
 
         }
 
-        private void Vieworder_Click(object sender, EventArgs e)
+        private void Vieworder_Click(object? sender, EventArgs e)
         {
+            ViewOrders viewOrders = new ViewOrders();
+            viewOrders.TopLevel = false;
+            MainPanel.Controls.Add(viewOrders);
+            viewOrders.Show();
+            viewOrders.Size = MainPanel.Size;
+
+            foreach (Control control in MainPanel.Controls)
+            {
+                if (control is Button button)
+                {
+                    button.Visible = false;
+                }
+            }
+
+
 
         }
 

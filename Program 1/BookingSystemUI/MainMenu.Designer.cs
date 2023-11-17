@@ -29,37 +29,37 @@
         private void InitializeComponent()
         {
             label1 = new Label();
-            panel1 = new Panel();
+            MainPanel = new Panel();
             Exit = new Button();
             Vieworder = new Button();
             Startbooking = new Button();
-            panel1.SuspendLayout();
+            MainPanel.SuspendLayout();
             SuspendLayout();
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Emoji", 18F, FontStyle.Bold, GraphicsUnit.Point);
-            label1.Location = new Point(492, 9);
+            label1.Location = new Point(493, 5);
             label1.Name = "label1";
             label1.Size = new Size(206, 32);
             label1.TabIndex = 0;
             label1.Text = "Scuffed holidays";
             // 
-            // panel1
+            // MainPanel
             // 
-            panel1.Anchor = AnchorStyles.Top;
-            panel1.Controls.Add(Exit);
-            panel1.Controls.Add(Vieworder);
-            panel1.Controls.Add(Startbooking);
-            panel1.Location = new Point(42, 68);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(1100, 600);
-            panel1.TabIndex = 1;
+            MainPanel.Anchor = AnchorStyles.Top;
+            MainPanel.Controls.Add(Exit);
+            MainPanel.Controls.Add(Vieworder);
+            MainPanel.Controls.Add(Startbooking);
+            MainPanel.Location = new Point(54, 40);
+            MainPanel.Name = "MainPanel";
+            MainPanel.Size = new Size(1050, 650);
+            MainPanel.TabIndex = 1;
             // 
             // Exit
             // 
-            Exit.Location = new Point(460, 320);
+            Exit.Location = new Point(451, 371);
             Exit.Name = "Exit";
             Exit.Size = new Size(184, 99);
             Exit.TabIndex = 2;
@@ -69,7 +69,7 @@
             // 
             // Vieworder
             // 
-            Vieworder.Location = new Point(460, 215);
+            Vieworder.Location = new Point(451, 266);
             Vieworder.Name = "Vieworder";
             Vieworder.Size = new Size(184, 99);
             Vieworder.TabIndex = 1;
@@ -79,7 +79,7 @@
             // 
             // Startbooking
             // 
-            Startbooking.Location = new Point(460, 110);
+            Startbooking.Location = new Point(451, 161);
             Startbooking.Name = "Startbooking";
             Startbooking.Size = new Size(184, 99);
             Startbooking.TabIndex = 0;
@@ -92,11 +92,11 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1184, 711);
-            Controls.Add(panel1);
+            Controls.Add(MainPanel);
             Controls.Add(label1);
             Name = "MainMenu";
             Text = "MainMenu";
-            panel1.ResumeLayout(false);
+            MainPanel.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -104,7 +104,7 @@
         #endregion
 
         private Label label1;
-        private Panel panel1;
+        private Panel MainPanel;
         private Button Exit;
         private Button Vieworder;
         private Button Startbooking;
