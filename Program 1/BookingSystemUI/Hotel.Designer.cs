@@ -30,7 +30,6 @@
         {
             label4 = new Label();
             label3 = new Label();
-            label2 = new Label();
             label1 = new Label();
             textBox1 = new TextBox();
             panel1 = new Panel();
@@ -39,6 +38,7 @@
             label5 = new Label();
             dateTimePicker1 = new DateTimePicker();
             SelectFlight = new Button();
+            label2 = new Label();
             SuspendLayout();
             // 
             // label4
@@ -60,17 +60,6 @@
             label3.TabIndex = 9;
             label3.Text = "Book a hotel here by searching for the neccessary information, however be sure to fill out all the boxes, since the program will not continue without all the information";
             label3.Click += label3_Click;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
-            label2.Location = new Point(348, 9);
-            label2.Name = "label2";
-            label2.Size = new Size(202, 30);
-            label2.TabIndex = 8;
-            label2.Text = "Searching for hotel";
-            label2.Click += label2_Click;
             // 
             // label1
             // 
@@ -142,6 +131,17 @@
             SelectFlight.Text = "Select hotels";
             SelectFlight.UseVisualStyleBackColor = true;
             // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
+            label2.Location = new Point(348, 9);
+            label2.Name = "label2";
+            label2.Size = new Size(202, 30);
+            label2.TabIndex = 8;
+            label2.Text = "Searching for hotel";
+            label2.Click += label2_Click;
+            // 
             // Hotel
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -170,7 +170,6 @@
 
         private Label label4;
         private Label label3;
-        private Label label2;
         private Label label1;
         private TextBox textBox1;
         private Panel panel1;
@@ -179,5 +178,6 @@
         private Label label5;
         private DateTimePicker dateTimePicker1;
         private Button SelectFlight;
+        private Label label2;
     }
 }
