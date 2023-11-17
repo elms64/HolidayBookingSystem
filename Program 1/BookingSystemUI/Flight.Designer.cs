@@ -141,7 +141,7 @@
             // 
             panel1.Location = new Point(32, 224);
             panel1.Name = "panel1";
-            panel1.Size = new Size(976, 337);
+            panel1.Size = new Size(980, 340);
             panel1.TabIndex = 11;
             // 
             // SelectFlight
