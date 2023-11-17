@@ -69,6 +69,7 @@
             label2.Size = new Size(214, 30);
             label2.TabIndex = 2;
             label2.Text = "Searching for flights";
+            label2.Click += label2_Click;
             // 
             // label3
             // 
