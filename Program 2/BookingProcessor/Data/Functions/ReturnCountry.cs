@@ -10,7 +10,7 @@ using BookingProcessor.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-class returnCountry
+public class returnCountry
 {
     public async Task<byte[]> sendCountry(IServiceProvider serviceProvider)
     {
