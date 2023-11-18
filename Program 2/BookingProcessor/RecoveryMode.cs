@@ -11,20 +11,23 @@ namespace BookingProcessor
 {
     public class RecoveryMode
     {
-        private readonly string batchURL = "http://localhost:8080/batch-processes";
+        // Sends a broadcast message to all hosts on a local network to check for batch transactions.
+        private readonly string batchURL = "http://192.168.1.255:8080/batch-processes";
         private readonly IServiceProvider serviceProvider;
         public RecoveryMode(IServiceProvider serviceProvider)
         {
             this.serviceProvider = serviceProvider;
         }
 
+        // Main method of operation for Recovery Mode.
         public async Task Run()
         {
             try
             {
+                // As long as there are batch processes, this method will retrieve and process them.
                 while (await HasBatchProcesses())
                 {
-                    // Send a GET request to retrieve batch processes
+                    // Retrieve batch processes.
                     using (HttpClient client = new HttpClient())
                     {
                         HttpResponseMessage response = await client.GetAsync(batchURL);
@@ -32,18 +35,20 @@ namespace BookingProcessor
                         {
                             string batchProcessData = await response.Content.ReadAsStringAsync();
                             Console.WriteLine("Retrieved the following backed up transactions:" + batchProcessData);
-                            
-                            // Process batch processes 
-                            ProcessBatchProcesses(batchProcessData);
+
+                            // Processes batch requests
+                            ProcessBatch(batchProcessData);
+                            Console.WriteLine("Batch transactions complete, switching to normal mode...");
                         }
                         else
                         {
                             Console.WriteLine($"Error retrieving batch processes. Status code: {response.StatusCode}");
+                            Console.WriteLine("Switching to normal mode...");
                         }
                     }
                 }
 
-                // Switch back to Normal Mode after processing all batch processes
+                // Switches back to Normal Mode after processing all batch processes
                 SwitchToNormalMode();
             }
             catch (Exception ex)
@@ -52,7 +57,7 @@ namespace BookingProcessor
             }
         }
 
-        // Checks if Program 1 has any batch processes stored
+        // Checks if there are any batch processes stored on any hosts in the LAN.
         private async Task<bool> HasBatchProcesses()
         {
             using (HttpClient client = new HttpClient())
@@ -71,11 +76,13 @@ namespace BookingProcessor
             }
         }
 
-        private static void ProcessBatchProcesses(string batchProcessData)
+        // Deals with incoming batch transactions.
+        private static void ProcessBatch(string batchProcessData)
         {
 
         }
 
+        // Switches the mode of operation to normal mode. 
         private void SwitchToNormalMode()
         {
             var serviceProvider = new ServiceCollection()

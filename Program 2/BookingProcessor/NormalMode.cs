@@ -45,12 +45,14 @@ namespace BookingProcessor
                     // Decide how to process requests based on incoming information. 
                     if (request.HttpMethod == "GET")
                     {
-                        await HandleGetFlightsRequest(response);
+                        await HandleGetRequest(response);
                     }
                     else if (request.HttpMethod == "POST")
                     {
                         await HandlePostRequest(request, response);
                     }
+
+                    // Any other request types such as DELETE or PUT will be denied.
                     else
                     {
                         string responseString = "Invalid request";
@@ -65,7 +67,8 @@ namespace BookingProcessor
             }
         }
 
-        private async Task HandleGetFlightsRequest(HttpListenerResponse response)
+        // How to handle incoming GET requests
+        private async Task HandleGetRequest(HttpListenerResponse response)
         {
             using (var scope = serviceProvider.CreateScope())
             {
@@ -82,19 +85,20 @@ namespace BookingProcessor
             }
         }
 
+        // How to handle incoming POST requests
         public async Task HandlePostRequest(HttpListenerRequest request, HttpListenerResponse response)
         {
             string requestData;
-
             using (var reader = new System.IO.StreamReader(request.InputStream, request.ContentEncoding))
             {
                 requestData = reader.ReadToEnd();
                 Console.WriteLine($"Received Program 1 Data: {requestData}");
             }
 
-            string responseString = "Data received successfully in Program 2";
+            string responseString = "Data received successfully";
             byte[] buffer = Encoding.UTF8.GetBytes(responseString);
 
+            // Incoming POST requests of country data
             if (requestData == "SEND_COUNTRY")
             {
                 returnCountry countryHandler = new returnCountry();
@@ -105,6 +109,7 @@ namespace BookingProcessor
                 response.OutputStream.Write(countryData, 0, countryData.Length);
             }
 
+            // If a POST request is a batch transaction, initiate recovery mode.
             else if (IsBatchProcess(requestData))
             {
                 InitRecoveryMode();
@@ -123,11 +128,13 @@ namespace BookingProcessor
             response.Close();
         }
 
+        // Determine if an incoming POST request is a stored transaction.
         private bool IsBatchProcess(string requestData)
         {
             return requestData.Contains("BATCH_PROCESS");
         }
 
+        // Method to initiate recovery mode, used when an incoming process is a batch transaction.
         private void InitRecoveryMode()
         {
             var recoveryMode = new RecoveryMode(serviceProvider);
