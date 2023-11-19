@@ -10,11 +10,18 @@ using System.Windows.Forms;
 
 namespace BookingSystemUI
 {
-    public partial class notice_invoice : Form
+    public partial class NoticeFlight : Form
     {
-        public notice_invoice()
+        public NoticeFlight()
         {
             InitializeComponent();
+        }
+
+        private void YesFlight_Click(object sender, EventArgs e)
+        {
+            
+
+
         }
     }
 }

@@ -16,16 +16,13 @@
     <Compile Update="notice-car.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="notice-flight.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Update="notice-hotel.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="notice-insurancel.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="notice-invoice.cs">
+    <Compile Update="NoticeFlight.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="ViewOrders.cs">

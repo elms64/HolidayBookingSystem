@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.DataFormats;
 
 namespace BookingSystemUI
 {
@@ -21,6 +22,15 @@ namespace BookingSystemUI
 
         }
 
+        public void ShowHotelForm()
+        {
+            Hotel hotel = new Hotel();
+            hotel.TopLevel = false;
+            MainPanel.Controls.Add(hotel);
+            hotel.Show();
+            hotel.Size = MainPanel.Size;
+        }
+
         private void Startbooking_Click(object? sender, EventArgs e)
         {
             Flight flight = new Flight();
@@ -28,6 +38,7 @@ namespace BookingSystemUI
             MainPanel.Controls.Add(flight);
             flight.Show();
             flight.Size = MainPanel.Size;
+
 
             foreach (Control control in MainPanel.Controls)
             {
@@ -63,6 +74,11 @@ namespace BookingSystemUI
         private void Exit_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void MainPanel_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

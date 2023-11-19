@@ -12,9 +12,16 @@ namespace BookingSystemUI
 {
     public partial class Hotel : Form
     {
+        private MainMenu mainMenuInstance;
         public Hotel()
         {
             InitializeComponent();
+            mainMenuInstance = new MainMenu();
+        }
+
+        public void ShowHotelForm()
+        {
+            mainMenuInstance.ShowHotelForm();
         }
 
         private void Hotel_Load(object sender, EventArgs e)
@@ -39,18 +46,22 @@ namespace BookingSystemUI
 
         private void label6_Click(object sender, EventArgs e)
         {
+
         }
 
         private void dateTimePicker2_ValueChanged(object sender, EventArgs e)
         {
+
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
+
         }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
+
         }
 
         private void label4_Click(object sender, EventArgs e)
@@ -60,6 +71,7 @@ namespace BookingSystemUI
 
         private void label1_Click(object sender, EventArgs e)
         {
+
         }
     }
 }

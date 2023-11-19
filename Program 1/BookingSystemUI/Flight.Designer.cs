@@ -153,6 +153,7 @@
             SelectFlight.TabIndex = 12;
             SelectFlight.Text = "Select flights";
             SelectFlight.UseVisualStyleBackColor = true;
+            SelectFlight.Click += SelectFlight_Click;
             // 
             // Flight
             // 
