@@ -174,9 +174,9 @@
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(textBox1);
+            FormBorderStyle = FormBorderStyle.None;
             Name = "Flight";
             Text = "Flight";
-            Load += Flight_Load;
             ResumeLayout(false);
             PerformLayout();
         }

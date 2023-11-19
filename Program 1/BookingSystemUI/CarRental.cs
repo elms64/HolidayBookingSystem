@@ -10,16 +10,11 @@ using System.Windows.Forms;
 
 namespace BookingSystemUI
 {
-    public partial class notice_insurancel : Form
+    public partial class CarRental : Form
     {
-        public notice_insurancel()
+        public CarRental()
         {
             InitializeComponent();
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

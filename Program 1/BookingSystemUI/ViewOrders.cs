@@ -16,5 +16,12 @@ namespace BookingSystemUI
         {
             InitializeComponent();
         }
+
+        private void MainMenuOrder_Click(object sender, EventArgs e)
+        {
+            MainMenu2 mainMenu2 = new MainMenu2();
+            mainMenu2.Show();
+            this.Hide();
+        }
     }
 }

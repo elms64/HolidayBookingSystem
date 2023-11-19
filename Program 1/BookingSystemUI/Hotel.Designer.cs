@@ -159,6 +159,7 @@
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(textBox1);
+            FormBorderStyle = FormBorderStyle.None;
             Name = "Hotel";
             Text = "Hotel";
             Load += Hotel_Load;

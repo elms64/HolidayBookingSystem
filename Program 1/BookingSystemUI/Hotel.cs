@@ -12,16 +12,9 @@ namespace BookingSystemUI
 {
     public partial class Hotel : Form
     {
-        private MainMenu mainMenuInstance;
         public Hotel()
         {
             InitializeComponent();
-            mainMenuInstance = new MainMenu();
-        }
-
-        public void ShowHotelForm()
-        {
-            mainMenuInstance.ShowHotelForm();
         }
 
         private void Hotel_Load(object sender, EventArgs e)

@@ -10,24 +10,18 @@ using System.Windows.Forms;
 
 namespace BookingSystemUI
 {
-    public partial class notice_car : Form
+    public partial class Basket : Form
     {
-        public notice_car()
+        public Basket()
         {
             InitializeComponent();
         }
 
-        private void label2_Click(object sender, EventArgs e)
+        private void MainBasket_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void SelectFlight_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
+            MainMenu2 mainMenu2 = new MainMenu2();
+            mainMenu2.Show();
+            this.Hide();
         }
     }
 }
