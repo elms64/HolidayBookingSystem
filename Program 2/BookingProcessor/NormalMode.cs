@@ -23,13 +23,17 @@ namespace BookingProcessor
             this.serviceProvider = serviceProvider;
         }
 
-        //Main operating method, listens for HTTP requests and processes them accordingly.
+        // Main operating method, listens for HTTP requests and processes them accordingly.
         public async Task Run()
         {
+            ConsoleUtils.PrintWithDotsAsync("Normal mode initializing", 4, 500).Wait();
+            await Task.Delay(1500);
             using (HttpListener listener = new HttpListener())
             {
                 listener.Prefixes.Add(url);
                 listener.Start();
+                Console.WriteLine("Connection open");
+                await Task.Delay(1500);
                 Console.WriteLine($"Listening for requests on {url}");
 
                 while (true)
@@ -70,14 +74,26 @@ namespace BookingProcessor
         // How to handle incoming GET requests
         private async Task HandleGetRequest(HttpListenerResponse response)
         {
+            // Response for Flight information requests
             using (var scope = serviceProvider.CreateScope())
             {
                 var bookingContext = scope.ServiceProvider.GetRequiredService<BookingContext>();
                 List<int> flights = await bookingContext.Flight.Select(f => f.FlightID).ToListAsync();
-
                 string jsonResponse = JsonSerializer.Serialize(flights);
                 byte[] buffer = Encoding.UTF8.GetBytes(jsonResponse);
+                response.ContentType = "application/json";
+                response.ContentLength64 = buffer.Length;
+                response.OutputStream.Write(buffer, 0, buffer.Length);
+                response.Close();
+            }
 
+            // Response for Airport information requests
+            using (var scope = serviceProvider.CreateScope())
+            {
+                var bookingContext = scope.ServiceProvider.GetRequiredService<BookingContext>();
+                List<string?> airports = await bookingContext.Airport.Select(f => f.AirportName).ToListAsync();
+                string jsonResponse = JsonSerializer.Serialize(airports);
+                byte[] buffer = Encoding.UTF8.GetBytes(jsonResponse);
                 response.ContentType = "application/json";
                 response.ContentLength64 = buffer.Length;
                 response.OutputStream.Write(buffer, 0, buffer.Length);
@@ -98,7 +114,7 @@ namespace BookingProcessor
             string responseString = "Data received successfully";
             byte[] buffer = Encoding.UTF8.GetBytes(responseString);
 
-            // Incoming POST requests of country data
+            // Response for POST requests of Country data
             if (requestData == "SEND_COUNTRY")
             {
                 returnCountry countryHandler = new returnCountry();
@@ -109,16 +125,12 @@ namespace BookingProcessor
                 response.OutputStream.Write(countryData, 0, countryData.Length);
             }
 
-            // If a POST request is a batch transaction, initiate recovery mode.
+            // Response for POST requests of batch processing, initiates recovery mode.
             else if (IsBatchProcess(requestData))
             {
+                ConsoleUtils.PrintWithDotsAsync("Initiating recovery mode...", 3, 500).Wait();
                 InitRecoveryMode();
-                string recoveryMessage = "Initiating recovery mode...";
-                byte[] recoveryBuffer = Encoding.UTF8.GetBytes(recoveryMessage);
-                response.ContentLength64 = recoveryBuffer.Length;
-                response.OutputStream.Write(recoveryBuffer, 0, recoveryBuffer.Length);
             }
-
             else
             {
                 response.ContentLength64 = buffer.Length;
@@ -140,5 +152,9 @@ namespace BookingProcessor
             var recoveryMode = new RecoveryMode(serviceProvider);
             recoveryMode.Run().GetAwaiter().GetResult();
         }
+
+
+
+
     }
 }

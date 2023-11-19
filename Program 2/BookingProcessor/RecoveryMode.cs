@@ -34,16 +34,16 @@ namespace BookingProcessor
                         if (response.IsSuccessStatusCode)
                         {
                             string batchProcessData = await response.Content.ReadAsStringAsync();
-                            Console.WriteLine("Retrieved the following backed up transactions:" + batchProcessData);
+                            ConsoleUtils.PrintWithDotsAsync("Retrieved the following backed up transactions:", 3, 500).Wait();
 
                             // Processes batch requests
                             ProcessBatch(batchProcessData);
-                            Console.WriteLine("Batch transactions complete, switching to normal mode...");
+                            ConsoleUtils.PrintWithDotsAsync("Batch transactions complete, switching to normal mode...", 3, 500).Wait();
                         }
                         else
                         {
                             Console.WriteLine($"Error retrieving batch processes. Status code: {response.StatusCode}");
-                            Console.WriteLine("Switching to normal mode...");
+                            ConsoleUtils.PrintWithDotsAsync("Switching to normal mode...", 3, 500).Wait();
                         }
                     }
                 }
@@ -54,6 +54,7 @@ namespace BookingProcessor
             catch (Exception ex)
             {
                 Console.WriteLine($"An error occurred in Recovery Mode: {ex.Message}");
+                ConsoleUtils.PrintWithDotsAsync("Switching to normal mode", 4, 500).Wait();
             }
         }
 
