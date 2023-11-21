@@ -16,6 +16,7 @@ namespace BookingSystemUI
 {
     public partial class Form1 : Form
     {
+        //Change IP to localhost for testing on one machine, and the IP of Program 2 for remote testing
         private const string ConsoleAppUrl = "http://localhost:8080";
 
         public Form1()
@@ -67,7 +68,7 @@ namespace BookingSystemUI
                 using (HttpClient client = new HttpClient())
                 {
                     var data = new StringContent(message, Encoding.UTF8, "application/json");
-                    HttpResponseMessage response = client.PostAsync("http://localhost:8080/", data).Result;
+                    HttpResponseMessage response = client.PostAsync(ConsoleAppUrl, data).Result;
 
                     if (response.IsSuccessStatusCode)
                     {
@@ -94,19 +95,33 @@ namespace BookingSystemUI
                 using (HttpClient client = new HttpClient())
                 {
                     var data = new StringContent(message, Encoding.UTF8, "application/json");
-                    HttpResponseMessage response = await client.PostAsync("http://localhost:8080/", data);
+                    Task<HttpResponseMessage> responseTask = client.PostAsync(ConsoleAppUrl, data);
 
-                    if (response.IsSuccessStatusCode)
+                    // Use Task.WhenAny to wait for the response or a delay
+                    Task completedTask = await Task.WhenAny(responseTask, Task.Delay(TimeSpan.FromSeconds(3))); // Adjust the timeout duration as needed
+
+                    if (completedTask == responseTask)
                     {
-                        string jsonResponse = await response.Content.ReadAsStringAsync();
-                        var countries = JsonSerializer.Deserialize<List<CountryData>>(jsonResponse);
-
-                        DisplayCountries(countries);
-
+                        // Response received within the timeout
+                        HttpResponseMessage response = await responseTask;
+                        if (response.IsSuccessStatusCode)
+                        {
+                            string jsonResponse = await response.Content.ReadAsStringAsync();
+                            var countries = JsonSerializer.Deserialize<List<CountryData>>(jsonResponse);
+                            DisplayCountries(countries);
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                        }
                     }
                     else
                     {
-                        Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                        // Timeout occurred, show a message
+                        MessageBox.Show("No response received within the specified time.");
+
+                        // Save the HTTP message to a JSON file
+                        await SaveHttpRequestToJsonFile(message);
                     }
                 }
             }
@@ -115,6 +130,46 @@ namespace BookingSystemUI
                 Console.WriteLine($"An error occurred: {ex.Message}");
             }
         }
+
+        private async Task SaveHttpRequestToJsonFile(string message)
+        {
+            MessageBox.Show(message);
+            try
+            {
+                MessageBox.Show("1");
+                string folderPath = Path.Combine(Environment.CurrentDirectory, "Program 1", "Batch-Requests");
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+                MessageBox.Show("2");
+                // Generate a unique filename using a UUID
+                string fileName = $"Request_{Guid.NewGuid()}.json";
+
+                // Combine the folder path and filename to get the full file path
+                string filePath = Path.Combine(folderPath, fileName);
+
+                MessageBox.Show("3");
+                // Check if the file already exists (unlikely due to unique filename)
+                if (!File.Exists(filePath))
+                {
+                    // Write the HTTP message to the JSON file asynchronously
+                    await File.WriteAllTextAsync(filePath, message);
+                    MessageBox.Show("4");
+                    MessageBox.Show($"HTTP message saved to: {filePath}");
+                }
+                else
+                {
+                    MessageBox.Show("5");
+                    Console.WriteLine($"File already exists: {filePath}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while saving to JSON file: {ex.Message}");
+            }
+        }
+
 
         public class CountryData
         {
@@ -177,6 +232,14 @@ namespace BookingSystemUI
             MessageBox.Show("Selected ID: " + selectedPanelID);
             // Or perform any other action with the selectedPanelID
         }
+
+        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+
+
     }
 
 
