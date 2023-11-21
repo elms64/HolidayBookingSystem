@@ -11,7 +11,7 @@ namespace BookingProcessor.Models
         public int CountryID { get; set; }
 
         [DisplayName("Country Name")]
-        public string CountryName { get; set; }
+        public string? CountryName { get; set; }
 
     }
 }

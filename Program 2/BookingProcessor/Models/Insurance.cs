@@ -11,7 +11,7 @@ namespace BookingProcessor.Models
         public int InsuranceID { get; set; }
 
         [DisplayName("Insurance Type")]
-        public string InsuranceType { get; set; }
+        public string? InsuranceType { get; set; }
 
         [DisplayName("Price Per Day")]
         public double PricePerDay { get; set; }

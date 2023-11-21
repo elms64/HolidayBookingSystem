@@ -15,10 +15,10 @@ public class SeedData {
         //Airline Seed Data
         modelBuilder.Entity<Airline>().HasData(
         new Airline { AirlineID = 1, AirlineName = "Example Airline 1", PhoneNumber = "123-456-7890", Rating = 4.5, HQ = "London, England" },
-        new Airline { AirlineID = 2, AirlineName = "Example Airline 2", PhoneNumber = "987-654-3210", Rating = 3.8  HQ = "France, Paris"},
-        new Airline { AirlineID = 3, AirlineName = "Example Airline 3", PhoneNumber = "555-123-4567", Rating = 4.2  HQ = "Moscow, Russia"},
-        new Airline { AirlineID = 4, AirlineName = "Example Airline 4", PhoneNumber = "333-777-8888", Rating = 3.5  HQ = "USA, LA"},
-        new Airline { AirlineID = 5, AirlineName = "Example Airline 5", PhoneNumber = "111-222-3333", Rating = 4.0  HQ = "Japan, Tokyo"}
+        new Airline { AirlineID = 2, AirlineName = "Example Airline 2", PhoneNumber = "987-654-3210", Rating = 3.8,  HQ = "France, Paris"},
+        new Airline { AirlineID = 3, AirlineName = "Example Airline 3", PhoneNumber = "555-123-4567", Rating = 4.2 , HQ = "Moscow, Russia"},
+        new Airline { AirlineID = 4, AirlineName = "Example Airline 4", PhoneNumber = "333-777-8888", Rating = 3.5 , HQ = "USA, LA"},
+        new Airline { AirlineID = 5, AirlineName = "Example Airline 5", PhoneNumber = "111-222-3333", Rating = 4.0 , HQ = "Japan, Tokyo"}
     );
 
         //Airport Seed Data

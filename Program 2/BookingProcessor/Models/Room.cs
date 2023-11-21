@@ -15,7 +15,7 @@ public class Room
     public int HotelID { get; set; }
 
     [DisplayName("Room Type")]
-    public string RoomType { get; set; }
+    public string? RoomType { get; set; }
 
     [DisplayName("Room Number")]
     public int RoomNo { get; set; }
