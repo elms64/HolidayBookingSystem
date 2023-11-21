@@ -10,16 +10,16 @@ namespace BookingProcessor.Models
         public int ClientID { get; set; }
 
         [DisplayName("First Name")]
-        public string? FirstName { get; set; }
+        public string FirstName { get; set; }
 
         [DisplayName("Last Name")]
-        public string? LastName { get; set; }
+        public string LastName { get; set; }
 
         [DisplayName("Date of Birth")]
         public DateTime BirthDate { get; set; }
 
-        public string? Email { get; set; }
+        public string Email { get; set; }
 
-        public string? PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
     }
 }

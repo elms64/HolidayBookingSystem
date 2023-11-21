@@ -16,17 +16,17 @@ public class Hotel
 
 
     [DisplayName("Hotel")]
-    public string? HotelName { get; set; }
+    public string HotelName { get; set; }
 
     [DisplayName("Address Line 1")]
-    public string? AddressLine1 { get; set; }
+    public string AddressLine1 { get; set; }
 
     [DisplayName("Address Line 2")]
-    public string? AddressLine2 { get; set; }
+    public string AddressLine2 { get; set; }
 
-    public string? City { get; set; }
+    public string City { get; set; }
 
-    public string? Postcode { get; set; }
+    public string Postcode { get; set; }
 
     public int PhoneNumber {get; set; }
 

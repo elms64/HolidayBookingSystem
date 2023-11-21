@@ -10,7 +10,7 @@ namespace BookingProcessor.Models
         public int VehicleID { get; set; }
      
         [DisplayName("Vehicle Type")]
-        public string? VehicleType { get; set; }
+        public string VehicleType { get; set; }
     
         [DisplayName("PricePerDay")]
         public decimal PricePerDay { get; set; }

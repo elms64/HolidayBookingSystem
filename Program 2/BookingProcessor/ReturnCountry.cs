@@ -1,5 +1,3 @@
-//Authored by @Kloakk
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +10,8 @@ using BookingProcessor.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-public class returnCountry
+class returnCountry
 {
-
-    // Method for returning a list of countries and their IDs
     public async Task<byte[]> sendCountry(IServiceProvider serviceProvider)
     {
         using (var scope = serviceProvider.CreateScope())
