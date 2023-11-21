@@ -1,4 +1,4 @@
-﻿//Authored by @elms64 and @Kloakk
+﻿// Authored by @elms64 and @Kloakk
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

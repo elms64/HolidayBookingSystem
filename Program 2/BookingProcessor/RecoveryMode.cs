@@ -12,7 +12,7 @@ namespace BookingProcessor
     public class RecoveryMode
     {
         // Sends a broadcast message to all hosts on a local network to check for batch transactions.
-        private readonly string batchURL = "http://192.168.1.255:8080/batch-processes";
+        private readonly string batchURL = "http://localhost:8080/batch-processes";
         private readonly IServiceProvider serviceProvider;
         public RecoveryMode(IServiceProvider serviceProvider)
         {

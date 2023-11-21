@@ -1,4 +1,4 @@
-//Authored by @elms64 and @Kloakk
+// Authored by @elms64 and @Kloakk
 
 using System;
 using System.Collections.Generic;
@@ -152,9 +152,6 @@ namespace BookingProcessor
             var recoveryMode = new RecoveryMode(serviceProvider);
             recoveryMode.Run().GetAwaiter().GetResult();
         }
-
-
-
-
+        
     }
 }

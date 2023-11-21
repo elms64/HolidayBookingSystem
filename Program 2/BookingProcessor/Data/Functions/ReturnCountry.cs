@@ -1,4 +1,4 @@
-//Authored by @Kloakk
+// Authored by @Kloakk
 
 using System;
 using System.Collections.Generic;
