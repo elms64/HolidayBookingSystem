@@ -1,6 +1,6 @@
-//Authored by @elms64
-//Initializes the database with standardised Country data from the ISO3166 standard
-//https://github.com/schourode/iso3166/blob/master/Country.cs
+// Authored by @elms64
+// Initializes the database with standardised Country data from the ISO3166 standard
+// https://github.com/schourode/iso3166/blob/master/Country.cs
 
 using BookingProcessor.Models;
 using Microsoft.EntityFrameworkCore;

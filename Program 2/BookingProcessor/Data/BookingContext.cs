@@ -1,3 +1,6 @@
+// Authored by @elms64
+// Entity Framework Database Context, defining Models to be scaffolded with a SQLite DB schema
+
 using Microsoft.EntityFrameworkCore;
 using BookingProcessor.Data;
 
@@ -6,10 +9,7 @@ namespace BookingProcessor.Models
     
     public class BookingContext : DbContext
     {
-
         public BookingContext(){}
-
-
         public DbSet<Airline> Airline { get; set; }
         public DbSet<Airport> Airport { get; set; }
         public DbSet<Booking> Booking { get; set; }
@@ -25,7 +25,6 @@ namespace BookingProcessor.Models
         public DbSet<VehicleBooking> VehicleBooking { get; set; }
       
        
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite("Data Source=Data/booking_data.db");
@@ -36,6 +35,7 @@ namespace BookingProcessor.Models
             
         }
 
+       // References seed data classes to bring some test data into the database
        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             SeedData.Initialize(modelBuilder);

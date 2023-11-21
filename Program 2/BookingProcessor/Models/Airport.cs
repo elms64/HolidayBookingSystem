@@ -15,6 +15,6 @@ public class Airport
     public int CountryID { get; set; }
     
     [DisplayName("Airport Name")]
-    public string AirportName { get; set; }
+    public string? AirportName { get; set; }
 }
 }

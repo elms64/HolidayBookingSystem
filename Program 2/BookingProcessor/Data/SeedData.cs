@@ -1,5 +1,5 @@
-//Authored by @Kloakk
-//Initializes the database with some example data for testing
+// Authored by @Kloakk
+// Initializes the database with some example data for testing
 
 using BookingProcessor.Models;
 using Microsoft.EntityFrameworkCore;
@@ -10,18 +10,18 @@ public class SeedData {
     
     public static void Initialize(ModelBuilder modelBuilder){
         
-        //DateTime is    YYYY MM DD  HH MM SS   Format
+        // DateTime is    YYYY MM DD  HH MM SS   Format
         //              (2023,11,08, 17,26,11)
-        //Airline Seed Data
+        // Airline Seed Data
         modelBuilder.Entity<Airline>().HasData(
         new Airline { AirlineID = 1, AirlineName = "Example Airline 1", PhoneNumber = "123-456-7890", Rating = 4.5, HQ = "London, England" },
-        new Airline { AirlineID = 2, AirlineName = "Example Airline 2", PhoneNumber = "987-654-3210", Rating = 3.8  HQ = "France, Paris"},
-        new Airline { AirlineID = 3, AirlineName = "Example Airline 3", PhoneNumber = "555-123-4567", Rating = 4.2  HQ = "Moscow, Russia"},
-        new Airline { AirlineID = 4, AirlineName = "Example Airline 4", PhoneNumber = "333-777-8888", Rating = 3.5  HQ = "USA, LA"},
-        new Airline { AirlineID = 5, AirlineName = "Example Airline 5", PhoneNumber = "111-222-3333", Rating = 4.0  HQ = "Japan, Tokyo"}
+        new Airline { AirlineID = 2, AirlineName = "Example Airline 2", PhoneNumber = "987-654-3210", Rating = 3.8,  HQ = "France, Paris"},
+        new Airline { AirlineID = 3, AirlineName = "Example Airline 3", PhoneNumber = "555-123-4567", Rating = 4.2 , HQ = "Moscow, Russia"},
+        new Airline { AirlineID = 4, AirlineName = "Example Airline 4", PhoneNumber = "333-777-8888", Rating = 3.5 , HQ = "USA, LA"},
+        new Airline { AirlineID = 5, AirlineName = "Example Airline 5", PhoneNumber = "111-222-3333", Rating = 4.0 , HQ = "Japan, Tokyo"}
     );
 
-        //Airport Seed Data
+        // Airport Seed Data
         modelBuilder.Entity<Airport>().HasData(
         new Airport { AirportID = 1, CountryID = 840, AirportName = "Denver International Airport" }, //USA
         new Airport { AirportID = 2, CountryID = 784, AirportName = "Dubai International Airport" },  //Dubai
@@ -40,7 +40,7 @@ public class SeedData {
         new Airport { AirportID = 15, CountryID = 76, AirportName = "São Paulo/Guarulhos International Airport" } //Brazil
     );
 
-        //Booking Seed Data
+        // Booking Seed Data
         modelBuilder.Entity<Booking>().HasData(
         new Booking
         {
