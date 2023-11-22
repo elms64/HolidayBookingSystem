@@ -3,6 +3,7 @@ using System;
 using BookingProcessor.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingProcessor.Migrations
 {
     [DbContext(typeof(BookingContext))]
-    partial class BookingContextModelSnapshot : ModelSnapshot
+    [Migration("20231122164556_AddedNewAirPort")]
+    partial class AddedNewAirPort
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.13");
@@ -237,7 +240,7 @@ namespace BookingProcessor.Migrations
                             FlightID = 1,
                             HotelBookingID = 1,
                             InsuranceBookingID = 1,
-                            PurchaseDate = new DateTime(2023, 11, 22, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(4971),
+                            PurchaseDate = new DateTime(2023, 11, 22, 16, 45, 56, 655, DateTimeKind.Local).AddTicks(9834),
                             VehicleBookingID = 1
                         },
                         new
@@ -248,7 +251,7 @@ namespace BookingProcessor.Migrations
                             FlightID = 2,
                             HotelBookingID = 2,
                             InsuranceBookingID = 2,
-                            PurchaseDate = new DateTime(2023, 11, 22, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5008),
+                            PurchaseDate = new DateTime(2023, 11, 22, 16, 45, 56, 655, DateTimeKind.Local).AddTicks(9876),
                             VehicleBookingID = 2
                         },
                         new
@@ -259,7 +262,7 @@ namespace BookingProcessor.Migrations
                             FlightID = 3,
                             HotelBookingID = 3,
                             InsuranceBookingID = 3,
-                            PurchaseDate = new DateTime(2023, 11, 22, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5011),
+                            PurchaseDate = new DateTime(2023, 11, 22, 16, 45, 56, 655, DateTimeKind.Local).AddTicks(9879),
                             VehicleBookingID = 3
                         },
                         new
@@ -270,7 +273,7 @@ namespace BookingProcessor.Migrations
                             FlightID = 4,
                             HotelBookingID = 4,
                             InsuranceBookingID = 4,
-                            PurchaseDate = new DateTime(2023, 11, 22, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5012),
+                            PurchaseDate = new DateTime(2023, 11, 22, 16, 45, 56, 655, DateTimeKind.Local).AddTicks(9880),
                             VehicleBookingID = 4
                         },
                         new
@@ -281,7 +284,7 @@ namespace BookingProcessor.Migrations
                             FlightID = 5,
                             HotelBookingID = 5,
                             InsuranceBookingID = 5,
-                            PurchaseDate = new DateTime(2023, 11, 22, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5014),
+                            PurchaseDate = new DateTime(2023, 11, 22, 16, 45, 56, 655, DateTimeKind.Local).AddTicks(9882),
                             VehicleBookingID = 5
                         });
                 });
@@ -1660,10 +1663,10 @@ namespace BookingProcessor.Migrations
                             FlightID = 1,
                             AirlineID = 1,
                             ArrivalAirportID = 2,
-                            ArrivalDateTime = new DateTime(2023, 11, 30, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5042),
+                            ArrivalDateTime = new DateTime(2023, 11, 30, 16, 45, 56, 655, DateTimeKind.Local).AddTicks(9920),
                             BookedSeats = 50,
                             DepartureAirportID = 1,
-                            DepartureDateTime = new DateTime(2023, 11, 29, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5039),
+                            DepartureDateTime = new DateTime(2023, 11, 29, 16, 45, 56, 655, DateTimeKind.Local).AddTicks(9917),
                             FlightCost = 500,
                             MaxSeats = 100
                         },
@@ -1672,10 +1675,10 @@ namespace BookingProcessor.Migrations
                             FlightID = 2,
                             AirlineID = 2,
                             ArrivalAirportID = 3,
-                            ArrivalDateTime = new DateTime(2023, 12, 4, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5046),
+                            ArrivalDateTime = new DateTime(2023, 12, 4, 16, 45, 56, 655, DateTimeKind.Local).AddTicks(9924),
                             BookedSeats = 30,
                             DepartureAirportID = 2,
-                            DepartureDateTime = new DateTime(2023, 12, 2, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5045),
+                            DepartureDateTime = new DateTime(2023, 12, 2, 16, 45, 56, 655, DateTimeKind.Local).AddTicks(9923),
                             FlightCost = 450,
                             MaxSeats = 80
                         },
@@ -1684,10 +1687,10 @@ namespace BookingProcessor.Migrations
                             FlightID = 3,
                             AirlineID = 3,
                             ArrivalAirportID = 4,
-                            ArrivalDateTime = new DateTime(2023, 12, 9, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5048),
+                            ArrivalDateTime = new DateTime(2023, 12, 9, 16, 45, 56, 655, DateTimeKind.Local).AddTicks(9926),
                             BookedSeats = 70,
                             DepartureAirportID = 3,
-                            DepartureDateTime = new DateTime(2023, 12, 7, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5047),
+                            DepartureDateTime = new DateTime(2023, 12, 7, 16, 45, 56, 655, DateTimeKind.Local).AddTicks(9925),
                             FlightCost = 600,
                             MaxSeats = 120
                         },
@@ -1696,10 +1699,10 @@ namespace BookingProcessor.Migrations
                             FlightID = 4,
                             AirlineID = 4,
                             ArrivalAirportID = 5,
-                            ArrivalDateTime = new DateTime(2023, 12, 14, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5051),
+                            ArrivalDateTime = new DateTime(2023, 12, 14, 16, 45, 56, 655, DateTimeKind.Local).AddTicks(9929),
                             BookedSeats = 40,
                             DepartureAirportID = 4,
-                            DepartureDateTime = new DateTime(2023, 12, 12, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5050),
+                            DepartureDateTime = new DateTime(2023, 12, 12, 16, 45, 56, 655, DateTimeKind.Local).AddTicks(9928),
                             FlightCost = 550,
                             MaxSeats = 100
                         },
@@ -1708,10 +1711,10 @@ namespace BookingProcessor.Migrations
                             FlightID = 5,
                             AirlineID = 5,
                             ArrivalAirportID = 1,
-                            ArrivalDateTime = new DateTime(2023, 12, 19, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5054),
+                            ArrivalDateTime = new DateTime(2023, 12, 19, 16, 45, 56, 655, DateTimeKind.Local).AddTicks(9932),
                             BookedSeats = 60,
                             DepartureAirportID = 5,
-                            DepartureDateTime = new DateTime(2023, 12, 17, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5053),
+                            DepartureDateTime = new DateTime(2023, 12, 17, 16, 45, 56, 655, DateTimeKind.Local).AddTicks(9931),
                             FlightCost = 480,
                             MaxSeats = 80
                         });
@@ -1848,40 +1851,40 @@ namespace BookingProcessor.Migrations
                         new
                         {
                             HotelBookingID = 1,
-                            CheckInDate = new DateTime(2023, 11, 29, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5079),
-                            CheckOutDate = new DateTime(2023, 12, 6, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5080),
+                            CheckInDate = new DateTime(2023, 11, 29, 16, 45, 56, 655, DateTimeKind.Local).AddTicks(9958),
+                            CheckOutDate = new DateTime(2023, 12, 6, 16, 45, 56, 655, DateTimeKind.Local).AddTicks(9959),
                             HotelID = 1,
                             RoomID = 1
                         },
                         new
                         {
                             HotelBookingID = 2,
-                            CheckInDate = new DateTime(2023, 12, 2, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5082),
-                            CheckOutDate = new DateTime(2023, 12, 9, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5084),
+                            CheckInDate = new DateTime(2023, 12, 2, 16, 45, 56, 655, DateTimeKind.Local).AddTicks(9962),
+                            CheckOutDate = new DateTime(2023, 12, 9, 16, 45, 56, 655, DateTimeKind.Local).AddTicks(9963),
                             HotelID = 2,
                             RoomID = 2
                         },
                         new
                         {
                             HotelBookingID = 3,
-                            CheckInDate = new DateTime(2023, 12, 7, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5085),
-                            CheckOutDate = new DateTime(2023, 12, 14, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5086),
+                            CheckInDate = new DateTime(2023, 12, 7, 16, 45, 56, 655, DateTimeKind.Local).AddTicks(9964),
+                            CheckOutDate = new DateTime(2023, 12, 14, 16, 45, 56, 655, DateTimeKind.Local).AddTicks(9965),
                             HotelID = 3,
                             RoomID = 3
                         },
                         new
                         {
                             HotelBookingID = 4,
-                            CheckInDate = new DateTime(2023, 12, 12, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5087),
-                            CheckOutDate = new DateTime(2023, 12, 19, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5088),
+                            CheckInDate = new DateTime(2023, 12, 12, 16, 45, 56, 655, DateTimeKind.Local).AddTicks(9967),
+                            CheckOutDate = new DateTime(2023, 12, 19, 16, 45, 56, 655, DateTimeKind.Local).AddTicks(9967),
                             HotelID = 4,
                             RoomID = 4
                         },
                         new
                         {
                             HotelBookingID = 5,
-                            CheckInDate = new DateTime(2023, 12, 17, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5090),
-                            CheckOutDate = new DateTime(2023, 12, 24, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5091),
+                            CheckInDate = new DateTime(2023, 12, 17, 16, 45, 56, 655, DateTimeKind.Local).AddTicks(9969),
+                            CheckOutDate = new DateTime(2023, 12, 24, 16, 45, 56, 655, DateTimeKind.Local).AddTicks(9970),
                             HotelID = 5,
                             RoomID = 5
                         });
@@ -1959,37 +1962,37 @@ namespace BookingProcessor.Migrations
                         new
                         {
                             InsuranceBookingID = 1,
-                            EndDate = new DateTime(2023, 12, 6, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5111),
+                            EndDate = new DateTime(2023, 12, 6, 16, 45, 56, 655, DateTimeKind.Local).AddTicks(9991),
                             InsuranceID = 1,
-                            StartDate = new DateTime(2023, 11, 29, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5110)
+                            StartDate = new DateTime(2023, 11, 29, 16, 45, 56, 655, DateTimeKind.Local).AddTicks(9989)
                         },
                         new
                         {
                             InsuranceBookingID = 2,
-                            EndDate = new DateTime(2023, 12, 9, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5113),
+                            EndDate = new DateTime(2023, 12, 9, 16, 45, 56, 655, DateTimeKind.Local).AddTicks(9993),
                             InsuranceID = 2,
-                            StartDate = new DateTime(2023, 12, 2, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5112)
+                            StartDate = new DateTime(2023, 12, 2, 16, 45, 56, 655, DateTimeKind.Local).AddTicks(9992)
                         },
                         new
                         {
                             InsuranceBookingID = 3,
-                            EndDate = new DateTime(2023, 12, 14, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5116),
+                            EndDate = new DateTime(2023, 12, 14, 16, 45, 56, 655, DateTimeKind.Local).AddTicks(9995),
                             InsuranceID = 3,
-                            StartDate = new DateTime(2023, 12, 7, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5115)
+                            StartDate = new DateTime(2023, 12, 7, 16, 45, 56, 655, DateTimeKind.Local).AddTicks(9994)
                         },
                         new
                         {
                             InsuranceBookingID = 4,
-                            EndDate = new DateTime(2023, 12, 19, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5118),
+                            EndDate = new DateTime(2023, 12, 19, 16, 45, 56, 655, DateTimeKind.Local).AddTicks(9998),
                             InsuranceID = 4,
-                            StartDate = new DateTime(2023, 12, 12, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5117)
+                            StartDate = new DateTime(2023, 12, 12, 16, 45, 56, 655, DateTimeKind.Local).AddTicks(9997)
                         },
                         new
                         {
                             InsuranceBookingID = 5,
-                            EndDate = new DateTime(2023, 12, 24, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5121),
+                            EndDate = new DateTime(2023, 12, 24, 16, 45, 56, 656, DateTimeKind.Local).AddTicks(1),
                             InsuranceID = 5,
-                            StartDate = new DateTime(2023, 12, 17, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5120)
+                            StartDate = new DateTime(2023, 12, 17, 16, 45, 56, 656, DateTimeKind.Local)
                         });
                 });
 
@@ -2130,36 +2133,36 @@ namespace BookingProcessor.Migrations
                         new
                         {
                             VehicleBookingID = 1,
-                            DropOffDate = new DateTime(2023, 12, 6, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5152),
-                            PickUpDate = new DateTime(2023, 11, 29, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5151),
+                            DropOffDate = new DateTime(2023, 12, 6, 16, 45, 56, 656, DateTimeKind.Local).AddTicks(33),
+                            PickUpDate = new DateTime(2023, 11, 29, 16, 45, 56, 656, DateTimeKind.Local).AddTicks(32),
                             VehicleID = 1
                         },
                         new
                         {
                             VehicleBookingID = 2,
-                            DropOffDate = new DateTime(2023, 12, 9, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5155),
-                            PickUpDate = new DateTime(2023, 12, 2, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5154),
+                            DropOffDate = new DateTime(2023, 12, 9, 16, 45, 56, 656, DateTimeKind.Local).AddTicks(36),
+                            PickUpDate = new DateTime(2023, 12, 2, 16, 45, 56, 656, DateTimeKind.Local).AddTicks(35),
                             VehicleID = 2
                         },
                         new
                         {
                             VehicleBookingID = 3,
-                            DropOffDate = new DateTime(2023, 12, 14, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5157),
-                            PickUpDate = new DateTime(2023, 12, 7, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5156),
+                            DropOffDate = new DateTime(2023, 12, 14, 16, 45, 56, 656, DateTimeKind.Local).AddTicks(38),
+                            PickUpDate = new DateTime(2023, 12, 7, 16, 45, 56, 656, DateTimeKind.Local).AddTicks(37),
                             VehicleID = 3
                         },
                         new
                         {
                             VehicleBookingID = 4,
-                            DropOffDate = new DateTime(2023, 12, 19, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5159),
-                            PickUpDate = new DateTime(2023, 12, 12, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5158),
+                            DropOffDate = new DateTime(2023, 12, 19, 16, 45, 56, 656, DateTimeKind.Local).AddTicks(40),
+                            PickUpDate = new DateTime(2023, 12, 12, 16, 45, 56, 656, DateTimeKind.Local).AddTicks(39),
                             VehicleID = 4
                         },
                         new
                         {
                             VehicleBookingID = 5,
-                            DropOffDate = new DateTime(2023, 12, 24, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5162),
-                            PickUpDate = new DateTime(2023, 12, 17, 17, 18, 26, 48, DateTimeKind.Local).AddTicks(5161),
+                            DropOffDate = new DateTime(2023, 12, 24, 16, 45, 56, 656, DateTimeKind.Local).AddTicks(43),
+                            PickUpDate = new DateTime(2023, 12, 17, 16, 45, 56, 656, DateTimeKind.Local).AddTicks(42),
                             VehicleID = 5
                         });
                 });

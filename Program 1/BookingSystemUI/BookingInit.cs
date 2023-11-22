@@ -18,7 +18,7 @@ namespace BookingSystemUI
         private MainMenu mainForm;
 
         private const string ConsoleAppUrl = "http://localhost:8080";
-        
+
         public BookingInit(MainMenu mainForm)
         {
             InitializeComponent();
@@ -57,11 +57,13 @@ namespace BookingSystemUI
                             foreach (var country in countries)
                             {
                                 comboBoxCountry.Items.Add(country.CountryName);
+                                comboBoxOrigin.Items.Add(new KeyValuePair<string, int>(country.CountryName, country.CountryID));
                                 // Assuming CountryData has a property named CountryName
                             }
 
                             // Sort the items alphabetically
                             comboBoxCountry.Sorted = true;
+                            comboBoxOrigin.Sorted = true;
                         }
                         else
                         {
@@ -120,9 +122,29 @@ namespace BookingSystemUI
 
         private void btnNext_Click(object sender, EventArgs e)
         {
-            this.Close();
-            Flight flight = new Flight();
+            // Get the selected values
+            string selectedCountry = comboBoxCountry.SelectedItem?.ToString();
+
+            // Retrieve both the selected name and ID for comboBoxOrigin
+            KeyValuePair<string, int>? selectedOriginItem = comboBoxOrigin.SelectedItem as KeyValuePair<string, int>?;
+            string selectedOrigin = selectedOriginItem?.Key;
+            int selectedOriginID = selectedOriginItem?.Value ?? -1; // Default value if null
+
+            DateTime selectedDepartureDate = dateTimePickerStart.Value;
+            string selectedReturnDate = lblReturnDateUpdate.Text;
+
+            // Create an instance of the Flight form and pass the values
+            Flight flight = new Flight(selectedCountry, selectedDepartureDate, selectedReturnDate, selectedOrigin, selectedOriginID);
+
+            // Show the Flight form
             mainForm.ShowFormInMainPanel(flight);
+
+            // Close the BookingInit form if needed
+            this.Close();
+        }
+
+        private void lblReturnDateUpdate_Click(object sender, EventArgs e)
+        {
 
         }
     }

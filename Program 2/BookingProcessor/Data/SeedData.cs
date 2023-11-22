@@ -15,10 +15,10 @@ public class SeedData {
         // Airline Seed Data
         modelBuilder.Entity<Airline>().HasData(
         new Airline { AirlineID = 1, AirlineName = "Example Airline 1", PhoneNumber = "123-456-7890", Rating = 4.5, HQ = "London, England" },
-        new Airline { AirlineID = 2, AirlineName = "Example Airline 2", PhoneNumber = "987-654-3210", Rating = 3.8,  HQ = "France, Paris"},
-        new Airline { AirlineID = 3, AirlineName = "Example Airline 3", PhoneNumber = "555-123-4567", Rating = 4.2 , HQ = "Moscow, Russia"},
-        new Airline { AirlineID = 4, AirlineName = "Example Airline 4", PhoneNumber = "333-777-8888", Rating = 3.5 , HQ = "USA, LA"},
-        new Airline { AirlineID = 5, AirlineName = "Example Airline 5", PhoneNumber = "111-222-3333", Rating = 4.0 , HQ = "Japan, Tokyo"}
+        new Airline { AirlineID = 2, AirlineName = "Example Airline 2", PhoneNumber = "987-654-3210", Rating = 3.8, HQ = "France, Paris"},
+        new Airline { AirlineID = 3, AirlineName = "Example Airline 3", PhoneNumber = "555-123-4567", Rating = 4.2, HQ = "Moscow, Russia"},
+        new Airline { AirlineID = 4, AirlineName = "Example Airline 4", PhoneNumber = "333-777-8888", Rating = 3.5, HQ = "USA, LA"},
+        new Airline { AirlineID = 5, AirlineName = "Example Airline 5", PhoneNumber = "111-222-3333", Rating = 4.0, HQ = "Japan, Tokyo"}
     );
 
         // Airport Seed Data
@@ -37,7 +37,9 @@ public class SeedData {
         new Airport { AirportID = 12, CountryID = 484, AirportName = "Mexico City International Airport" }, //Mexico
         new Airport { AirportID = 13, CountryID = 360, AirportName = "Soekarno-Hatta International Airport" }, //Indonesia
         new Airport { AirportID = 14, CountryID = 124, AirportName = "Toronto Pearson International Airport" }, //Canada
-        new Airport { AirportID = 15, CountryID = 76, AirportName = "São Paulo/Guarulhos International Airport" } //Brazil
+        new Airport { AirportID = 15, CountryID = 76, AirportName = "São Paulo/Guarulhos International Airport" }, //Brazil
+        new Airport { AirportID = 16, CountryID = 826, AirportName = "Gatwick Airport" } //UK
+        
     );
 
         // Booking Seed Data
@@ -123,8 +125,8 @@ public class SeedData {
         new Flight
         {
             FlightID = 2,
-            DepartureAirportID = 2,
-            ArrivalAirportID = 3,
+            DepartureAirportID = 16, //Gatwick
+            ArrivalAirportID = 5, //Heathrow
             AirlineID = 2,
             BookedSeats = 30,
             MaxSeats = 80,

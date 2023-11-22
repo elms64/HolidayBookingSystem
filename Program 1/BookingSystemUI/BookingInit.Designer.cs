@@ -37,11 +37,13 @@
             lblReturnDate = new Label();
             lblReturnDateUpdate = new Label();
             btnNext = new Button();
+            lblOrigin = new Label();
+            comboBoxOrigin = new ComboBox();
             SuspendLayout();
             // 
             // dateTimePickerStart
             // 
-            dateTimePickerStart.Location = new Point(293, 171);
+            dateTimePickerStart.Location = new Point(395, 171);
             dateTimePickerStart.Name = "dateTimePickerStart";
             dateTimePickerStart.Size = new Size(200, 23);
             dateTimePickerStart.TabIndex = 0;
@@ -50,7 +52,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(352, 153);
+            label1.Location = new Point(454, 153);
             label1.Name = "label1";
             label1.Size = new Size(77, 15);
             label1.TabIndex = 2;
@@ -59,7 +61,7 @@
             // comboBoxCountry
             // 
             comboBoxCountry.FormattingEnabled = true;
-            comboBoxCountry.Location = new Point(119, 171);
+            comboBoxCountry.Location = new Point(76, 169);
             comboBoxCountry.Name = "comboBoxCountry";
             comboBoxCountry.Size = new Size(121, 23);
             comboBoxCountry.TabIndex = 3;
@@ -67,7 +69,7 @@
             // lblCountry
             // 
             lblCountry.AutoSize = true;
-            lblCountry.Location = new Point(142, 153);
+            lblCountry.Location = new Point(97, 153);
             lblCountry.Name = "lblCountry";
             lblCountry.Size = new Size(77, 15);
             lblCountry.TabIndex = 4;
@@ -75,7 +77,7 @@
             // 
             // txtBoxHowLong
             // 
-            txtBoxHowLong.Location = new Point(549, 171);
+            txtBoxHowLong.Location = new Point(651, 171);
             txtBoxHowLong.Name = "txtBoxHowLong";
             txtBoxHowLong.Size = new Size(100, 23);
             txtBoxHowLong.TabIndex = 5;
@@ -84,7 +86,7 @@
             // lblDuration
             // 
             lblDuration.AutoSize = true;
-            lblDuration.Location = new Point(561, 153);
+            lblDuration.Location = new Point(663, 153);
             lblDuration.Name = "lblDuration";
             lblDuration.Size = new Size(79, 15);
             lblDuration.TabIndex = 6;
@@ -93,7 +95,7 @@
             // lblReturnDate
             // 
             lblReturnDate.AutoSize = true;
-            lblReturnDate.Location = new Point(745, 153);
+            lblReturnDate.Location = new Point(847, 153);
             lblReturnDate.Name = "lblReturnDate";
             lblReturnDate.Size = new Size(71, 15);
             lblReturnDate.TabIndex = 7;
@@ -102,11 +104,12 @@
             // lblReturnDateUpdate
             // 
             lblReturnDateUpdate.AutoSize = true;
-            lblReturnDateUpdate.Location = new Point(708, 177);
+            lblReturnDateUpdate.Location = new Point(810, 177);
             lblReturnDateUpdate.Name = "lblReturnDateUpdate";
             lblReturnDateUpdate.Size = new Size(145, 15);
             lblReturnDateUpdate.TabIndex = 8;
             lblReturnDateUpdate.Text = "Updated Return Date Here";
+            lblReturnDateUpdate.Click += lblReturnDateUpdate_Click;
             // 
             // btnNext
             // 
@@ -118,12 +121,31 @@
             btnNext.UseVisualStyleBackColor = true;
             btnNext.Click += btnNext_Click;
             // 
+            // lblOrigin
+            // 
+            lblOrigin.AutoSize = true;
+            lblOrigin.Location = new Point(258, 153);
+            lblOrigin.Name = "lblOrigin";
+            lblOrigin.Size = new Size(85, 15);
+            lblOrigin.TabIndex = 11;
+            lblOrigin.Text = "WHERE FROM!";
+            // 
+            // comboBoxOrigin
+            // 
+            comboBoxOrigin.FormattingEnabled = true;
+            comboBoxOrigin.Location = new Point(237, 169);
+            comboBoxOrigin.Name = "comboBoxOrigin";
+            comboBoxOrigin.Size = new Size(121, 23);
+            comboBoxOrigin.TabIndex = 10;
+            // 
             // BookingInit
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(1018, 572);
+            Controls.Add(lblOrigin);
+            Controls.Add(comboBoxOrigin);
             Controls.Add(btnNext);
             Controls.Add(lblReturnDateUpdate);
             Controls.Add(lblReturnDate);
@@ -152,5 +174,7 @@
         private Label lblReturnDate;
         private Label lblReturnDateUpdate;
         private Button btnNext;
+        private Label lblOrigin;
+        private ComboBox comboBoxOrigin;
     }
 }

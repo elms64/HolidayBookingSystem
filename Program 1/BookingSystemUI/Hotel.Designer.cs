@@ -97,7 +97,7 @@
             label6.TabIndex = 15;
             label6.Text = "Check out";
             label6.Click += label6_Click;
-            // 
+            //  
             // CheckOutDate
             // 
             CheckOutDate.Location = new Point(679, 132);
