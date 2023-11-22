@@ -30,12 +30,14 @@
         {
             label1 = new Label();
             RentCar = new Button();
-            comboBox1 = new ComboBox();
+            CarType = new ComboBox();
             label2 = new Label();
-            dateTimePicker1 = new DateTimePicker();
+            PickUpDate = new DateTimePicker();
             label3 = new Label();
             label4 = new Label();
-            dateTimePicker2 = new DateTimePicker();
+            DropOffDate = new DateTimePicker();
+            CarRentalPanel = new Panel();
+            SearchCar = new Button();
             SuspendLayout();
             // 
             // label1
@@ -57,13 +59,14 @@
             RentCar.Text = "Confirm booking";
             RentCar.UseVisualStyleBackColor = true;
             // 
-            // comboBox1
+            // CarType
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(36, 148);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(163, 23);
-            comboBox1.TabIndex = 2;
+            CarType.FormattingEnabled = true;
+            CarType.Location = new Point(36, 148);
+            CarType.Name = "CarType";
+            CarType.Size = new Size(163, 23);
+            CarType.TabIndex = 2;
+            CarType.SelectedIndexChanged += CarType_SelectedIndexChanged;
             // 
             // label2
             // 
@@ -74,12 +77,13 @@
             label2.TabIndex = 3;
             label2.Text = "Search the car that is required";
             // 
-            // dateTimePicker1
+            // PickUpDate
             // 
-            dateTimePicker1.Location = new Point(254, 148);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(200, 23);
-            dateTimePicker1.TabIndex = 4;
+            PickUpDate.Location = new Point(254, 148);
+            PickUpDate.Name = "PickUpDate";
+            PickUpDate.Size = new Size(200, 23);
+            PickUpDate.TabIndex = 4;
+            PickUpDate.ValueChanged += PickUpDate_ValueChanged;
             // 
             // label3
             // 
@@ -99,12 +103,30 @@
             label4.TabIndex = 6;
             label4.Text = "Select the date of dropoff";
             // 
-            // dateTimePicker2
+            // DropOffDate
             // 
-            dateTimePicker2.Location = new Point(518, 148);
-            dateTimePicker2.Name = "dateTimePicker2";
-            dateTimePicker2.Size = new Size(200, 23);
-            dateTimePicker2.TabIndex = 7;
+            DropOffDate.Location = new Point(518, 148);
+            DropOffDate.Name = "DropOffDate";
+            DropOffDate.Size = new Size(200, 23);
+            DropOffDate.TabIndex = 7;
+            DropOffDate.ValueChanged += DropOffDate_ValueChanged;
+            // 
+            // CarRentalPanel
+            // 
+            CarRentalPanel.Location = new Point(36, 212);
+            CarRentalPanel.Name = "CarRentalPanel";
+            CarRentalPanel.Size = new Size(980, 340);
+            CarRentalPanel.TabIndex = 12;
+            // 
+            // SearchCar
+            // 
+            SearchCar.Location = new Point(913, 147);
+            SearchCar.Name = "SearchCar";
+            SearchCar.Size = new Size(103, 23);
+            SearchCar.TabIndex = 13;
+            SearchCar.Text = "Search cars";
+            SearchCar.UseVisualStyleBackColor = true;
+            SearchCar.Click += SearchCar_Click;
             // 
             // CarRental
             // 
@@ -112,12 +134,14 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(1050, 650);
-            Controls.Add(dateTimePicker2);
+            Controls.Add(SearchCar);
+            Controls.Add(CarRentalPanel);
+            Controls.Add(DropOffDate);
             Controls.Add(label4);
             Controls.Add(label3);
-            Controls.Add(dateTimePicker1);
+            Controls.Add(PickUpDate);
             Controls.Add(label2);
-            Controls.Add(comboBox1);
+            Controls.Add(CarType);
             Controls.Add(RentCar);
             Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.None;
@@ -131,11 +155,13 @@
 
         private Label label1;
         private Button RentCar;
-        private ComboBox comboBox1;
+        private ComboBox CarType;
         private Label label2;
-        private DateTimePicker dateTimePicker1;
+        private DateTimePicker PickUpDate;
         private Label label3;
         private Label label4;
-        private DateTimePicker dateTimePicker2;
+        private DateTimePicker DropOffDate;
+        private Panel CarRentalPanel;
+        private Button SearchCar;
     }
 }

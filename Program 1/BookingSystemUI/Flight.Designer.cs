@@ -28,27 +28,28 @@
         /// </summary>
         private void InitializeComponent()
         {
-            textBox1 = new TextBox();
+            DepartureAirport = new TextBox();
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
             label4 = new Label();
-            textBox2 = new TextBox();
-            dateTimePicker1 = new DateTimePicker();
+            ArrivingAirport = new TextBox();
+            DepartingDate = new DateTimePicker();
             label5 = new Label();
             label6 = new Label();
-            dateTimePicker2 = new DateTimePicker();
+            ReturnDate = new DateTimePicker();
             SearchFlight = new Button();
-            panel1 = new Panel();
+            FlightPanel = new Panel();
             SelectFlight = new Button();
             SuspendLayout();
             // 
-            // textBox1
+            // DepartureAirport
             // 
-            textBox1.Location = new Point(32, 120);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(180, 23);
-            textBox1.TabIndex = 0;
+            DepartureAirport.Location = new Point(32, 120);
+            DepartureAirport.Name = "DepartureAirport";
+            DepartureAirport.Size = new Size(180, 23);
+            DepartureAirport.TabIndex = 0;
+            DepartureAirport.TextChanged += DepartureAirport_TextChanged;
             // 
             // label1
             // 
@@ -90,19 +91,21 @@
             label4.TabIndex = 5;
             label4.Text = "Search for ariving airport";
             // 
-            // textBox2
+            // ArrivingAirport
             // 
-            textBox2.Location = new Point(246, 120);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(180, 23);
-            textBox2.TabIndex = 4;
+            ArrivingAirport.Location = new Point(246, 120);
+            ArrivingAirport.Name = "ArrivingAirport";
+            ArrivingAirport.Size = new Size(180, 23);
+            ArrivingAirport.TabIndex = 4;
+            ArrivingAirport.TextChanged += ArrivingAirport_TextChanged;
             // 
-            // dateTimePicker1
+            // DepartingDate
             // 
-            dateTimePicker1.Location = new Point(466, 120);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(200, 23);
-            dateTimePicker1.TabIndex = 6;
+            DepartingDate.Location = new Point(466, 120);
+            DepartingDate.Name = "DepartingDate";
+            DepartingDate.Size = new Size(200, 23);
+            DepartingDate.TabIndex = 6;
+            DepartingDate.ValueChanged += DepartingDate_ValueChanged;
             // 
             // label5
             // 
@@ -122,12 +125,12 @@
             label6.TabIndex = 9;
             label6.Text = "Search for returning date";
             // 
-            // dateTimePicker2
+            // ReturnDate
             // 
-            dateTimePicker2.Location = new Point(699, 120);
-            dateTimePicker2.Name = "dateTimePicker2";
-            dateTimePicker2.Size = new Size(200, 23);
-            dateTimePicker2.TabIndex = 8;
+            ReturnDate.Location = new Point(699, 120);
+            ReturnDate.Name = "ReturnDate";
+            ReturnDate.Size = new Size(200, 23);
+            ReturnDate.TabIndex = 8;
             // 
             // SearchFlight
             // 
@@ -137,13 +140,14 @@
             SearchFlight.TabIndex = 10;
             SearchFlight.Text = "Search flights";
             SearchFlight.UseVisualStyleBackColor = true;
+            SearchFlight.Click += SearchFlight_Click;
             // 
-            // panel1
+            // FlightPanel
             // 
-            panel1.Location = new Point(32, 224);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(980, 340);
-            panel1.TabIndex = 11;
+            FlightPanel.Location = new Point(32, 224);
+            FlightPanel.Name = "FlightPanel";
+            FlightPanel.Size = new Size(980, 340);
+            FlightPanel.TabIndex = 11;
             // 
             // SelectFlight
             // 
@@ -162,18 +166,18 @@
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(1034, 611);
             Controls.Add(SelectFlight);
-            Controls.Add(panel1);
+            Controls.Add(FlightPanel);
             Controls.Add(SearchFlight);
             Controls.Add(label6);
-            Controls.Add(dateTimePicker2);
+            Controls.Add(ReturnDate);
             Controls.Add(label5);
-            Controls.Add(dateTimePicker1);
+            Controls.Add(DepartingDate);
             Controls.Add(label4);
-            Controls.Add(textBox2);
+            Controls.Add(ArrivingAirport);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(textBox1);
+            Controls.Add(DepartureAirport);
             FormBorderStyle = FormBorderStyle.None;
             Name = "Flight";
             Text = "Flight";
@@ -183,18 +187,18 @@
 
         #endregion
 
-        private TextBox textBox1;
+        private TextBox DepartureAirport;
         private Label label1;
         private Label label2;
         private Label label3;
         private Label label4;
-        private TextBox textBox2;
-        private DateTimePicker dateTimePicker1;
+        private TextBox ArrivingAirport;
+        private DateTimePicker DepartingDate;
         private Label label5;
         private Label label6;
-        private DateTimePicker dateTimePicker2;
+        private DateTimePicker ReturnDate;
         private Button SearchFlight;
-        private Panel panel1;
+        private Panel FlightPanel;
         private Button SelectFlight;
     }
 }

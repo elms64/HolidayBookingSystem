@@ -31,14 +31,15 @@
             label4 = new Label();
             label3 = new Label();
             label1 = new Label();
-            textBox1 = new TextBox();
+            HotelName = new TextBox();
             panel1 = new Panel();
             label6 = new Label();
-            dateTimePicker2 = new DateTimePicker();
+            CheckOutDate = new DateTimePicker();
             label5 = new Label();
-            dateTimePicker1 = new DateTimePicker();
+            CheckInDate = new DateTimePicker();
             SelectFlight = new Button();
             label2 = new Label();
+            SearchHotel = new Button();
             SuspendLayout();
             // 
             // label4
@@ -71,12 +72,13 @@
             label1.Text = "Desrtination or hotel";
             label1.Click += label1_Click;
             // 
-            // textBox1
+            // HotelName
             // 
-            textBox1.Location = new Point(12, 132);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(377, 23);
-            textBox1.TabIndex = 6;
+            HotelName.Location = new Point(12, 132);
+            HotelName.Name = "HotelName";
+            HotelName.Size = new Size(377, 23);
+            HotelName.TabIndex = 6;
+            HotelName.TextChanged += HotelName_TextChanged;
             // 
             // panel1
             // 
@@ -96,13 +98,13 @@
             label6.Text = "Check out";
             label6.Click += label6_Click;
             // 
-            // dateTimePicker2
+            // CheckOutDate
             // 
-            dateTimePicker2.Location = new Point(679, 132);
-            dateTimePicker2.Name = "dateTimePicker2";
-            dateTimePicker2.Size = new Size(200, 23);
-            dateTimePicker2.TabIndex = 14;
-            dateTimePicker2.ValueChanged += dateTimePicker2_ValueChanged;
+            CheckOutDate.Location = new Point(679, 132);
+            CheckOutDate.Name = "CheckOutDate";
+            CheckOutDate.Size = new Size(200, 23);
+            CheckOutDate.TabIndex = 14;
+            CheckOutDate.ValueChanged += dateTimePicker2_ValueChanged;
             // 
             // label5
             // 
@@ -114,13 +116,13 @@
             label5.Text = "Check in";
             label5.Click += label5_Click;
             // 
-            // dateTimePicker1
+            // CheckInDate
             // 
-            dateTimePicker1.Location = new Point(442, 132);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(200, 23);
-            dateTimePicker1.TabIndex = 12;
-            dateTimePicker1.ValueChanged += dateTimePicker1_ValueChanged;
+            CheckInDate.Location = new Point(442, 132);
+            CheckInDate.Name = "CheckInDate";
+            CheckInDate.Size = new Size(200, 23);
+            CheckInDate.TabIndex = 12;
+            CheckInDate.ValueChanged += dateTimePicker1_ValueChanged;
             // 
             // SelectFlight
             // 
@@ -142,23 +144,34 @@
             label2.Text = "Searching for hotel";
             label2.Click += label2_Click;
             // 
+            // SearchHotel
+            // 
+            SearchHotel.Location = new Point(889, 132);
+            SearchHotel.Name = "SearchHotel";
+            SearchHotel.Size = new Size(103, 23);
+            SearchHotel.TabIndex = 18;
+            SearchHotel.Text = "Search hotels";
+            SearchHotel.UseVisualStyleBackColor = true;
+            SearchHotel.Click += SearchHotel_Click;
+            // 
             // Hotel
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(1034, 611);
+            Controls.Add(SearchHotel);
             Controls.Add(SelectFlight);
             Controls.Add(panel1);
             Controls.Add(label6);
-            Controls.Add(dateTimePicker2);
+            Controls.Add(CheckOutDate);
             Controls.Add(label5);
-            Controls.Add(dateTimePicker1);
+            Controls.Add(CheckInDate);
             Controls.Add(label4);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(textBox1);
+            Controls.Add(HotelName);
             FormBorderStyle = FormBorderStyle.None;
             Name = "Hotel";
             Text = "Hotel";
@@ -172,13 +185,14 @@
         private Label label4;
         private Label label3;
         private Label label1;
-        private TextBox textBox1;
+        private TextBox HotelName;
         private Panel panel1;
         private Label label6;
-        private DateTimePicker dateTimePicker2;
+        private DateTimePicker CheckOutDate;
         private Label label5;
-        private DateTimePicker dateTimePicker1;
+        private DateTimePicker CheckInDate;
         private Button SelectFlight;
         private Label label2;
+        private Button SearchHotel;
     }
 }

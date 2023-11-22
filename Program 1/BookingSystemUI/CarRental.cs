@@ -12,9 +12,34 @@ namespace BookingSystemUI
 {
     public partial class CarRental : Form
     {
+        private string carType = "";
+        private string pickUpDate = "";
+        private string dropOffDate = "";
         public CarRental()
         {
             InitializeComponent();
+        }
+
+        private void SearchCar_Click(object sender, EventArgs e)
+        {
+            string carType = CarType.SelectedItem.ToString() ?? string.Empty;
+            pickUpDate = PickUpDate.Value.ToString("yyyy-MM-dd");
+            dropOffDate = DropOffDate.Value.ToString("yyyy-MM-dd");
+        }
+
+        private void CarType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void PickUpDate_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void DropOffDate_ValueChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

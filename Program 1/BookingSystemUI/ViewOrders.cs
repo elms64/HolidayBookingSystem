@@ -23,5 +23,10 @@ namespace BookingSystemUI
             mainMenu2.Show();
             this.Hide();
         }
+
+        private void SearchButton_Click(object sender, EventArgs e)
+        {
+            string customerTelephone = CustomerTelephone.Text;
+        }
     }
 }

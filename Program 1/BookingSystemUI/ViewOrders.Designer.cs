@@ -30,7 +30,7 @@
         {
             MainMenuOrder = new Button();
             label1 = new Label();
-            textBox1 = new TextBox();
+            CustomerTelephone = new TextBox();
             label2 = new Label();
             SearchButton = new Button();
             DeleteButton = new Button();
@@ -56,12 +56,12 @@
             label1.TabIndex = 1;
             label1.Text = "Search for orders";
             // 
-            // textBox1
+            // CustomerTelephone
             // 
-            textBox1.Location = new Point(397, 120);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(200, 23);
-            textBox1.TabIndex = 2;
+            CustomerTelephone.Location = new Point(397, 120);
+            CustomerTelephone.Name = "CustomerTelephone";
+            CustomerTelephone.Size = new Size(200, 23);
+            CustomerTelephone.TabIndex = 2;
             // 
             // label2
             // 
@@ -80,6 +80,7 @@
             SearchButton.TabIndex = 4;
             SearchButton.Text = "Search";
             SearchButton.UseVisualStyleBackColor = true;
+            SearchButton.Click += SearchButton_Click;
             // 
             // DeleteButton
             // 
@@ -99,7 +100,7 @@
             Controls.Add(DeleteButton);
             Controls.Add(SearchButton);
             Controls.Add(label2);
-            Controls.Add(textBox1);
+            Controls.Add(CustomerTelephone);
             Controls.Add(label1);
             Controls.Add(MainMenuOrder);
             FormBorderStyle = FormBorderStyle.None;
@@ -114,7 +115,7 @@
         private Button button1;
         private Button MainMenuOrder;
         private Label label1;
-        private TextBox textBox1;
+        private TextBox CustomerTelephone;
         private Label label2;
         private Button SearchButton;
         private Button DeleteButton;

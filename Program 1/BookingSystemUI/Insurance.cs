@@ -16,5 +16,17 @@ namespace BookingSystemUI
         {
             InitializeComponent();
         }
+
+        private void SeearchInsurance_Click(object sender, EventArgs e)
+        {
+            string insuranceType = InsuranceType.SelectedItem.ToString() ?? string.Empty;
+            string insuranceStart = InsuranceStart.Value.ToString("yyyy-MM-dd");
+            string insuranceEnd = InsuranceEnd.Value.ToString("yyyy-MM-dd");
+        }
+
+        private void InsuranceType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

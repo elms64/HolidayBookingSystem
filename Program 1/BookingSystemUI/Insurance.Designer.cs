@@ -30,15 +30,19 @@
         {
             InsuranceBooking = new Button();
             label1 = new Label();
-            dateTimePicker1 = new DateTimePicker();
-            dateTimePicker2 = new DateTimePicker();
+            InsuranceStart = new DateTimePicker();
+            InsuranceEnd = new DateTimePicker();
             label2 = new Label();
             label3 = new Label();
+            SeearchInsurance = new Button();
+            FlightPanel = new Panel();
+            label4 = new Label();
+            InsuranceType = new ComboBox();
             SuspendLayout();
             // 
             // InsuranceBooking
             // 
-            InsuranceBooking.Location = new Point(475, 615);
+            InsuranceBooking.Location = new Point(504, 615);
             InsuranceBooking.Name = "InsuranceBooking";
             InsuranceBooking.Size = new Size(75, 23);
             InsuranceBooking.TabIndex = 0;
@@ -49,30 +53,30 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
-            label1.Location = new Point(406, 9);
+            label1.Location = new Point(425, 9);
             label1.Name = "label1";
             label1.Size = new Size(197, 30);
             label1.TabIndex = 1;
             label1.Text = "Insurance booking";
             // 
-            // dateTimePicker1
+            // InsuranceStart
             // 
-            dateTimePicker1.Location = new Point(406, 188);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(200, 23);
-            dateTimePicker1.TabIndex = 2;
+            InsuranceStart.Location = new Point(292, 131);
+            InsuranceStart.Name = "InsuranceStart";
+            InsuranceStart.Size = new Size(200, 23);
+            InsuranceStart.TabIndex = 2;
             // 
-            // dateTimePicker2
+            // InsuranceEnd
             // 
-            dateTimePicker2.Location = new Point(406, 290);
-            dateTimePicker2.Name = "dateTimePicker2";
-            dateTimePicker2.Size = new Size(200, 23);
-            dateTimePicker2.TabIndex = 3;
+            InsuranceEnd.Location = new Point(562, 131);
+            InsuranceEnd.Name = "InsuranceEnd";
+            InsuranceEnd.Size = new Size(200, 23);
+            InsuranceEnd.TabIndex = 3;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(406, 170);
+            label2.Location = new Point(292, 113);
             label2.Name = "label2";
             label2.Size = new Size(190, 15);
             label2.TabIndex = 4;
@@ -81,11 +85,46 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(406, 272);
+            label3.Location = new Point(562, 113);
             label3.Name = "label3";
             label3.Size = new Size(187, 15);
             label3.TabIndex = 5;
             label3.Text = "Select a date when insurance ends";
+            // 
+            // SeearchInsurance
+            // 
+            SeearchInsurance.Location = new Point(911, 131);
+            SeearchInsurance.Name = "SeearchInsurance";
+            SeearchInsurance.Size = new Size(108, 25);
+            SeearchInsurance.TabIndex = 7;
+            SeearchInsurance.Text = "Search insurance";
+            SeearchInsurance.UseVisualStyleBackColor = true;
+            SeearchInsurance.Click += SeearchInsurance_Click;
+            // 
+            // FlightPanel
+            // 
+            FlightPanel.Location = new Point(39, 226);
+            FlightPanel.Name = "FlightPanel";
+            FlightPanel.Size = new Size(980, 340);
+            FlightPanel.TabIndex = 12;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(39, 113);
+            label4.Name = "label4";
+            label4.Size = new Size(152, 15);
+            label4.TabIndex = 13;
+            label4.Text = "Select the type of insurance";
+            // 
+            // InsuranceType
+            // 
+            InsuranceType.FormattingEnabled = true;
+            InsuranceType.Location = new Point(39, 134);
+            InsuranceType.Name = "InsuranceType";
+            InsuranceType.Size = new Size(162, 23);
+            InsuranceType.TabIndex = 14;
+            InsuranceType.SelectedIndexChanged += InsuranceType_SelectedIndexChanged;
             // 
             // Insurance
             // 
@@ -93,10 +132,14 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(1050, 650);
+            Controls.Add(InsuranceType);
+            Controls.Add(label4);
+            Controls.Add(FlightPanel);
+            Controls.Add(SeearchInsurance);
             Controls.Add(label3);
             Controls.Add(label2);
-            Controls.Add(dateTimePicker2);
-            Controls.Add(dateTimePicker1);
+            Controls.Add(InsuranceEnd);
+            Controls.Add(InsuranceStart);
             Controls.Add(label1);
             Controls.Add(InsuranceBooking);
             FormBorderStyle = FormBorderStyle.None;
@@ -110,9 +153,13 @@
 
         private Button InsuranceBooking;
         private Label label1;
-        private DateTimePicker dateTimePicker1;
-        private DateTimePicker dateTimePicker2;
+        private DateTimePicker InsuranceStart;
+        private DateTimePicker InsuranceEnd;
         private Label label2;
         private Label label3;
+        private Button SeearchInsurance;
+        private Panel FlightPanel;
+        private Label label4;
+        private ComboBox InsuranceType;
     }
 }

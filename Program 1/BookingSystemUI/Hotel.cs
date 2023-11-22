@@ -12,6 +12,9 @@ namespace BookingSystemUI
 {
     public partial class Hotel : Form
     {
+        private string hotelName = "";
+        private string checkInDate = "";
+        private string checkOutDate = "";
         public Hotel()
         {
             InitializeComponent();
@@ -65,6 +68,18 @@ namespace BookingSystemUI
         private void label1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void HotelName_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SearchHotel_Click(object sender, EventArgs e)
+        {
+            hotelName = HotelName.Text;
+            checkInDate = CheckInDate.Value.ToString("yyyy-MM-dd");
+            checkOutDate = CheckOutDate.Value.ToString("yyyy-MM-dd");
         }
     }
 }
