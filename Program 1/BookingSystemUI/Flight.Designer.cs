@@ -181,6 +181,7 @@
             FormBorderStyle = FormBorderStyle.None;
             Name = "Flight";
             Text = "Flight";
+            Load += Flight_Load;
             ResumeLayout(false);
             PerformLayout();
         }

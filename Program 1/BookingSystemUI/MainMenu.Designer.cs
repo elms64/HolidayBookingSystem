@@ -37,6 +37,7 @@
             InsuranceBooking = new Button();
             Basket = new Button();
             Mainbutton = new Button();
+            btnBookingInit = new Button();
             SuspendLayout();
             // 
             // label1
@@ -59,7 +60,7 @@
             // 
             // Exit
             // 
-            Exit.Location = new Point(12, 574);
+            Exit.Location = new Point(12, 648);
             Exit.Name = "Exit";
             Exit.Size = new Size(116, 83);
             Exit.TabIndex = 2;
@@ -69,7 +70,7 @@
             // 
             // Startbooking
             // 
-            Startbooking.Location = new Point(12, 40);
+            Startbooking.Location = new Point(12, 114);
             Startbooking.Name = "Startbooking";
             Startbooking.Size = new Size(116, 83);
             Startbooking.TabIndex = 0;
@@ -79,7 +80,7 @@
             // 
             // HotelBooking
             // 
-            HotelBooking.Location = new Point(12, 129);
+            HotelBooking.Location = new Point(12, 203);
             HotelBooking.Name = "HotelBooking";
             HotelBooking.Size = new Size(116, 83);
             HotelBooking.TabIndex = 3;
@@ -89,7 +90,7 @@
             // 
             // CarBooking
             // 
-            CarBooking.Location = new Point(12, 218);
+            CarBooking.Location = new Point(12, 292);
             CarBooking.Name = "CarBooking";
             CarBooking.Size = new Size(116, 83);
             CarBooking.TabIndex = 4;
@@ -99,7 +100,7 @@
             // 
             // InsuranceBooking
             // 
-            InsuranceBooking.Location = new Point(12, 307);
+            InsuranceBooking.Location = new Point(12, 381);
             InsuranceBooking.Name = "InsuranceBooking";
             InsuranceBooking.Size = new Size(116, 83);
             InsuranceBooking.TabIndex = 5;
@@ -109,7 +110,7 @@
             // 
             // Basket
             // 
-            Basket.Location = new Point(12, 396);
+            Basket.Location = new Point(12, 470);
             Basket.Name = "Basket";
             Basket.Size = new Size(116, 83);
             Basket.TabIndex = 6;
@@ -119,7 +120,7 @@
             // 
             // Mainbutton
             // 
-            Mainbutton.Location = new Point(12, 485);
+            Mainbutton.Location = new Point(12, 559);
             Mainbutton.Name = "Mainbutton";
             Mainbutton.Size = new Size(116, 83);
             Mainbutton.TabIndex = 7;
@@ -127,11 +128,22 @@
             Mainbutton.UseVisualStyleBackColor = true;
             Mainbutton.Click += Mainbutton_Click;
             // 
+            // btnBookingInit
+            // 
+            btnBookingInit.Location = new Point(12, 25);
+            btnBookingInit.Name = "btnBookingInit";
+            btnBookingInit.Size = new Size(116, 83);
+            btnBookingInit.TabIndex = 8;
+            btnBookingInit.Text = "Booking Init";
+            btnBookingInit.UseVisualStyleBackColor = true;
+            btnBookingInit.Click += btnBookingInit_Click;
+            // 
             // MainMenu
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1200, 750);
+            Controls.Add(btnBookingInit);
             Controls.Add(Mainbutton);
             Controls.Add(Basket);
             Controls.Add(InsuranceBooking);
@@ -159,5 +171,6 @@
         private Button InsuranceBooking;
         private Button Basket;
         private Button Mainbutton;
+        private Button btnBookingInit;
     }
 }

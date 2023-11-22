@@ -79,5 +79,18 @@ namespace BookingSystemUI
             mainMenu2.Show();
             this.Hide();
         }
+
+        private void btnBookingInit_Click(object sender, EventArgs e)
+        {
+            BookingInit bookinginit = new BookingInit();
+            bookinginit.TopLevel = false;
+            MainPanel.Controls.Add(bookinginit);
+            bookinginit.Show();
+            Basket.Show();
+            bookinginit.Size = MainPanel.Size;
+            bookinginit.BringToFront();
+
+
+        }
     }
 }
