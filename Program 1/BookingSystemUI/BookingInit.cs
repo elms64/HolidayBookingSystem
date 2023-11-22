@@ -10,18 +10,21 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static BookingSystemUI.Form1;
 
+
 namespace BookingSystemUI
 {
     public partial class BookingInit : Form
     {
+        private MainMenu mainForm;
 
         private const string ConsoleAppUrl = "http://localhost:8080";
-
-        public BookingInit()
+        
+        public BookingInit(MainMenu mainForm)
         {
             InitializeComponent();
             dateTimePickerStart.ValueChanged += dateTimePickerStart_ValueChanged;
             txtBoxHowLong.TextChanged += txtBoxHowLong_TextChanged;
+            this.mainForm = mainForm;
         }
 
         private async void BookingInit_Load(object sender, EventArgs e)
@@ -115,7 +118,13 @@ namespace BookingSystemUI
             }
         }
 
+        private void btnNext_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            Flight flight = new Flight();
+            mainForm.ShowFormInMainPanel(flight);
 
+        }
     }
 
 }

@@ -36,6 +36,7 @@
             lblDuration = new Label();
             lblReturnDate = new Label();
             lblReturnDateUpdate = new Label();
+            btnNext = new Button();
             SuspendLayout();
             // 
             // dateTimePickerStart
@@ -107,12 +108,23 @@
             lblReturnDateUpdate.TabIndex = 8;
             lblReturnDateUpdate.Text = "Updated Return Date Here";
             // 
+            // btnNext
+            // 
+            btnNext.Location = new Point(446, 358);
+            btnNext.Name = "btnNext";
+            btnNext.Size = new Size(109, 34);
+            btnNext.TabIndex = 9;
+            btnNext.Text = "Next";
+            btnNext.UseVisualStyleBackColor = true;
+            btnNext.Click += btnNext_Click;
+            // 
             // BookingInit
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(1018, 572);
+            Controls.Add(btnNext);
             Controls.Add(lblReturnDateUpdate);
             Controls.Add(lblReturnDate);
             Controls.Add(lblDuration);
@@ -139,5 +151,6 @@
         private Label lblDuration;
         private Label lblReturnDate;
         private Label lblReturnDateUpdate;
+        private Button btnNext;
     }
 }

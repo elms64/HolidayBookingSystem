@@ -13,6 +13,7 @@ namespace BookingSystemUI
 {
     public partial class MainMenu : Form
     {
+        
         public MainMenu()
         {
             InitializeComponent();
@@ -82,15 +83,24 @@ namespace BookingSystemUI
 
         private void btnBookingInit_Click(object sender, EventArgs e)
         {
-            BookingInit bookinginit = new BookingInit();
+            BookingInit bookinginit = new BookingInit(this); // Pass reference to the main form
             bookinginit.TopLevel = false;
             MainPanel.Controls.Add(bookinginit);
             bookinginit.Show();
-            Basket.Show();
             bookinginit.Size = MainPanel.Size;
             bookinginit.BringToFront();
-
-
         }
+
+        public void ShowFormInMainPanel(Form form)
+        {
+            form.TopLevel = false;
+            MainPanel.Controls.Clear(); // Clear existing controls in MainPanel
+            MainPanel.Controls.Add(form);
+            form.Show();
+            form.Size = MainPanel.Size;
+            form.BringToFront();
+        }
+
+
     }
 }
