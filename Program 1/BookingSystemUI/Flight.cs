@@ -60,6 +60,10 @@ namespace BookingSystemUI
             {
                 using (HttpClient client = new HttpClient())
                 {
+
+                    client.DefaultRequestHeaders.Add("CountryID", selectedCountryID.ToString());
+                    client.DefaultRequestHeaders.Add("OriginID", selectedOriginID.ToString());
+
                     var data = new StringContent(message, Encoding.UTF8, "application/json");
                     Task<HttpResponseMessage> responseTask = client.PostAsync(ConsoleAppUrl, data);
 

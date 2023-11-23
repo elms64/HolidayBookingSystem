@@ -14,10 +14,13 @@ namespace BookingProcessor
 {
     public class NormalMode
     {
+
         /* Define the URL and port number to listen for HTTP requests. 
         Default configuration is any available local IP on port 8080. */
         private readonly string url = "http://+:8080/";
         private readonly IServiceProvider serviceProvider;
+        private int OriginID;
+        private int CountryID;
         public NormalMode(IServiceProvider serviceProvider)
         {
             this.serviceProvider = serviceProvider;
@@ -119,13 +122,11 @@ namespace BookingProcessor
             {
                 SEND_COUNTRY(response);
             }
-            else if (requestData.StartsWith("REQUEST_FLIGHTS_BY_COUNTRYID"))
+            else if (requestData.StartsWith("SELECTED_"))
             {
-                REQUEST_FLIGHTS_BY_COUNTRYID(requestData);
+                REQUEST_FLIGHTS_BY_COUNTRYID(requestData, request);
+                Console.WriteLine("Hey");
             }
-
-
-
 
             // Response for POST requests of batch processing, initiates recovery mode.
             else if (IsBatchProcess(requestData))
@@ -166,58 +167,17 @@ namespace BookingProcessor
             response.OutputStream.Write(countryData, 0, countryData.Length);
         }
 
-        private async Task REQUEST_FLIGHTS_BY_COUNTRYID(string requestData)
-{
-    string[] parts = requestData.Split(':');
-
-    if (parts.Length >= 2)
-    {
-        string command = parts[0];
-        int countryID;
-
-        if (int.TryParse(parts[1], out countryID))
+        private async Task REQUEST_FLIGHTS_BY_COUNTRYID(string requestData, HttpListenerRequest request)
         {
-            Console.WriteLine($"Received command: {command}");
-            Console.WriteLine($"Received country ID: {countryID}");
-
-            // Assuming you have a Flight class and BookingContext
-            using (var scope = serviceProvider.CreateScope())
+            // Output headers
+            Console.WriteLine("Headers received in REQUEST_FLIGHTS_BY_COUNTRYID:");
+            foreach (string key in request.Headers.AllKeys)
             {
-                var bookingContext = scope.ServiceProvider.GetRequiredService<BookingContext>();
-
-                // Retrieve flights with departure airports in the specified country
-                var flights = await bookingContext.Flight
-                    .Where(f => bookingContext.Airport.Any(a => a.AirportID == f.DepartureAirportID && a.CountryID == countryID))
-                    .Select(f => new
-                    {
-                        FlightID = f.FlightID,
-                        DepartureAirportID = f.DepartureAirportID,
-                        // Add more flight properties as needed
-
-                        DepartureAirportName = bookingContext.Airport
-                            .Where(a => a.AirportID == f.DepartureAirportID)
-                            .Select(a => a.AirportName)
-                            .FirstOrDefault()
-                    })
-                    .ToListAsync();
-
-                // Now you can do something with the 'flights' list
-                // For example, you can serialize it to JSON and send it as a response
-                string jsonResponse = JsonSerializer.Serialize(flights);
-                Console.WriteLine($"Flights data sent: {jsonResponse}");
+                Console.WriteLine($"{key}: {request.Headers[key]}");
             }
-        }
-        else
-        {
-            Console.WriteLine("Invalid country ID format");
-        }
-    }
-    else
-    {
-        Console.WriteLine("Invalid message format");
-    }
-}
 
-
+            // Rest of your existing code...
+            // You can access the headers using 'request.Headers' in this method
+        }
     }
 }
