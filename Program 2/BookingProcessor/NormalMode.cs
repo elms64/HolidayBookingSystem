@@ -167,32 +167,56 @@ namespace BookingProcessor
         }
 
         private async Task REQUEST_FLIGHTS_BY_COUNTRYID(string requestData)
+{
+    string[] parts = requestData.Split(':');
+
+    if (parts.Length >= 2)
+    {
+        string command = parts[0];
+        int countryID;
+
+        if (int.TryParse(parts[1], out countryID))
         {
-            string[] parts = requestData.Split(':');
+            Console.WriteLine($"Received command: {command}");
+            Console.WriteLine($"Received country ID: {countryID}");
 
-            if (parts.Length >= 2)
+            // Assuming you have a Flight class and BookingContext
+            using (var scope = serviceProvider.CreateScope())
             {
+                var bookingContext = scope.ServiceProvider.GetRequiredService<BookingContext>();
 
-                string command = parts[0];
-                int countryID;
+                // Retrieve flights with departure airports in the specified country
+                var flights = await bookingContext.Flight
+                    .Where(f => bookingContext.Airport.Any(a => a.AirportID == f.DepartureAirportID && a.CountryID == countryID))
+                    .Select(f => new
+                    {
+                        FlightID = f.FlightID,
+                        DepartureAirportID = f.DepartureAirportID,
+                        // Add more flight properties as needed
 
-                if (int.TryParse(parts[1], out countryID))
-                {
+                        DepartureAirportName = bookingContext.Airport
+                            .Where(a => a.AirportID == f.DepartureAirportID)
+                            .Select(a => a.AirportName)
+                            .FirstOrDefault()
+                    })
+                    .ToListAsync();
 
-                    Console.WriteLine($"Received command: {command}");
-                    Console.WriteLine($"Received country ID: {countryID}");
-
-                }
-                else
-                {
-                    Console.WriteLine("Invalid country ID format");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Invalid message format");
+                // Now you can do something with the 'flights' list
+                // For example, you can serialize it to JSON and send it as a response
+                string jsonResponse = JsonSerializer.Serialize(flights);
+                Console.WriteLine($"Flights data sent: {jsonResponse}");
             }
         }
+        else
+        {
+            Console.WriteLine("Invalid country ID format");
+        }
+    }
+    else
+    {
+        Console.WriteLine("Invalid message format");
+    }
+}
 
 
     }

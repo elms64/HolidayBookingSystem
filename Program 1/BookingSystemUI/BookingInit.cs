@@ -56,7 +56,7 @@ namespace BookingSystemUI
                             // Add countries to comboBoxCountry
                             foreach (var country in countries)
                             {
-                                comboBoxCountry.Items.Add(country.CountryName);
+                                comboBoxCountry.Items.Add(new KeyValuePair<string, int>(country.CountryName, country.CountryID));
                                 comboBoxOrigin.Items.Add(new KeyValuePair<string, int>(country.CountryName, country.CountryID));
                                 // Assuming CountryData has a property named CountryName
                             }
@@ -122,8 +122,10 @@ namespace BookingSystemUI
 
         private void btnNext_Click(object sender, EventArgs e)
         {
-            // Get the selected values
-            string selectedCountry = comboBoxCountry.SelectedItem?.ToString();
+            // Retrieve both the selected name and ID for comboBoxCountry
+            KeyValuePair<string, int>? selectedCountryItem = comboBoxCountry.SelectedItem as KeyValuePair<string, int>?;
+            string selectedCountry = selectedCountryItem?.Key;
+            int selectedCountryID = selectedCountryItem?.Value ?? -1; // Default value if null
 
             // Retrieve both the selected name and ID for comboBoxOrigin
             KeyValuePair<string, int>? selectedOriginItem = comboBoxOrigin.SelectedItem as KeyValuePair<string, int>?;
@@ -134,7 +136,7 @@ namespace BookingSystemUI
             string selectedReturnDate = lblReturnDateUpdate.Text;
 
             // Create an instance of the Flight form and pass the values
-            Flight flight = new Flight(selectedCountry, selectedDepartureDate, selectedReturnDate, selectedOrigin, selectedOriginID);
+            Flight flight = new Flight(selectedCountry, selectedDepartureDate, selectedReturnDate, selectedOrigin, selectedOriginID, selectedCountryID);
 
             // Show the Flight form
             mainForm.ShowFormInMainPanel(flight);
@@ -144,6 +146,11 @@ namespace BookingSystemUI
         }
 
         private void lblReturnDateUpdate_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBoxCountry_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }

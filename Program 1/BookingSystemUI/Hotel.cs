@@ -81,5 +81,10 @@ namespace BookingSystemUI
             checkInDate = CheckInDate.Value.ToString("yyyy-MM-dd");
             checkOutDate = CheckOutDate.Value.ToString("yyyy-MM-dd");
         }
+
+        private void SelectFlight_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

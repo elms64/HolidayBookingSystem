@@ -39,6 +39,8 @@
             btnNext = new Button();
             lblOrigin = new Label();
             comboBoxOrigin = new ComboBox();
+            label2 = new Label();
+            label3 = new Label();
             SuspendLayout();
             // 
             // dateTimePickerStart
@@ -65,6 +67,7 @@
             comboBoxCountry.Name = "comboBoxCountry";
             comboBoxCountry.Size = new Size(121, 23);
             comboBoxCountry.TabIndex = 3;
+            comboBoxCountry.SelectedIndexChanged += comboBoxCountry_SelectedIndexChanged;
             // 
             // lblCountry
             // 
@@ -138,12 +141,32 @@
             comboBoxOrigin.Size = new Size(121, 23);
             comboBoxOrigin.TabIndex = 10;
             // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(213, 80);
+            label2.Name = "label2";
+            label2.Size = new Size(352, 15);
+            label2.TabIndex = 12;
+            label2.Text = "This replaces the need to enter the dates and locations every page";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(270, 95);
+            label3.Name = "label3";
+            label3.Size = new Size(224, 15);
+            label3.TabIndex = 13;
+            label3.Text = "just pass the variables onto the next form";
+            // 
             // BookingInit
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(1018, 572);
+            Controls.Add(label3);
+            Controls.Add(label2);
             Controls.Add(lblOrigin);
             Controls.Add(comboBoxOrigin);
             Controls.Add(btnNext);
@@ -176,5 +199,7 @@
         private Button btnNext;
         private Label lblOrigin;
         private ComboBox comboBoxOrigin;
+        private Label label2;
+        private Label label3;
     }
 }

@@ -21,25 +21,40 @@ namespace BookingSystemUI
 
         private const string ConsoleAppUrl = "http://localhost:8080";
         private int selectedOriginID;
+        private int selectedCountryID;
+        private string selectedCountry;
 
-        public Flight(string selectedCountry, DateTime selectedDepartureDate, string selectedReturnDate, string selectedOrigin, int selectedOriginID)
+
+        public Flight(string selectedCountry, DateTime selectedDepartureDate, string selectedReturnDate, string selectedOrigin, int selectedOriginID, int selectedCountryID)
         {
             InitializeComponent();
 
+            this.selectedCountryID = selectedCountryID;
+            this.selectedCountry = selectedCountry;
             this.selectedOriginID = selectedOriginID;
             lblSelectedCountryUpdate.Text = selectedCountry;
             lblSelectedDepartureDateUpdate.Text = selectedDepartureDate.ToShortDateString();
             lblSelectedReturnDateUpdate.Text = selectedReturnDate;
             lblOriginCountryUpdate.Text = selectedOrigin;
             lblOriginIdDEBUG.Text = selectedOriginID.ToString();
-
-
         }
 
         private async void Flight_Load(object sender, EventArgs e)
         {
-            
-            string message = "REQUEST_FLIGHTS_BY_COUNTRYID : " + this.selectedOriginID;
+            try
+            {
+                await SendRequest("SELECTED_ORIGINID", this.selectedOriginID);
+                await SendRequest("SELECTED_COUNTRYID", this.selectedCountryID);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
+        }
+
+        private async Task SendRequest(string messageType, int value)
+        {
+            string message = $"{messageType}:{value}";
 
             try
             {
@@ -49,7 +64,7 @@ namespace BookingSystemUI
                     Task<HttpResponseMessage> responseTask = client.PostAsync(ConsoleAppUrl, data);
 
                     // Use Task.WhenAny to wait for the response or a delay
-                    Task completedTask = await Task.WhenAny(responseTask, Task.Delay(TimeSpan.FromSeconds(3))); // Adjust the timeout duration as 
+                    Task completedTask = await Task.WhenAny(responseTask, Task.Delay(TimeSpan.FromSeconds(3))); // Adjust the timeout duration as needed
 
                     if (completedTask == responseTask)
                     {
@@ -57,7 +72,9 @@ namespace BookingSystemUI
                         HttpResponseMessage response = await responseTask;
                         if (response.IsSuccessStatusCode)
                         {
-                            // Load to front end.
+                            // Load the received flight data to the front end.
+                            var responseData = await response.Content.ReadAsStringAsync();
+                            // TODO: Deserialize and process the responseData
                         }
                         else
                         {
@@ -67,21 +84,24 @@ namespace BookingSystemUI
                     else
                     {
                         // Timeout occurred, show a message
-                        MessageBox.Show("No response received within the specified time.");
+                        MessageBox.Show($"No response received within the specified time for message: {message}");
                     }
                 }
             }
             catch (HttpRequestException ex)
             {
                 Console.WriteLine($"HTTP Request Error: {ex.Message}");
+                Console.WriteLine($"HTTP Request Error Details: {ex}");
             }
             catch (TaskCanceledException ex)
             {
                 Console.WriteLine($"Task Canceled Error: {ex.Message}");
+                Console.WriteLine($"Task Canceled Error Details: {ex}");
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"An error occurred: {ex.Message}");
+                Console.WriteLine($"Error Details: {ex}");
             }
         }
 
