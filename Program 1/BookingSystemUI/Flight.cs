@@ -24,11 +24,12 @@ namespace BookingSystemUI
         private int selectedCountryID;
         private string selectedCountry;
 
-
+        //This receives the data from BookingInit.
         public Flight(string selectedCountry, DateTime selectedDepartureDate, string selectedReturnDate, string selectedOrigin, int selectedOriginID, int selectedCountryID)
         {
             InitializeComponent();
 
+            // updates the labels with given variables, mostly for debugging / outputting data to the user.
             this.selectedCountryID = selectedCountryID;
             this.selectedCountry = selectedCountry;
             this.selectedOriginID = selectedOriginID;
@@ -41,6 +42,7 @@ namespace BookingSystemUI
 
         private async void Flight_Load(object sender, EventArgs e)
         {
+            // When the form loads, run SendRequest, passing in the variables selectedOriginID and selectedCountryID
             try
             {
                 await SendRequest("SELECTED_ORIGINID", this.selectedOriginID);
@@ -54,26 +56,34 @@ namespace BookingSystemUI
 
         private async Task SendRequest(string messageType, int value)
         {
+            //pass the message and the selectedCountry/OriginID
             string message = $"{messageType}:{value}";
 
             try
             {
+                // Create a new HTTPclient
                 using (HttpClient client = new HttpClient())
                 {
-
+                    // Add headers to the client, not 100% necessary, but for a polished finish they should probably be present in all of them
                     client.DefaultRequestHeaders.Add("CountryID", selectedCountryID.ToString());
                     client.DefaultRequestHeaders.Add("OriginID", selectedOriginID.ToString());
 
+                    // Data variable has the message passed in.
                     var data = new StringContent(message, Encoding.UTF8, "application/json");
+
+                    // Data is actually sent here.
                     Task<HttpResponseMessage> responseTask = client.PostAsync(ConsoleAppUrl, data);
 
                     // Use Task.WhenAny to wait for the response or a delay
                     Task completedTask = await Task.WhenAny(responseTask, Task.Delay(TimeSpan.FromSeconds(3))); // Adjust the timeout duration as needed
 
+                    
                     if (completedTask == responseTask)
                     {
                         // Response received within the timeout
                         HttpResponseMessage response = await responseTask;
+
+                        // If the response is successful
                         if (response.IsSuccessStatusCode)
                         {
                             // Load the received flight data to the front end.
