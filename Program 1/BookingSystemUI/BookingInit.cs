@@ -16,6 +16,7 @@ namespace BookingSystemUI
     public partial class BookingInit : Form
     {
         private MainMenu mainForm;
+        private Hotel Hotel;
 
         private const string ConsoleAppUrl = "http://localhost:8080";
 
@@ -110,7 +111,7 @@ namespace BookingSystemUI
 
             if (int.TryParse(txtBoxHowLong.Text, out int duration))
             {
-                if (duration > 0 && duration <= 10000) // Adjust the upper limit as needed
+                if (duration > 0 && duration <= 300) // Adjust the upper limit as needed
                 {
                     DateTime returnDate = departureDate.AddDays(duration);
                     lblReturnDateUpdate.Text = returnDate.ToShortDateString();
@@ -119,13 +120,13 @@ namespace BookingSystemUI
                 {
                     // Revert the value to a default (e.g., 7)
                     txtBoxHowLong.Text = "";
-                    lblReturnDateUpdate.Text = "Duration must be between 1 and 1000 days.";
+                    lblReturnDateUpdate.Text = "Duration must be between 1 and 300 days.";
                 }
             }
             else
             {
                 // Revert the value to a default (e.g., 7)
-                txtBoxHowLong.Text = "";
+                txtBoxHowLong.Text = "0";
                 lblReturnDateUpdate.Text = "Invalid duration";
                 //MessageBox.Show("Invalid Duration : Duration entered was too high.");
             }
