@@ -14,18 +14,14 @@ using static BookingSystemUI.Form1;
 namespace BookingSystemUI
 {
     public partial class Flight : Form
-    {
-
-
-
-
+    { 
         private const string ConsoleAppUrl = "http://localhost:8080";
         private int selectedOriginID;
         private int selectedCountryID;
         private string selectedCountry;
 
         //This receives the data from BookingInit.
-        public Flight(string selectedCountry, DateTime selectedDepartureDate, string selectedReturnDate, string selectedOrigin, int selectedOriginID, int selectedCountryID)
+        public Flight(MainMenu mainForm, string selectedCountry, DateTime selectedDepartureDate, string selectedReturnDate, string selectedOrigin, int selectedOriginID, int selectedCountryID)
         {
             InitializeComponent();
 
@@ -126,7 +122,9 @@ namespace BookingSystemUI
 
         private void SelectFlight_Click(object sender, EventArgs e)
         {
-            
+
+            mainForm.ShowFormInMainPanel(Hotel);
+            this.Close();
         }
     }
 }

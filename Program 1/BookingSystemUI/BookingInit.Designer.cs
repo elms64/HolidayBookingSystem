@@ -89,11 +89,11 @@
             // lblDuration
             // 
             lblDuration.AutoSize = true;
-            lblDuration.Location = new Point(663, 153);
+            lblDuration.Location = new Point(651, 153);
             lblDuration.Name = "lblDuration";
-            lblDuration.Size = new Size(79, 15);
+            lblDuration.Size = new Size(83, 15);
             lblDuration.TabIndex = 6;
-            lblDuration.Text = "HOW LONG?!";
+            lblDuration.Text = "WHEN BACK?!";
             // 
             // lblReturnDate
             // 
