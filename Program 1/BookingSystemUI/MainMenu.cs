@@ -13,7 +13,7 @@ namespace BookingSystemUI
 {
     public partial class MainMenu : Form
     {
-        
+
         public MainMenu()
         {
             InitializeComponent();
@@ -21,7 +21,7 @@ namespace BookingSystemUI
 
         private void Startbooking_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void Exit_Click(object sender, EventArgs e)
@@ -31,37 +31,22 @@ namespace BookingSystemUI
 
         private void HotelBooking_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void CarBooking_Click(object sender, EventArgs e)
         {
-            CarRental carRental = new CarRental();
-            carRental.TopLevel = false;
-            MainPanel.Controls.Add(carRental);
-            carRental.Show();
-            carRental.Size = MainPanel.Size;
-            carRental.BringToFront();
+
         }
 
         private void InsuranceBooking_Click(object sender, EventArgs e)
         {
-            Insurance insurance = new Insurance();
-            insurance.TopLevel = false;
-            MainPanel.Controls.Add(insurance);
-            insurance.Show();
-            insurance.Size = MainPanel.Size;
-            insurance.BringToFront();
+
         }
 
         private void Basket_Click(object sender, EventArgs e)
         {
-            Basket basket = new Basket();
-            basket.TopLevel = false;
-            MainPanel.Controls.Add(basket);
-            basket.Show();
-            basket.Size = MainPanel.Size;
-            basket.BringToFront();
+
         }
 
         private void Mainbutton_Click(object sender, EventArgs e)
@@ -91,6 +76,9 @@ namespace BookingSystemUI
             form.BringToFront();
         }
 
+        private void MainMenu_Load(object sender, EventArgs e)
+        {
 
+        }
     }
 }

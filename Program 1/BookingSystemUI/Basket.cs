@@ -12,16 +12,40 @@ namespace BookingSystemUI
 {
     public partial class Basket : Form
     {
-        public Basket()
+
+        private MainMenu mainForm;
+        private string selectedCountry;
+        private string selectedOrigin;
+        private int selectedOriginID;
+        private int selectedCountryID;
+        private DateTime selectedDepartureDate;
+        private string selectedReturnDate;
+
+
+        public Basket(string selectedCountry, string selectedOrigin, int selectedOriginID, int selectedCountryID, MainMenu mainForm, DateTime selectedDepartureDate, string selectedReturnDate)
         {
             InitializeComponent();
+            this.mainForm = mainForm;
+
+            // Assign the values to the class members
+            this.selectedCountry = selectedCountry;
+            this.selectedOrigin = selectedOrigin;
+            this.selectedOriginID = selectedOriginID;
+            this.selectedCountryID = selectedCountryID;
+            this.selectedDepartureDate = selectedDepartureDate;
+            this.selectedReturnDate = selectedReturnDate;
+
+            MessageBox.Show($"btnNext_Click:\nselectedCountry: {selectedCountry}\nselectedOrigin: {selectedOrigin}\nselectedOriginID: {selectedOriginID}\nselectedCountryID: {selectedCountryID}");
         }
 
         private void MainBasket_Click(object sender, EventArgs e)
         {
-            MainMenu2 mainMenu2 = new MainMenu2();
-            mainMenu2.Show();
-            this.Hide();
+           
+        }
+
+        private void Basket_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

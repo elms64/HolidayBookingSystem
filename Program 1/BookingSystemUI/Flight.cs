@@ -16,11 +16,19 @@ namespace BookingSystemUI
     public partial class Flight : Form
     { 
         private const string ConsoleAppUrl = "http://localhost:8080";
+        
         private int selectedOriginID;
         private int selectedCountryID;
+        
         private string selectedCountry;
+        private string selectedOrigin;
+
         private MainMenu mainForm;
-        private string selectedOrigin; 
+      
+        private DateTime selectedDepartureDate;
+        private string selectedReturnDate;
+
+
 
 
         //This receives the data from BookingInit.
@@ -34,13 +42,16 @@ namespace BookingSystemUI
             this.selectedCountryID = selectedCountryID;
             this.selectedCountry = selectedCountry;
             this.selectedOriginID = selectedOriginID;
-            this.selectedDepartureDate = selectedDepartureDate;
-                this.selectedReturnDate = selectedReturnDate;
+            this.selectedReturnDate = selectedReturnDate;
             lblSelectedCountryUpdate.Text = selectedCountry;
+            lblOriginCountryUpdate.Text = selectedOrigin;
             lblSelectedDepartureDateUpdate.Text = selectedDepartureDate.ToShortDateString();
             lblSelectedReturnDateUpdate.Text = selectedReturnDate;
             lblOriginCountryUpdate.Text = selectedOrigin;
             lblOriginIdDEBUG.Text = selectedOriginID.ToString();
+            
+            this.selectedDepartureDate = selectedDepartureDate; // Assign the value
+
         }
 
         private async void Flight_Load(object sender, EventArgs e)
@@ -138,7 +149,10 @@ namespace BookingSystemUI
 
 
             // Create an instance of the Flight form and pass the values
-            Hotel hotel = new Hotel(selectedCountry, selectedOrigin, selectedOriginID, selectedCountryID, mainForm, selectedDepartureDate,selectedReturnDate );
+            string selectedOriginPass = lblOriginCountryUpdate.Text;
+            Hotel hotel = new Hotel(selectedCountry, selectedOriginPass, selectedOriginID, selectedCountryID, mainForm, selectedDepartureDate, selectedReturnDate);
+
+            MessageBox.Show($"btnNext_Click:\nselectedCountry: {selectedCountry}\nselectedOrigin: {selectedOrigin}\nselectedOriginID: {selectedOriginID}\nselectedCountryID: {selectedCountryID}");
 
             // Show the Flight form
             mainForm.ShowFormInMainPanel(hotel);
