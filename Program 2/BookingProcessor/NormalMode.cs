@@ -179,5 +179,15 @@ namespace BookingProcessor
             // Rest of your existing code...
             // You can access the headers using 'request.Headers' in this method
         }
+
+        private async Task GET_CARS(HttpListenerResponse response)
+        {
+            returnVehicle vehicleHandler = new returnVehicle();
+            var vehicleData = await vehicleHandler.getCars(serviceProvider);
+            Console.WriteLine("Vehicle data sent to Program 1!");
+            response.ContentType = "application/json";
+            response.ContentLength64 = vehicleData.Length;
+            response.OutputStream.Write(vehicleData, 0, vehicleData.Length);
+        }
     }
 }
