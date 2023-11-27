@@ -19,16 +19,23 @@ namespace BookingSystemUI
         private int selectedOriginID;
         private int selectedCountryID;
         private string selectedCountry;
+        private MainMenu mainForm;
+        private string selectedOrigin; 
+
 
         //This receives the data from BookingInit.
-        public Flight(MainMenu mainForm, string selectedCountry, DateTime selectedDepartureDate, string selectedReturnDate, string selectedOrigin, int selectedOriginID, int selectedCountryID)
+        public Flight(string selectedCountry, DateTime selectedDepartureDate, string selectedReturnDate, string selectedOrigin, int selectedOriginID, int selectedCountryID, MainMenu mainForm)
         {
             InitializeComponent();
+            this.mainForm = mainForm;
+           
 
             // updates the labels with given variables, mostly for debugging / outputting data to the user.
             this.selectedCountryID = selectedCountryID;
             this.selectedCountry = selectedCountry;
             this.selectedOriginID = selectedOriginID;
+            this.selectedDepartureDate = selectedDepartureDate;
+                this.selectedReturnDate = selectedReturnDate;
             lblSelectedCountryUpdate.Text = selectedCountry;
             lblSelectedDepartureDateUpdate.Text = selectedDepartureDate.ToShortDateString();
             lblSelectedReturnDateUpdate.Text = selectedReturnDate;
@@ -120,11 +127,26 @@ namespace BookingSystemUI
 
         }
 
-        private void SelectFlight_Click(object sender, EventArgs e)
+        private void btnNext_Click(object sender, EventArgs e)
         {
+            // Retrieve both the selected name and ID for comboBoxCountry
 
-            mainForm.ShowFormInMainPanel(Hotel);
+
+            // Retrieve both the selected name and ID for comboBoxOrigin
+
+
+
+
+            // Create an instance of the Flight form and pass the values
+            Hotel hotel = new Hotel(selectedCountry, selectedOrigin, selectedOriginID, selectedCountryID, mainForm, selectedDepartureDate,selectedReturnDate );
+
+            // Show the Flight form
+            mainForm.ShowFormInMainPanel(hotel);
+
+            // Close the BookingInit form if needed
             this.Close();
+
+
         }
     }
 }

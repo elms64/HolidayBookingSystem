@@ -12,6 +12,7 @@ using static BookingSystemUI.Form1;
 
 namespace BookingSystemUI
 {
+
     public partial class Hotel : Form
     {
         private const string ConsoleAppUrl = "http://localhost:8080";
@@ -19,13 +20,14 @@ namespace BookingSystemUI
         private DateTime selectedDepartureDate;
         private string selectedReturnDate;
         private string comboBoxHotel = "";
-
-        public Hotel(DateTime selectedDepartureDate, string selectedCountry, string selectedReturnDate)
+        
+        public Hotel(string selectedCountry, string selectedOrigin, int selectedOriginID, int selectedCountryID, MainMenu mainForm, string )
         {
+            
             InitializeComponent();
-            this.selectedDepartureDate = selectedDepartureDate;
+            //this.selectedDepartureDate = selectedDepartureDate;
             this.selectedCountry = selectedCountry;
-            this.selectedReturnDate = selectedReturnDate;
+            //this.selectedReturnDate = selectedReturnDate; 
             LBCountry.Text = selectedCountry;
             LBReturnDate.Text = selectedReturnDate;
             LBDepartureDate.Text = selectedDepartureDate.ToShortDateString();

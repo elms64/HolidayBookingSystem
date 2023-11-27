@@ -119,7 +119,7 @@ namespace BookingSystemUI
                 else
                 {
                     // Revert the value to a default (e.g., 7)
-                    txtBoxHowLong.Text = "";
+                    txtBoxHowLong.Text = "0";
                     lblReturnDateUpdate.Text = "Duration must be between 1 and 300 days.";
                 }
             }
@@ -148,7 +148,7 @@ namespace BookingSystemUI
             string selectedReturnDate = lblReturnDateUpdate.Text;
 
             // Create an instance of the Flight form and pass the values
-            Flight flight = new Flight(selectedCountry, selectedDepartureDate, selectedReturnDate, selectedOrigin, selectedOriginID, selectedCountryID);
+            Flight flight = new Flight(selectedCountry, selectedDepartureDate, selectedReturnDate, selectedOrigin, selectedOriginID, selectedCountryID, mainForm);
 
             // Show the Flight form
             mainForm.ShowFormInMainPanel(flight);

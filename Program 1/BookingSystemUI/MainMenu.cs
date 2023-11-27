@@ -21,12 +21,7 @@ namespace BookingSystemUI
 
         private void Startbooking_Click(object sender, EventArgs e)
         {
-            Flight flight = new Flight();
-            flight.TopLevel = false;
-            MainPanel.Controls.Add(flight);
-            flight.Show();
-            flight.Size = MainPanel.Size;
-            flight.BringToFront();
+            
         }
 
         private void Exit_Click(object sender, EventArgs e)
@@ -36,12 +31,7 @@ namespace BookingSystemUI
 
         private void HotelBooking_Click(object sender, EventArgs e)
         {
-            Hotel hotel = new Hotel();
-            hotel.TopLevel = false;
-            MainPanel.Controls.Add(hotel);
-            hotel.Show();
-            hotel.Size = MainPanel.Size;
-            hotel.BringToFront();
+            
         }
 
         private void CarBooking_Click(object sender, EventArgs e)
