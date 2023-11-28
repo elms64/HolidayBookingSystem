@@ -1,4 +1,4 @@
-﻿namespace BookingSystemUI
+namespace BookingSystemUI
 {
     partial class Form1
     {
