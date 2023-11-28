@@ -1,4 +1,4 @@
-// Authored by @Kloakk
+// Authored by @Kloakk, @elms64 and @dlawlor2408
 // Initializes the database with some example data for testing
 
 using BookingProcessor.Models;
@@ -10,17 +10,16 @@ public class SeedData {
     
     public static void Initialize(ModelBuilder modelBuilder){
         
-        // DateTime is    YYYY MM DD  HH MM SS   Format
-        //              (2023,11,08, 17,26,11)
+        // DateTime is      YYYY MM DD  HH MM SS     Format
+        //                 (2023,11,08, 17,26,11)
         // Airline Seed Data
         modelBuilder.Entity<Airline>().HasData(
-        new Airline { AirlineID = 1, AirlineName = "Example Airline 1", PhoneNumber = "123-456-7890", Rating = 4.5, HQ = "London, England" },
-        new Airline { AirlineID = 2, AirlineName = "Example Airline 2", PhoneNumber = "987-654-3210", Rating = 3.8, HQ = "France, Paris"},
-        new Airline { AirlineID = 3, AirlineName = "Example Airline 3", PhoneNumber = "555-123-4567", Rating = 4.2, HQ = "Moscow, Russia"},
-        new Airline { AirlineID = 4, AirlineName = "Example Airline 4", PhoneNumber = "333-777-8888", Rating = 3.5, HQ = "USA, LA"},
-        new Airline { AirlineID = 5, AirlineName = "Example Airline 5", PhoneNumber = "111-222-3333", Rating = 4.0, HQ = "Japan, Tokyo"}
+        new Airline { AirlineID = 1, AirlineName = "Ryanair", PhoneNumber = "123-456-7890", Rating = 4.5, HQ = "London, England" },
+        new Airline { AirlineID = 2, AirlineName = "Easyjet", PhoneNumber = "987-654-3210", Rating = 3.8, HQ = "Paris, France"},
+        new Airline { AirlineID = 3, AirlineName = "British Airways", PhoneNumber = "555-123-4567", Rating = 4.2, HQ = "Moscow, Russia"},
+        new Airline { AirlineID = 4, AirlineName = "Tui Airways", PhoneNumber = "333-777-8888", Rating = 3.5, HQ = "LA, USA"},
+        new Airline { AirlineID = 5, AirlineName = "Virgin Atlantic", PhoneNumber = "111-222-3333", Rating = 4.0, HQ = "Japan, Tokyo"}
     );
-
         // Airport Seed Data
         modelBuilder.Entity<Airport>().HasData(
         new Airport { AirportID = 1, CountryID = 840, AirportName = "Denver International Airport" }, //USA
@@ -38,7 +37,24 @@ public class SeedData {
         new Airport { AirportID = 13, CountryID = 360, AirportName = "Soekarno-Hatta International Airport" }, //Indonesia
         new Airport { AirportID = 14, CountryID = 124, AirportName = "Toronto Pearson International Airport" }, //Canada
         new Airport { AirportID = 15, CountryID = 76, AirportName = "São Paulo/Guarulhos International Airport" }, //Brazil
-        new Airport { AirportID = 16, CountryID = 826, AirportName = "Gatwick Airport" } //UK
+        new Airport { AirportID = 16, CountryID = 826, AirportName = "Gatwick Airport" }, //UK
+        new Airport { AirportID = 17, CountryID = 826, AirportName = "London Stansted" }, //UK
+        new Airport { AirportID = 18, CountryID = 826, AirportName = "Luton Airport" }, //UK
+        new Airport { AirportID = 19, CountryID = 826, AirportName = "Manchester Airport" }, //UK
+        new Airport { AirportID = 20, CountryID = 826, AirportName = "London City Airport" }, //UK
+        new Airport { AirportID = 21, CountryID = 826, AirportName = "Birmingham Airport" }, //UK
+        new Airport { AirportID = 22, CountryID = 250, AirportName = "Lille Airport" }, //FRANCE
+        new Airport { AirportID = 23, CountryID = 250, AirportName = "Bordeaux Airport" }, //FRANCE
+        new Airport { AirportID = 24, CountryID = 250, AirportName = "Marseille Airport" }, //FRANCE
+        new Airport { AirportID = 25, CountryID = 724, AirportName = "Barcelona International Airport" }, //SPAIN
+        new Airport { AirportID = 26, CountryID = 724, AirportName = "Málaga Airport" }, //SPAIN
+        new Airport { AirportID = 27, CountryID = 724, AirportName = "Palma De Mallorca Airport" } //SPAIN
+        
+        
+        
+        
+        
+
         
     );
 
@@ -163,13 +179,146 @@ public class SeedData {
             FlightID = 5,
             DepartureAirportID = 5,
             ArrivalAirportID = 1,
-            AirlineID = 5,
+            AirlineID = 4,
             BookedSeats = 60,
             MaxSeats = 80,
             DepartureDateTime = DateTime.Now.AddDays(25),
             ArrivalDateTime = DateTime.Now.AddDays(27),
             FlightCost = 480
+        },
+          new Flight
+        {
+            FlightID = 6,
+            DepartureAirportID = 16,//Gatwick Airport
+            ArrivalAirportID =17, //Stansted Airport
+            AirlineID = 3,
+            BookedSeats = 80,
+            MaxSeats = 140,
+            DepartureDateTime = DateTime.Now.AddDays(1),
+            ArrivalDateTime = DateTime.Now.AddDays(1),
+            FlightCost = 180
+        },
+          new Flight
+        {
+            FlightID = 7,
+            DepartureAirportID = 16,//Gatwick Airport
+            ArrivalAirportID =18, //Luton Airport
+            AirlineID = 5,
+            BookedSeats = 150,
+            MaxSeats = 180,
+            DepartureDateTime = DateTime.Now.AddDays(1),
+            ArrivalDateTime = DateTime.Now.AddDays(1),
+            FlightCost = 150
+        },
+          new Flight
+        {
+            FlightID = 8,
+            DepartureAirportID = 16,//Gatwick Airport
+            ArrivalAirportID =19, //Manchester Airport
+            AirlineID = 1,
+            BookedSeats = 120,
+            MaxSeats = 150,
+            DepartureDateTime = DateTime.Now.AddDays(1),
+            ArrivalDateTime = DateTime.Now.AddDays(1),
+            FlightCost = 150
+        },
+         new Flight
+        {
+            FlightID = 9,
+            DepartureAirportID = 16,//Gatwick Airport
+            ArrivalAirportID =20, //Manchester Airport
+            AirlineID = 5,
+            BookedSeats = 100,
+            MaxSeats = 140,
+            DepartureDateTime = DateTime.Now.AddDays(1),
+            ArrivalDateTime = DateTime.Now.AddDays(1),
+            FlightCost = 100
+        },
+         new Flight
+        {
+            FlightID = 10,
+            DepartureAirportID = 1,//Gatwick Airport
+            ArrivalAirportID =19, //Manchester Airport
+            AirlineID = 5,
+            BookedSeats = 70,
+            MaxSeats = 90,
+            DepartureDateTime = DateTime.Now.AddDays(1),
+            ArrivalDateTime = DateTime.Now.AddDays(1),
+            FlightCost = 120
+        },
+         new Flight
+        {
+            FlightID = 11,
+            DepartureAirportID = 16,//Gatwick Airport
+            ArrivalAirportID =19, //Manchester Airport
+            AirlineID = 5,
+            BookedSeats = 70,
+            MaxSeats = 90,
+            DepartureDateTime = DateTime.Now.AddDays(1),
+            ArrivalDateTime = DateTime.Now.AddDays(1),
+            FlightCost = 120
+        },
+         new Flight
+        {
+            FlightID = 12,
+            DepartureAirportID = 16,//Gatwick Airport
+            ArrivalAirportID =20, //Manchester Airport
+            AirlineID = 5,
+            BookedSeats = 70,
+            MaxSeats = 90,
+            DepartureDateTime = DateTime.Now.AddDays(1),
+            ArrivalDateTime = DateTime.Now.AddDays(1),
+            FlightCost = 120
+        },
+         new Flight
+        {
+            FlightID = 13,
+            DepartureAirportID = 16,//Gatwick Airport
+            ArrivalAirportID =21, //Manchester Airport
+            AirlineID = 5,
+            BookedSeats = 70,
+            MaxSeats = 90,
+            DepartureDateTime = DateTime.Now.AddDays(1),
+            ArrivalDateTime = DateTime.Now.AddDays(1),
+            FlightCost = 120
+        },
+         new Flight
+        {
+            FlightID = 14,
+            DepartureAirportID = 16,//Gatwick Airport
+            ArrivalAirportID =22, //Lille Airport
+            AirlineID = 5,
+            BookedSeats = 70,
+            MaxSeats = 90,
+            DepartureDateTime = DateTime.Now.AddDays(1),
+            ArrivalDateTime = DateTime.Now.AddDays(1),
+            FlightCost = 120
+        },
+         new Flight
+        {
+            FlightID = 15,
+            DepartureAirportID = 16,//Gatwick Airport
+            ArrivalAirportID =23, //Bordeaux Airport
+            AirlineID = 5,
+            BookedSeats = 70,
+            MaxSeats = 90,
+            DepartureDateTime = DateTime.Now.AddDays(1),
+            ArrivalDateTime = DateTime.Now.AddDays(1),
+            FlightCost = 120
+        },
+          new Flight
+        {
+            FlightID = 15,
+            DepartureAirportID = 16,//Gatwick Airport
+            ArrivalAirportID =24, //Marseille Airport
+            AirlineID = 5,
+            BookedSeats = 70,
+            MaxSeats = 90,
+            DepartureDateTime = DateTime.Now.AddDays(1),
+            ArrivalDateTime = DateTime.Now.AddDays(1),
+            FlightCost = 120
         }
+         
     );
 
 

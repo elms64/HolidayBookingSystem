@@ -1,15 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+using System.Net.Http;
 using System.Text.Json;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static BookingSystemUI.Form1;
-
 
 namespace BookingSystemUI
 {
@@ -17,8 +10,11 @@ namespace BookingSystemUI
     {
         private MainMenu mainForm;
         private Hotel Hotel;
-
         private const string ConsoleAppUrl = "http://localhost:8080";
+        private string selectedCountry;
+        private int selectedCountryID;
+        private string selectedOrigin;
+        private int selectedOriginID;
 
         public class Country
         {
@@ -65,7 +61,6 @@ namespace BookingSystemUI
             }
         }
 
-
         private void dateTimePickerStart_ValueChanged(object sender, EventArgs e)
         {
             UpdateReturnDate();
@@ -99,24 +94,27 @@ namespace BookingSystemUI
                 // Revert the value to a default (e.g., 7)
                 txtBoxHowLong.Text = "0";
                 lblReturnDateUpdate.Text = "Invalid duration";
-                //MessageBox.Show("Invalid Duration : Duration entered was too high.");
             }
         }
 
         private void btnNext_Click(object sender, EventArgs e)
         {
-            // Retrieve both the selected name and ID for comboBoxCountry
-            KeyValuePair<string, int>? selectedCountryItem = comboBoxCountry.SelectedItem as KeyValuePair<string, int>?;
-            string selectedCountry = selectedCountryItem?.Key;
-            int selectedCountryID = selectedCountryItem?.Value ?? -1; // Default value if null
+            // Retrieve both the selected country and origin
+            string selectedCountryItem = comboBoxCountry.SelectedItem as string;
+            ParseCountry(selectedCountryItem, out selectedCountryID, out selectedCountry);
 
-            // Retrieve both the selected name and ID for comboBoxOrigin
-            KeyValuePair<string, int>? selectedOriginItem = comboBoxOrigin.SelectedItem as KeyValuePair<string, int>?;
-            string selectedOrigin = selectedOriginItem?.Key;
-            int selectedOriginID = selectedOriginItem?.Value ?? -1; // Default value if null
+            string selectedOriginItem = comboBoxOrigin.SelectedItem as string;
+            ParseCountry(selectedOriginItem, out selectedOriginID, out selectedOrigin);
 
             DateTime selectedDepartureDate = dateTimePickerStart.Value;
             string selectedReturnDate = lblReturnDateUpdate.Text;
+
+            MessageBox.Show($"Selected Country ID: {selectedCountryID}\n" +
+                          $"Selected Country: {selectedCountry}\n" +
+                          $"Selected Origin ID: {selectedOriginID}\n" +
+                          $"Selected Return Date: {selectedReturnDate}\n" +
+                          $"Selected Origin: {selectedOrigin}\n" +
+                          $"Selected Departure Date: {selectedDepartureDate.ToShortDateString()}");
 
             // Create an instance of the Flight form and pass the values
             Flight flight = new Flight(selectedCountry, selectedDepartureDate, selectedReturnDate, selectedOrigin, selectedOriginID, selectedCountryID, mainForm);
@@ -128,15 +126,19 @@ namespace BookingSystemUI
             this.Close();
         }
 
-        private void lblReturnDateUpdate_Click(object sender, EventArgs e)
+        private void ParseCountry(string countryString, out int id, out string name)
         {
+            id = -1;
+            name = null;
 
-        }
-
-        private void comboBoxCountry_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
+            if (countryString != null)
+            {
+                string[] parts = countryString.Split(':');
+                if (parts.Length == 2 && int.TryParse(parts[0], out id))
+                {
+                    name = parts[1].Trim();
+                }
+            }
         }
     }
-
 }

@@ -19,8 +19,7 @@ namespace BookingProcessor
         Default configuration is any available local IP on port 8080. */
         private readonly string url = "http://+:8080/";
         private readonly IServiceProvider serviceProvider;
-        private int OriginID;
-        private int CountryID;
+
         public NormalMode(IServiceProvider serviceProvider)
         {
             this.serviceProvider = serviceProvider;
@@ -56,7 +55,7 @@ namespace BookingProcessor
                     // Decide how to process requests based on incoming information. 
                     if (request.HttpMethod == "GET")
                     {
-                        await HandleGetRequest(response, requestType);
+                        await HandleGetRequest(request, response, requestType);
                     }
                     else if (request.HttpMethod == "PUT")
                     {
@@ -86,20 +85,19 @@ namespace BookingProcessor
 
 
         // How to handle incoming GET requests
-        private async Task HandleGetRequest(HttpListenerResponse response, string requestType)
+       private async Task HandleGetRequest(HttpListenerRequest request, HttpListenerResponse response, string requestType)
         {
             using (var scope = serviceProvider.CreateScope())
             {
                 var bookingContext = scope.ServiceProvider.GetRequiredService<BookingContext>();
-                byte[] buffer;
+                byte[] buffer = Array.Empty<byte>();
 
                 switch (requestType)
                 {
                     // Return all Countries from Country Table.
                     case "Country":
                         var countries = await bookingContext.Country
-                            .Select(c => new { CountryID = c.CountryID, CountryName = c.CountryName })
-                            .ToListAsync();
+                        .Select(c => new { CountryID = c.CountryID, CountryName = c.CountryName }).ToListAsync();
                         string countryJsonResponse = JsonSerializer.Serialize(countries);
                         buffer = Encoding.UTF8.GetBytes(countryJsonResponse);
                         break;
@@ -113,6 +111,22 @@ namespace BookingProcessor
 
                     // Return all Flights from Flight Table.
                     case "Flight":
+                        // Extract headers from the flight request
+                        int countryID = 0;
+                        int originID = 0;
+
+                        if (request.Headers.Get("CountryID") != null && int.TryParse(request.Headers.Get("CountryID"), out countryID))
+                        {
+                            Console.WriteLine($"CountryID Header: {countryID}");
+                        }
+
+                        if (request.Headers.Get("OriginID") != null && int.TryParse(request.Headers.Get("OriginID"), out originID))
+                        {
+                            Console.WriteLine($"OriginID Header: {originID}");
+                        }
+
+                        // Now you have the extracted header values (countryID and originID), you can use them as needed
+
                         List<int> flights = await bookingContext.Flight.Select(f => f.FlightID).ToListAsync();
                         string flightJsonResponse = JsonSerializer.Serialize(flights);
                         buffer = Encoding.UTF8.GetBytes(flightJsonResponse);
@@ -126,9 +140,11 @@ namespace BookingProcessor
                         break;
 
                     // Return all Vehicles from Vehicle Table.
+                    // Authored by @gjepic
                     case "Vehicle":
-                        List<string?> vehicles = await bookingContext.Vehicle.Select(v => v.VehicleType).ToListAsync();
-                        string vehicleJsonResponse = JsonSerializer.Serialize(vehicles);
+                        var vehicle = await bookingContext.Vehicle
+                         .Select(c => new { VehicleID = c.VehicleID, VehicleType = c.VehicleType }).ToListAsync();
+                        string vehicleJsonResponse = JsonSerializer.Serialize(vehicle);
                         buffer = Encoding.UTF8.GetBytes(vehicleJsonResponse);
                         break;
 
@@ -139,7 +155,6 @@ namespace BookingProcessor
                         buffer = Encoding.UTF8.GetBytes(insuranceJsonResponse);
                         break;
 
-
                     //this would be getting something from a given value, selectedID in this example.
                     case "Test":
                         int selectedID = 1;
@@ -148,9 +163,68 @@ namespace BookingProcessor
                         buffer = Encoding.UTF8.GetBytes(test2);
                         break;
 
-                    default:
+                    // Authored by Dylan 
+                    // Implement Dylan's code from mainbranch when P1 has refactored sending stuff
+                    case "FlightsById":
+                        // Implement Dylan's code from mainbranch when P1 has refactored sending stuff
+                        /*
+                        private async Task REQUEST_FLIGHTS_BY_COUNTRYID(string requestData, HttpListenerRequest request)
+                        {
+                            // Output headers
+                            Console.WriteLine("Headers received in REQUEST_FLIGHTS_BY_COUNTRYID:");
+                            foreach (string key in request.Headers.AllKeys)
+                            {
+                                Console.WriteLine($"{key}: {request.Headers[key]}");
+                            }
+
+                            // Extract OriginID and CountryID from headers
+                            if (int.TryParse(request.Headers["OriginID"], out int originID) && int.TryParse(request.Headers["CountryID"], out int countryID))
+                            {
+                                try
+                                {
+                                    // Use the took out values to ask the database for thr flight data
+                                    using (var scope = serviceProvider.CreateScope())
+                                    {
+                                        var bookingContext = scope.ServiceProvider.GetRequiredService<BookingContext>();
+
+
+                                        var flights = await bookingContext.Flight
+                                            .Include(f => f.DepartureAirport)
+                                            .Include(f => f.ArrivalAirport)
+                                            .Where(f =>
+                                                f.DepartureAirport.CountryID == countryID &&
+                                                f.ArrivalAirport.AirportID == originID)
+                                            .ToListAsync();
+
+                                        // Serialize the flight data to JSON
+                                        string jsonResponse = JsonSerializer.Serialize(flights);
+                                        byte[] buffer = Encoding.UTF8.GetBytes(jsonResponse);
+
+                                        // Send the data as the response
+                                        var response = requestContext.Response;
+                                        response.ContentType = "application/json";
+                                        response.ContentLength64 = buffer.Length;
+                                        response.OutputStream.Write(buffer, 0, buffer.Length);
+                                        response.Close();
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    // Handle any exceptions 
+                                    Console.WriteLine($"Error querying the database: {ex.Message}");
+                                }
+                            }
+                            else
+                            {
+
+                                Console.WriteLine("Invalid OriginID or CountryID in the request headers.");
+                            }
+
+                            break;
+
+                            default:
                         // Handle unknown request type
-                        buffer = Encoding.UTF8.GetBytes("Unknown request type");
+                        buffer = Encoding.UTF8.GetBytes("Unknown request type");*/
                         break;
                 }
 
@@ -168,7 +242,7 @@ namespace BookingProcessor
 
         }
 
-        // Determine if an incoming POST request is a stored transaction.
+        // Determine if an incoming request is a stored transaction.
         private bool IsBatchProcess(string requestData)
         {
             return requestData.Contains("BATCH_PROCESS");
@@ -182,8 +256,45 @@ namespace BookingProcessor
         }
 
 
-
-
-
     }
 }
+
+
+
+
+
+
+
+
+/*
+//George code here 
+*/
+
+//Currently working on
+/*private async Task GET_SPECIFIC_CAR_TYPE(HttpListenerResponse response)
+{
+    returnVehicleType vehicleHandler = new returnVehicleType();
+    var vehicleTypeData = await vehicleHandler.getSpecificVehicleType(serviceProvider);
+    Console.WriteLine("Vehicle type data sent to Program 1!");
+    response.ContentType = "application/json";
+    response.ContentLength64 = vehicleTypeData.Length;
+    response.OutputStream.Write(vehicleTypeData, 0, vehicleTypeData.Length);
+}/*
+
+public class returnVehicleType
+{
+
+// Method for returning a list of vehicles filtered by the type of vehicle
+//Currently working on
+public async Task<byte[]> getSpecificVehicleType(IServiceProvider serviceProvider)
+{
+using (var scope = serviceProvider.CreateScope())
+{
+
+    var bookingContext = scope.ServiceProvider.GetRequiredService<BookingContext>();
+    var get_vehicleTypes = await bookingContext.Vehicle.Where(v => v.VehicleType).Select(v => new { v.VehicleID, v.VehicleType, v.PricePerDay }).ToListAsync();
+    Console.WriteLine("BZZZZ");
+    string jsonResponse = JsonSerializer.Serialize(get_vehicleTypes);
+    return Encoding.UTF8.GetBytes(jsonResponse);
+
+}*/

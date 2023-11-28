@@ -67,7 +67,7 @@
             comboBoxCountry.Name = "comboBoxCountry";
             comboBoxCountry.Size = new Size(121, 23);
             comboBoxCountry.TabIndex = 3;
-            comboBoxCountry.SelectedIndexChanged += comboBoxCountry_SelectedIndexChanged;
+//          comboBoxCountry.SelectedIndexChanged += comboBoxCountry_SelectedIndexChanged;
             // 
             // lblCountry
             // 
@@ -112,7 +112,7 @@
             lblReturnDateUpdate.Size = new Size(145, 15);
             lblReturnDateUpdate.TabIndex = 8;
             lblReturnDateUpdate.Text = "Updated Return Date Here";
-            lblReturnDateUpdate.Click += lblReturnDateUpdate_Click;
+//            lblReturnDateUpdate.Click += lblReturnDateUpdate_Click;
             // 
             // btnNext
             // 
