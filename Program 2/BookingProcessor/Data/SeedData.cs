@@ -308,7 +308,7 @@ public class SeedData {
         },
           new Flight
         {
-            FlightID = 15,
+            FlightID = 16,
             DepartureAirportID = 16,//Gatwick Airport
             ArrivalAirportID =24, //Marseille Airport
             AirlineID = 5,
@@ -318,7 +318,7 @@ public class SeedData {
             ArrivalDateTime = DateTime.Now.AddDays(1),
             FlightCost = 120
         }
-         
+        
     );
 
 

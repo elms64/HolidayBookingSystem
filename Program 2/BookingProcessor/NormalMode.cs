@@ -85,7 +85,7 @@ namespace BookingProcessor
 
 
         // How to handle incoming GET requests
-       private async Task HandleGetRequest(HttpListenerRequest request, HttpListenerResponse response, string requestType)
+        private async Task HandleGetRequest(HttpListenerRequest request, HttpListenerResponse response, string requestType)
         {
             using (var scope = serviceProvider.CreateScope())
             {
@@ -112,24 +112,51 @@ namespace BookingProcessor
                     // Return all Flights from Flight Table.
                     case "Flight":
                         // Extract headers from the flight request
-                        int countryID = 0;
-                        int originID = 0;
+                        int originCountryID = 0;
+                        int destinationCountryID = 0;
 
-                        if (request.Headers.Get("CountryID") != null && int.TryParse(request.Headers.Get("CountryID"), out countryID))
+                        if (request.Headers.Get("OriginCountryID") != null && int.TryParse(request.Headers.Get("OriginCountryID"), out originCountryID))
                         {
-                            Console.WriteLine($"CountryID Header: {countryID}");
+                            Console.WriteLine($"OriginCountryID Header: {originCountryID}");
                         }
 
-                        if (request.Headers.Get("OriginID") != null && int.TryParse(request.Headers.Get("OriginID"), out originID))
+                        if (request.Headers.Get("DestinationCountryID") != null && int.TryParse(request.Headers.Get("DestinationCountryID"), out destinationCountryID))
                         {
-                            Console.WriteLine($"OriginID Header: {originID}");
+                            Console.WriteLine($"DestinationCountryID Header: {destinationCountryID}");
                         }
 
-                        // Now you have the extracted header values (countryID and originID), you can use them as needed
+                        // Now you have the extracted header values (originCountryID and destinationCountryID), you can use them as needed
 
-                        List<int> flights = await bookingContext.Flight.Select(f => f.FlightID).ToListAsync();
-                        string flightJsonResponse = JsonSerializer.Serialize(flights);
-                        buffer = Encoding.UTF8.GetBytes(flightJsonResponse);
+                        // Retrieve all airports in the origin country
+
+
+                        // Retrieve all airports in the destination country
+
+
+                        // Combine origin and destination airport lists
+                        // Serialize the combined list to JSON
+
+
+                        // Print to the console before sending
+
+
+                        // Use received origin and dest. country data to send airports availble for each country back.
+                        // Maybe have an option on front end to land in any airport in the country??
+
+                        // airport data from front end ----> arrives in backend
+
+                        // return flights to and from applicable airports
+                        // send data to front end. 
+
+
+                        // Retrieve Airports by selected origin 
+
+
+                        // Retrieve flights based on the chosen departure airport
+
+
+                        // Print to the console before sending
+
                         break;
 
                     // Return all Airports from Airport Table.

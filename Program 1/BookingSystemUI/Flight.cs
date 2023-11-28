@@ -61,18 +61,19 @@ namespace BookingSystemUI
 
         private async void Flight_Load(object sender, EventArgs e)
         {
-
-            // Request all data where the selectedID's are sent to P2.
-
             try
             {
-                // Create a new HTTPclient
+                // Create a new HTTP client
                 string targetURL = ConsoleAppUrl + "/Flight";
                 using (HttpClient client = new HttpClient())
                 {
                     // Add headers to the client, not 100% necessary, but for a polished finish they should probably be present in all of them
-                    client.DefaultRequestHeaders.Add("CountryID", selectedCountryID.ToString());
-                    client.DefaultRequestHeaders.Add("OriginID", selectedOriginID.ToString());
+                    client.DefaultRequestHeaders.Add("OriginCountryID", selectedCountryID.ToString());
+                    client.DefaultRequestHeaders.Add("DestinationCountryID", selectedOriginID.ToString());
+
+                    // Log the headers before sending the request
+                    MessageBox.Show($"Sending request to: {targetURL}");
+                    MessageBox.Show($"Headers: CountryID={selectedCountryID}, OriginID={selectedOriginID}");
 
                     HttpResponseMessage response = await client.GetAsync(targetURL);
                     if (response.IsSuccessStatusCode)
@@ -81,7 +82,7 @@ namespace BookingSystemUI
                         var flights = JsonSerializer.Deserialize<List<Flight>>(responseData);
                         foreach (var flight in flights)
                         {
-                            //do shit here
+                            // Process the received flights
                         }
                     }
                     else
