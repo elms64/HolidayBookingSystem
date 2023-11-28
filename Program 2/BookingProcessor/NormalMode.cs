@@ -169,15 +169,55 @@ namespace BookingProcessor
 
         private async Task REQUEST_FLIGHTS_BY_COUNTRYID(string requestData, HttpListenerRequest request)
         {
-            // Output headers
-            Console.WriteLine("Headers received in REQUEST_FLIGHTS_BY_COUNTRYID:");
-            foreach (string key in request.Headers.AllKeys)
-            {
-                Console.WriteLine($"{key}: {request.Headers[key]}");
-            }
+        // Output headers
+        Console.WriteLine("Headers received in REQUEST_FLIGHTS_BY_COUNTRYID:");
+        foreach (string key in request.Headers.AllKeys)
+        {
+        Console.WriteLine($"{key}: {request.Headers[key]}");
+        }
 
-            // Rest of your existing code...
-            // You can access the headers using 'request.Headers' in this method
+       // Extract OriginID and CountryID from headers
+       if (int.TryParse(request.Headers["OriginID"], out int originID) && int.TryParse(request.Headers["CountryID"], out int countryID))
+       {
+        try
+        {
+            // Use the took out values to ask the database for thr flight data
+            using (var scope = serviceProvider.CreateScope())
+            {
+                var bookingContext = scope.ServiceProvider.GetRequiredService<BookingContext>();
+
+                
+                var flights = await bookingContext.Flight
+                    .Include(f => f.DepartureAirport)
+                    .Include(f => f.ArrivalAirport)
+                    .Where(f =>
+                        f.DepartureAirport.CountryID == countryID &&
+                        f.ArrivalAirport.AirportID == originID)
+                    .ToListAsync();
+
+                // Serialize the flight data to JSON
+                string jsonResponse = JsonSerializer.Serialize(flights);
+                byte[] buffer = Encoding.UTF8.GetBytes(jsonResponse);
+
+                // Send the data as the response
+                var response = requestContext.Response;
+                response.ContentType = "application/json";
+                response.ContentLength64 = buffer.Length;
+                response.OutputStream.Write(buffer, 0, buffer.Length);
+                response.Close();
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle any exceptions 
+            Console.WriteLine($"Error querying the database: {ex.Message}");
+        }
+    }
+    else
+    {
+        
+        Console.WriteLine("Invalid OriginID or CountryID in the request headers.");
+    }
         }
 
         private async Task GET_CARS(HttpListenerResponse response)
