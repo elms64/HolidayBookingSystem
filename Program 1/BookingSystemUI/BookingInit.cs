@@ -20,6 +20,12 @@ namespace BookingSystemUI
 
         private const string ConsoleAppUrl = "http://localhost:8080";
 
+        public class Country
+        {
+            public int CountryID { get; set; }
+            public string CountryName { get; set; }
+        }
+
         public BookingInit(MainMenu mainForm)
         {
             InitializeComponent();
@@ -30,70 +36,35 @@ namespace BookingSystemUI
 
         private async void BookingInit_Load(object sender, EventArgs e)
         {
-            // this is the content being sent to program 2, in plaintext.
-            string message = "SEND_COUNTRY";
-
-
+            // Load countries into where to and where from combo boxes
             try
             {
-                // create a new HttpClient called client, which is configured and then sent off.
+                string targetURL = ConsoleAppUrl + "/Country";
                 using (HttpClient client = new HttpClient())
                 {
-                    //create a variable called data, this includes the message, and a couple other guff bits which you don't need to touch
-                    var data = new StringContent(message, Encoding.UTF8, "application/json");
-
-                    // This is where data is actually sent
-                    Task<HttpResponseMessage> responseTask = client.PostAsync(ConsoleAppUrl, data);
-
-                    // Use Task.WhenAny to wait for the response or a delay
-                    Task completedTask = await Task.WhenAny(responseTask, Task.Delay(TimeSpan.FromSeconds(3))); // Adjust the timeout duration as needed
-
-                    // if it gets a response, run this block of code, put whatever in here, should probably be formatting data
-                    // like done in this example, population of comboBoxCountry and comboBoxOrigin
-                    if (completedTask == responseTask)
+                    HttpResponseMessage response = await client.GetAsync(targetURL);
+                    if (response.IsSuccessStatusCode)
                     {
-                        // Response received within the timeout
-                        HttpResponseMessage response = await responseTask;
-                        
-                        // If the response is a successStatusCode, run this code
-                        if (response.IsSuccessStatusCode)
+                        string responseData = await response.Content.ReadAsStringAsync();
+                        var countries = JsonSerializer.Deserialize<List<Country>>(responseData);
+                        foreach (var country in countries)
                         {
-                            // the following two lines, convert the json response into a list called countries.
-                            string jsonResponse = await response.Content.ReadAsStringAsync();
-                            var countries = JsonSerializer.Deserialize<List<CountryData>>(jsonResponse);
-
-                            // Clear existing items in the comboBoxCountry
-                            comboBoxCountry.Items.Clear();
-
-                            // Add countries to comboBoxCountry, for each item in countries, it will add a new listing
-                            foreach (var country in countries)
-                            {
-                                comboBoxCountry.Items.Add(new KeyValuePair<string, int>(country.CountryName, country.CountryID));
-                                comboBoxOrigin.Items.Add(new KeyValuePair<string, int>(country.CountryName, country.CountryID));
-                                // Assuming CountryData has a property named CountryName
-                            }
-
-                            // Sort the items alphabetically
-                            comboBoxCountry.Sorted = true;
-                            comboBoxOrigin.Sorted = true;
-                        }
-                        else
-                        {
-                            Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                            comboBoxCountry.Items.Add($"{country.CountryID}: {country.CountryName}");
+                            comboBoxOrigin.Items.Add($"{country.CountryID}: {country.CountryName}");
                         }
                     }
                     else
                     {
-                        // Timeout occurred, show a message
-                        MessageBox.Show("No response received within the specified time.");
+                        Console.WriteLine($"Error: {response.StatusCode}");
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred: {ex.Message}");
+                Console.WriteLine($"Exception: {ex.Message}");
             }
         }
+
 
         private void dateTimePickerStart_ValueChanged(object sender, EventArgs e)
         {
