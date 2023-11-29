@@ -93,8 +93,8 @@ namespace BookingProcessor
             {
                 var bookingContext = scope.ServiceProvider.GetRequiredService<BookingContext>();
                 byte[] buffer = Array.Empty<byte>();
-                
-                
+
+
                 switch (requestType)
                 {
                     // Return all Countries from Country Table.
@@ -113,12 +113,14 @@ namespace BookingProcessor
                         break;
 
                     // Return all Flights from Flight Table.
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
                     case "Flight":
+                        string FlightAirportJsonResponse;  // Declare the variable once
+
                         // Extract headers from the flight request
                         int originCountryID = 0;
                         int destinationCountryID = 0;
-
-                        
 
                         if (request.Headers.Get("OriginCountryID") != null && int.TryParse(request.Headers.Get("OriginCountryID"), out originCountryID))
                         {
@@ -135,45 +137,24 @@ namespace BookingProcessor
                         List<Airport> destinationAirports = bookingContext.Airport.Where(a => a.CountryID == destinationCountryID).ToList();
 
                         // Print the matching airports for origin
-                        foreach (var airport in originAirports)
-                        {
-                            Console.WriteLine($"Origin - AirportID: {airport.AirportID}, CountryID: {airport.CountryID}, AirportName: {airport.AirportName}");
-                        }
-
-                        // Print the matching airports for destination
-                        foreach (var airport in destinationAirports)
-                        {
-                            Console.WriteLine($"Destination - AirportID: {airport.AirportID}, CountryID: {airport.CountryID}, AirportName: {airport.AirportName}");
-                        }
-
                        
-                        // Now you have the extracted header values (originCountryID and destinationCountryID), you can use them as needed
 
-                        // Assuming you have a variable named "context" that represents your DbContext
+                        // Selecting Origin and Destination flight IDs
+                        var airportInfo = new
+                        {
+                            OriginAirports = originAirports.Select(a => new { a.AirportID, a.CountryID, a.AirportName }),
+                            DestinationAirports = destinationAirports.Select(a => new { a.AirportID, a.CountryID, a.AirportName })
+                        };
 
+                        // Serialize the dynamic object to JSON
+                        FlightAirportJsonResponse = JsonSerializer.Serialize(airportInfo);
+                        buffer = Encoding.UTF8.GetBytes(FlightAirportJsonResponse);
 
-                        // Print to the console before sending
-
-
-                        // Use received origin and dest. country data to send airports availble for each country back.
-                        // Maybe have an option on front end to land in any airport in the country??
-
-                        // airport data from front end ----> arrives in backend
-
-                        // return flights to and from applicable airports
-                        // send data to front end. 
-
-
-                        // Retrieve Airports by selected origin 
-
-
-                        // Retrieve flights based on the chosen departure airport
-
-
-                        // Print to the console before sending
+                        // Log the generated JSON response
+                        Console.WriteLine($"Flight Airport JSON Response: {FlightAirportJsonResponse}");
 
                         break;
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                     // Return all Airports from Airport Table.
                     case "Airport":
                         List<string?> airports = await bookingContext.Airport.Select(a => a.AirportName).ToListAsync();

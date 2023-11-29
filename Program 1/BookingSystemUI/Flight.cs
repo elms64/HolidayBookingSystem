@@ -67,23 +67,31 @@ namespace BookingSystemUI
                 string targetURL = ConsoleAppUrl + "/Flight";
                 using (HttpClient client = new HttpClient())
                 {
-                    // Add headers to the client, not 100% necessary, but for a polished finish they should probably be present in all of them
+                    // Add headers to the client
                     client.DefaultRequestHeaders.Add("OriginCountryID", selectedCountryID.ToString());
                     client.DefaultRequestHeaders.Add("DestinationCountryID", selectedOriginID.ToString());
 
                     // Log the headers before sending the request
-                    MessageBox.Show($"Sending request to: {targetURL}");
-                    MessageBox.Show($"Headers: CountryID={selectedCountryID}, OriginID={selectedOriginID}");
+                    Console.WriteLine($"Sending request to: {targetURL}");
+                    Console.WriteLine($"Headers: CountryID={selectedCountryID}, OriginID={selectedOriginID}");
 
                     HttpResponseMessage response = await client.GetAsync(targetURL);
                     if (response.IsSuccessStatusCode)
                     {
-                        string responseData = await response.Content.ReadAsStringAsync();
-                        var flights = JsonSerializer.Deserialize<List<Flight>>(responseData);
-                        foreach (var flight in flights)
-                        {
-                            // Process the received flights
-                        }
+                        string FlightAirportJsonResponse = await response.Content.ReadAsStringAsync();
+
+                        // Log the response data to the console for debugging
+                        Console.WriteLine($"Received response data: {FlightAirportJsonResponse}");
+
+                        // Display airport information in a MessageBox
+                        MessageBox.Show(FlightAirportJsonResponse, "Airport Information");
+
+                        // If you need to deserialize the JSON response, uncomment the following lines
+                        // var airports = JsonSerializer.Deserialize<List<Airport>>(FlightAirportJsonResponse);
+                        // foreach (var airport in airports)
+                        // {
+                        //     // Process the received airports
+                        // }
                     }
                     else
                     {
@@ -107,7 +115,6 @@ namespace BookingSystemUI
                 Console.WriteLine($"Error Details: {ex}");
             }
         }
-
         private async Task SendRequest(string messageType, int value)
         {
 
