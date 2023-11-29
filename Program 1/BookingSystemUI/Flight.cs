@@ -40,7 +40,7 @@ namespace BookingSystemUI
         {
             InitializeComponent();
             this.mainForm = mainForm;
-            flwPnlFlight.AutoScroll = true;
+            pnlFlight.AutoScroll = true;
 
 
 
@@ -112,25 +112,41 @@ namespace BookingSystemUI
                         // Deserialize the JSON response
                         var airportInfo = JsonSerializer.Deserialize<AirportInfo>(flightAirportJsonResponse);
 
+                        // Clear existing controls in pnlFlight if needed
+                        pnlFlight.Controls.Clear();
+
+                        int yOffset = 0;
+
                         // Create a new panel for each origin airport
                         foreach (var originAirport in airportInfo.OriginAirports)
                         {
+                            MessageBox.Show("test");
+
                             // Create a new panel
                             Panel panel = new Panel();
                             panel.BorderStyle = BorderStyle.FixedSingle;
-                            panel.Size = new Size(200, 100);
+                            panel.Size = new Size(850, 100);
 
                             // Create a label to display airport information
                             Label label = new Label();
                             label.Text = $"AirportID: {originAirport.AirportID}, CountryID: {originAirport.CountryID}, AirportName: {originAirport.AirportName}";
                             label.AutoSize = true;
 
+                            // Set the location of the panel
+                            panel.Location = new Point(0, yOffset);
+
                             // Add the label to the panel
                             panel.Controls.Add(label);
 
-                            // Add the panel to the form
-                            this.Controls.Add(panel);
+                            // Add the panel to pnlFlight
+                            pnlFlight.Controls.Add(panel);
+
+                            // Increment the y-coordinate for the next panel
+                            yOffset += panel.Height;
                         }
+
+                        // Make pnlFlight scrollable
+                        pnlFlight.AutoScroll = true;
                     }
                     else
                     {
@@ -233,4 +249,4 @@ namespace BookingSystemUI
 
         }
     }
-} 
+}

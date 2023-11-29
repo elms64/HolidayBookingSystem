@@ -38,7 +38,7 @@
             lblSelectDepartureAirport = new Label();
             lblOriginCountryUpdate = new Label();
             lblOriginIdDEBUG = new Label();
-            flwPnlFlight = new FlowLayoutPanel();
+            pnlFlight = new Panel();
             SuspendLayout();
             // 
             // label2
@@ -134,12 +134,12 @@
             lblOriginIdDEBUG.TabIndex = 23;
             lblOriginIdDEBUG.Text = "lblOriginIdDEBUG";
             // 
-            // flwPnlFlight
+            // pnlFlight
             // 
-            flwPnlFlight.Location = new Point(80, 224);
-            flwPnlFlight.Name = "flwPnlFlight";
-            flwPnlFlight.Size = new Size(877, 315);
-            flwPnlFlight.TabIndex = 24;
+            pnlFlight.Location = new Point(95, 244);
+            pnlFlight.Name = "pnlFlight";
+            pnlFlight.Size = new Size(850, 262);
+            pnlFlight.TabIndex = 24;
             // 
             // Flight
             // 
@@ -147,7 +147,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(1034, 611);
-            Controls.Add(flwPnlFlight);
+            Controls.Add(pnlFlight);
             Controls.Add(lblOriginIdDEBUG);
             Controls.Add(lblOriginCountryUpdate);
             Controls.Add(lblSelectDepartureAirport);
@@ -178,5 +178,6 @@
         private Label lblOriginCountryUpdate;
         private Label lblOriginIdDEBUG;
         private FlowLayoutPanel flwPnlFlight;
+        private Panel pnlFlight;
     }
 }
