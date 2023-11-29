@@ -75,13 +75,22 @@ namespace BookingSystemUI
             public string AirportID { get; set; }
         }
 
+        public class AirportInfo
+        {
+            public List<Airport> OriginAirports { get; set; }
+            public List<Airport> DestinationAirports { get; set; }
+        }
+
+
+
+
 
         private async void Flight_Load(object sender, EventArgs e)
         {
             try
             {
                 // Create a new HTTP client
-                string targetURL = ConsoleAppUrl + "/Flights"; // Assuming there is an endpoint for flight data
+                string targetURL = ConsoleAppUrl + "/Airport";
                 using (HttpClient client = new HttpClient())
                 {
                     // Add headers to the client
@@ -95,19 +104,33 @@ namespace BookingSystemUI
                     HttpResponseMessage response = await client.GetAsync(targetURL);
                     if (response.IsSuccessStatusCode)
                     {
-                        string flightJsonResponse = await response.Content.ReadAsStringAsync();
-                        var airports = JsonSerializer.Deserialize<List<AirportData>>(flightJsonResponse);
-                        DisplayAirports(airports);
+                        string flightAirportJsonResponse = await response.Content.ReadAsStringAsync();
 
                         // Log the response data to the console for debugging
-                        Console.WriteLine($"Received response data: {flightJsonResponse}");
+                        Console.WriteLine($"Received response data: {flightAirportJsonResponse}");
 
                         // Deserialize the JSON response
-
+                        var airportInfo = JsonSerializer.Deserialize<AirportInfo>(flightAirportJsonResponse);
 
                         // Create a new panel for each origin airport
+                        foreach (var originAirport in airportInfo.OriginAirports)
+                        {
+                            // Create a new panel
+                            Panel panel = new Panel();
+                            panel.BorderStyle = BorderStyle.FixedSingle;
+                            panel.Size = new Size(200, 100);
 
+                            // Create a label to display airport information
+                            Label label = new Label();
+                            label.Text = $"AirportID: {originAirport.AirportID}, CountryID: {originAirport.CountryID}, AirportName: {originAirport.AirportName}";
+                            label.AutoSize = true;
 
+                            // Add the label to the panel
+                            panel.Controls.Add(label);
+
+                            // Add the panel to the form
+                            this.Controls.Add(panel);
+                        }
                     }
                     else
                     {
@@ -132,35 +155,47 @@ namespace BookingSystemUI
             }
         }
 
-        private void DisplayAirports(List<AirportData> airports)
+
+
+        private void DisplayAirports(string json)
         {
-            foreach (var airport in airports)
+            try
             {
-                MessageBox.Show("Test");
-                Panel panel = new Panel();
-                panel.BorderStyle = BorderStyle.FixedSingle;
-                panel.Size = new Size(300, 60);
+                List<AirportData> airports = JsonSerializer.Deserialize<List<AirportData>>(json);
 
-                panel.Tag = airport.AirportID;
+                if (airports != null && airports.Any())
+                {
+                    foreach (var airport in airports)
+                    {
+                        MessageBox.Show("Test");
+                        Panel panel = new Panel();
+                        panel.BorderStyle = BorderStyle.FixedSingle;
+                        panel.Size = new Size(300, 60);
 
-                
+                        panel.Tag = airport.AirportID;
 
-                Label airportNameLabel = new Label();
-                airportNameLabel.Text = "Name: " + airport.AirportName;
-                airportNameLabel.Location = new Point(10, 10);
+                        Label airportNameLabel = new Label();
+                        airportNameLabel.Text = "Name: " + airport.AirportName;
+                        airportNameLabel.Location = new Point(10, 10);
 
-                Label airportIDLabel = new Label();
-                airportIDLabel.Text = "ID : " + airport.AirportID;
-                airportIDLabel.Location = new Point(10, 30);
+                        Label airportIDLabel = new Label();
+                        airportIDLabel.Text = "ID : " + airport.AirportID;
+                        airportIDLabel.Location = new Point(10, 30);
 
-               
+                        panel.Controls.Add(airportNameLabel);
+                        panel.Controls.Add(airportIDLabel);
 
-                panel.Controls.Add(airportNameLabel);
-                panel.Controls.Add(airportIDLabel);
-
-                flwPnlFlight.Controls.Add(panel);
-
-
+                        flwPnlFlight.Controls.Add(panel);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("No airport data received.", "Airport Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (JsonException ex)
+            {
+                MessageBox.Show($"Error deserializing JSON: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private async Task SendRequest(string messageType, int value)
@@ -198,4 +233,4 @@ namespace BookingSystemUI
 
         }
     }
-}
+} 
