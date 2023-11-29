@@ -52,18 +52,21 @@ namespace BookingSystemUI
         }
 
 
-
-
-
-        // Send transaction for processing by program 2. Uses unique ID and checksum calculations. 
         // Authored by @elms64
+        // -----------------------------------------------------------------------------------------------------
+        // Send transaction for processing by server (program 2). Uses unique ID and checksum calculations. 
+        // https://learn.microsoft.com/en-us/troubleshoot/developer/visualstudio/csharp/language-compilers/compute-hash-values
 
+        // Initiate HTTP Client
         private static readonly HttpClient httpClient = new HttpClient();
+        
+        // Allow storage of an array of key value pairs into bookingData variable
         private Dictionary<string, string> bookingData = new Dictionary<string, string>();
 
+        // User clicks "Send Booking" when happy with the basket to send to the server (p2)
         private async void SendBookingButton_Click(object sender, EventArgs e)
         {
-            // Populate bookingData with the relevant form data
+            // Populate bookingData variable with the relevant form data
             bookingData["SelectedCountry"] = selectedCountry;
             bookingData["SelectedOrigin"] = selectedOrigin;
             bookingData["SelectedOriginID"] = selectedOriginID.ToString();
@@ -92,6 +95,7 @@ namespace BookingSystemUI
             }
         }
 
+        // Method for sending the transaction as a JSON file via HTTP Put
         private async Task SendBookingTransaction(Dictionary<string, string> bookingData)
         {
             try
@@ -99,7 +103,7 @@ namespace BookingSystemUI
                 // Location of Program 2 (BookingProcessor)
                 string serverURL = "http://your-api-endpoint.com/booking";
 
-                // Authorisation headers, using a unique GUID
+                // Authorisation headers, assigns a GUID for transaction identification and validation
                 Guid guid = Guid.NewGuid();
                 httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer YourAccessToken");
                 httpClient.DefaultRequestHeaders.Add("X-Transaction-ID", guid.ToString());
@@ -125,5 +129,11 @@ namespace BookingSystemUI
                 Console.WriteLine($"Exception: {ex.Message}");
             }
         }
+
+        // -----------------------------------------------------------------------------------------------------
+
+
+
+
     }
 }
