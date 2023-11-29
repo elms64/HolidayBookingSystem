@@ -7,8 +7,12 @@ namespace BookingProcessor.Models
     public class Booking 
     {
         [Key]
-        [DisplayName("Booking ID")]
-        public int BookingID { get; set; }
+        [DisplayName("Order Number")]
+        public int OrderNumber { get; set; }
+
+        public Guid TransactionGUID { get; set; }
+
+        public string? CheckSum { get; set; }
 
         [ForeignKey("HotelBooking")]
         [DisplayName("Hotel Booking ID")]

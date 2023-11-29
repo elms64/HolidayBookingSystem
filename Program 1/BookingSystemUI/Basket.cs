@@ -122,7 +122,10 @@ namespace BookingSystemUI
                 else
                 {
                     Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
-                    // Insert SaveBatches method here possibly to trigger saving a batch process
+
+                    // If request was unsuccessful then it will be saved into batch transactions
+                    SaveBatches svbtch = new SaveBatches();
+                    svbtch.SaveBatchProcess(jsonPayload);
                 }
             }
             catch (Exception ex)

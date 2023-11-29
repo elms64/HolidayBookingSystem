@@ -19,9 +19,10 @@ namespace BookingProcessor.Migrations
                 {
                     AirlineID = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    AirlineName = table.Column<string>(type: "TEXT", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: false),
-                    Rating = table.Column<double>(type: "REAL", nullable: false)
+                    AirlineName = table.Column<string>(type: "TEXT", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: true),
+                    Rating = table.Column<double>(type: "REAL", nullable: false),
+                    HQ = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -35,7 +36,7 @@ namespace BookingProcessor.Migrations
                     AirportID = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     CountryID = table.Column<int>(type: "INTEGER", nullable: false),
-                    AirportName = table.Column<string>(type: "TEXT", nullable: false)
+                    AirportName = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -46,8 +47,10 @@ namespace BookingProcessor.Migrations
                 name: "Booking",
                 columns: table => new
                 {
-                    BookingID = table.Column<int>(type: "INTEGER", nullable: false)
+                    OrderNumber = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    TransactionGUID = table.Column<Guid>(type: "TEXT", nullable: false),
+                    CheckSum = table.Column<string>(type: "TEXT", nullable: true),
                     HotelBookingID = table.Column<int>(type: "INTEGER", nullable: false),
                     CountryID = table.Column<int>(type: "INTEGER", nullable: false),
                     FlightID = table.Column<int>(type: "INTEGER", nullable: false),
@@ -58,7 +61,7 @@ namespace BookingProcessor.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Booking", x => x.BookingID);
+                    table.PrimaryKey("PK_Booking", x => x.OrderNumber);
                 });
 
             migrationBuilder.CreateTable(
@@ -67,11 +70,11 @@ namespace BookingProcessor.Migrations
                 {
                     ClientID = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    FirstName = table.Column<string>(type: "TEXT", nullable: false),
-                    LastName = table.Column<string>(type: "TEXT", nullable: false),
+                    FirstName = table.Column<string>(type: "TEXT", nullable: true),
+                    LastName = table.Column<string>(type: "TEXT", nullable: true),
                     BirthDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Email = table.Column<string>(type: "TEXT", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: false)
+                    Email = table.Column<string>(type: "TEXT", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -84,7 +87,7 @@ namespace BookingProcessor.Migrations
                 {
                     CountryID = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    CountryName = table.Column<string>(type: "TEXT", nullable: false)
+                    CountryName = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -117,11 +120,12 @@ namespace BookingProcessor.Migrations
                 {
                     HotelID = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    HotelName = table.Column<string>(type: "TEXT", nullable: false),
-                    AddressLine1 = table.Column<string>(type: "TEXT", nullable: false),
-                    AddressLine2 = table.Column<string>(type: "TEXT", nullable: false),
-                    City = table.Column<string>(type: "TEXT", nullable: false),
-                    Postcode = table.Column<string>(type: "TEXT", nullable: false),
+                    CountryID = table.Column<int>(type: "INTEGER", nullable: false),
+                    HotelName = table.Column<string>(type: "TEXT", nullable: true),
+                    AddressLine1 = table.Column<string>(type: "TEXT", nullable: true),
+                    AddressLine2 = table.Column<string>(type: "TEXT", nullable: true),
+                    City = table.Column<string>(type: "TEXT", nullable: true),
+                    Postcode = table.Column<string>(type: "TEXT", nullable: true),
                     PhoneNumber = table.Column<int>(type: "INTEGER", nullable: false),
                     Rating = table.Column<double>(type: "REAL", nullable: false),
                     RoomCount = table.Column<int>(type: "INTEGER", nullable: false)
@@ -153,7 +157,7 @@ namespace BookingProcessor.Migrations
                 {
                     InsuranceID = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    InsuranceType = table.Column<string>(type: "TEXT", nullable: false),
+                    InsuranceType = table.Column<string>(type: "TEXT", nullable: true),
                     PricePerDay = table.Column<double>(type: "REAL", nullable: false)
                 },
                 constraints: table =>
@@ -183,7 +187,7 @@ namespace BookingProcessor.Migrations
                     RoomID = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     HotelID = table.Column<int>(type: "INTEGER", nullable: false),
-                    RoomType = table.Column<string>(type: "TEXT", nullable: false),
+                    RoomType = table.Column<string>(type: "TEXT", nullable: true),
                     RoomNo = table.Column<int>(type: "INTEGER", nullable: false),
                     PricePerNight = table.Column<decimal>(type: "TEXT", nullable: false)
                 },
@@ -198,7 +202,7 @@ namespace BookingProcessor.Migrations
                 {
                     VehicleID = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    VehicleType = table.Column<string>(type: "TEXT", nullable: false),
+                    VehicleType = table.Column<string>(type: "TEXT", nullable: true),
                     PricePerDay = table.Column<decimal>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
@@ -223,14 +227,14 @@ namespace BookingProcessor.Migrations
 
             migrationBuilder.InsertData(
                 table: "Airline",
-                columns: new[] { "AirlineID", "AirlineName", "PhoneNumber", "Rating" },
+                columns: new[] { "AirlineID", "AirlineName", "HQ", "PhoneNumber", "Rating" },
                 values: new object[,]
                 {
-                    { 1, "Example Airline 1", "123-456-7890", 4.5 },
-                    { 2, "Example Airline 2", "987-654-3210", 3.7999999999999998 },
-                    { 3, "Example Airline 3", "555-123-4567", 4.2000000000000002 },
-                    { 4, "Example Airline 4", "333-777-8888", 3.5 },
-                    { 5, "Example Airline 5", "111-222-3333", 4.0 }
+                    { 1, "Ryanair", "London, England", "123-456-7890", 4.5 },
+                    { 2, "Easyjet", "Paris, France", "987-654-3210", 3.7999999999999998 },
+                    { 3, "British Airways", "Moscow, Russia", "555-123-4567", 4.2000000000000002 },
+                    { 4, "Tui Airways", "LA, USA", "333-777-8888", 3.5 },
+                    { 5, "Virgin Atlantic", "Japan, Tokyo", "111-222-3333", 4.0 }
                 });
 
             migrationBuilder.InsertData(
@@ -238,23 +242,45 @@ namespace BookingProcessor.Migrations
                 columns: new[] { "AirportID", "AirportName", "CountryID" },
                 values: new object[,]
                 {
-                    { 1, "Example Airport 1", 1 },
-                    { 2, "Example Airport 2", 2 },
-                    { 3, "Example Airport 3", 3 },
-                    { 4, "Example Airport 4", 4 },
-                    { 5, "Example Airport 5", 5 }
+                    { 1, "Denver International Airport", 840 },
+                    { 2, "Dubai International Airport", 784 },
+                    { 3, "Beijing Internation Airport", 156 },
+                    { 4, "Istanbul International Airport", 792 },
+                    { 5, "Heathrow Airport", 826 },
+                    { 6, "Indira Gandhi International Airport", 356 },
+                    { 7, "Charles de Gaulle Airport", 250 },
+                    { 8, "Amsterdam Airport Schiphol", 528 },
+                    { 9, "Adolfo Suárez Madrid-Barajas Airport", 724 },
+                    { 10, "Tokyo Haneda Airport", 392 },
+                    { 11, "Frankfurt Airport", 276 },
+                    { 12, "Mexico City International Airport", 484 },
+                    { 13, "Soekarno-Hatta International Airport", 360 },
+                    { 14, "Toronto Pearson International Airport", 124 },
+                    { 15, "São Paulo/Guarulhos International Airport", 76 },
+                    { 16, "Gatwick Airport", 826 },
+                    { 17, "London Stansted", 826 },
+                    { 18, "Luton Airport", 826 },
+                    { 19, "Manchester Airport", 826 },
+                    { 20, "London City Airport", 826 },
+                    { 21, "Birmingham Airport", 826 },
+                    { 22, "Lille Airport", 250 },
+                    { 23, "Bordeaux Airport", 250 },
+                    { 24, "Marseille Airport", 250 },
+                    { 25, "Barcelona International Airport", 724 },
+                    { 26, "Málaga Airport", 724 },
+                    { 27, "Palma De Mallorca Airport", 724 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Booking",
-                columns: new[] { "BookingID", "ClientID", "CountryID", "FlightID", "HotelBookingID", "InsuranceBookingID", "PurchaseDate", "VehicleBookingID" },
+                columns: new[] { "OrderNumber", "CheckSum", "ClientID", "CountryID", "FlightID", "HotelBookingID", "InsuranceBookingID", "PurchaseDate", "TransactionGUID", "VehicleBookingID" },
                 values: new object[,]
                 {
-                    { 1, 1, 1, 1, 1, 1, new DateTime(2023, 11, 14, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5210), 1 },
-                    { 2, 2, 2, 2, 2, 2, new DateTime(2023, 11, 14, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5230), 2 },
-                    { 3, 3, 3, 3, 3, 3, new DateTime(2023, 11, 14, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5240), 3 },
-                    { 4, 4, 4, 4, 4, 4, new DateTime(2023, 11, 14, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5240), 4 },
-                    { 5, 5, 5, 5, 5, 5, new DateTime(2023, 11, 14, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5240), 5 }
+                    { 1, "b5aa77103079fff929c4ffe6b0b112cf", 1, 826, 1, 1, 1, new DateTime(2023, 11, 29, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7050), new Guid("85b72c18-b180-4e3d-bfb1-11f822105c11"), 1 },
+                    { 2, "fc7d01d4b69ed3e7e77d87ebfe653eab", 2, 826, 2, 2, 2, new DateTime(2023, 11, 29, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7490), new Guid("d6e92daa-ea28-41ee-b0c0-8c88504c918d"), 2 },
+                    { 3, "b32949e862ed1e6445fdc344fc2d3a90", 3, 826, 3, 3, 3, new DateTime(2023, 11, 29, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7540), new Guid("ce390bf0-554b-45f4-97fa-4b94d82cefe6"), 3 },
+                    { 4, "4c1a7bdd043957ed663979d92ce554ca", 4, 826, 4, 4, 4, new DateTime(2023, 11, 29, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7570), new Guid("dd3070ba-c9dd-4bf5-8ee1-7cde74f47ce9"), 4 },
+                    { 5, "822b35a6f332edbf29ee81da2276a023", 5, 826, 5, 5, 5, new DateTime(2023, 11, 29, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7600), new Guid("7018ab15-191d-4893-bd88-11e273e95d52"), 5 }
                 });
 
             migrationBuilder.InsertData(
@@ -530,23 +556,34 @@ namespace BookingProcessor.Migrations
                 columns: new[] { "FlightID", "AirlineID", "ArrivalAirportID", "ArrivalDateTime", "BookedSeats", "DepartureAirportID", "DepartureDateTime", "FlightCost", "MaxSeats" },
                 values: new object[,]
                 {
-                    { 1, 1, 2, new DateTime(2023, 11, 22, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5270), 50, 1, new DateTime(2023, 11, 21, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5270), 500, 100 },
-                    { 2, 2, 3, new DateTime(2023, 11, 26, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5280), 30, 2, new DateTime(2023, 11, 24, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5280), 450, 80 },
-                    { 3, 3, 4, new DateTime(2023, 12, 1, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5280), 70, 3, new DateTime(2023, 11, 29, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5280), 600, 120 },
-                    { 4, 4, 5, new DateTime(2023, 12, 6, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5280), 40, 4, new DateTime(2023, 12, 4, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5280), 550, 100 },
-                    { 5, 5, 1, new DateTime(2023, 12, 11, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5280), 60, 5, new DateTime(2023, 12, 9, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5280), 480, 80 }
+                    { 1, 1, 2, new DateTime(2023, 12, 7, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7660), 50, 1, new DateTime(2023, 12, 6, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7660), 500, 100 },
+                    { 2, 2, 5, new DateTime(2023, 12, 11, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7670), 30, 16, new DateTime(2023, 12, 9, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7670), 450, 80 },
+                    { 3, 3, 4, new DateTime(2023, 12, 16, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7670), 70, 3, new DateTime(2023, 12, 14, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7670), 600, 120 },
+                    { 4, 4, 5, new DateTime(2023, 12, 21, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7680), 40, 4, new DateTime(2023, 12, 19, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7680), 550, 100 },
+                    { 5, 4, 1, new DateTime(2023, 12, 26, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7680), 60, 5, new DateTime(2023, 12, 24, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7680), 480, 80 },
+                    { 6, 3, 17, new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7680), 80, 16, new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7680), 180, 140 },
+                    { 7, 5, 18, new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7690), 150, 16, new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7680), 150, 180 },
+                    { 8, 1, 19, new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7690), 120, 16, new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7690), 150, 150 },
+                    { 9, 5, 20, new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7690), 100, 16, new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7690), 100, 140 },
+                    { 10, 5, 19, new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7690), 70, 1, new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7690), 120, 90 },
+                    { 11, 5, 19, new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7700), 70, 16, new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7700), 120, 90 },
+                    { 12, 5, 20, new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7700), 70, 16, new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7700), 120, 90 },
+                    { 13, 5, 21, new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7700), 70, 16, new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7700), 120, 90 },
+                    { 14, 5, 22, new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7710), 70, 16, new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7710), 120, 90 },
+                    { 15, 5, 23, new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7710), 70, 16, new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7710), 120, 90 },
+                    { 16, 5, 24, new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7710), 70, 16, new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7710), 120, 90 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Hotel",
-                columns: new[] { "HotelID", "AddressLine1", "AddressLine2", "City", "HotelName", "PhoneNumber", "Postcode", "Rating", "RoomCount" },
+                columns: new[] { "HotelID", "AddressLine1", "AddressLine2", "City", "CountryID", "HotelName", "PhoneNumber", "Postcode", "Rating", "RoomCount" },
                 values: new object[,]
                 {
-                    { 1, "123 Main St", "Apt 45", "Cityville", "Example Hotel 1", 5551234, "12345", 4.0, 50 },
-                    { 2, "456 Oak St", "Suite 22", "Townsville", "Example Hotel 2", 5555678, "67890", 3.5, 40 },
-                    { 3, "789 Pine St", "Unit 33", "Villagetown", "Example Hotel 3", 5559999, "10111", 4.2000000000000002, 60 },
-                    { 4, "101 Cedar St", "Apt 10", "Mountainview", "Example Hotel 4", 5554321, "54321", 3.7999999999999998, 45 },
-                    { 5, "202 Birch St", "Suite 5", "Laketown", "Example Hotel 5", 5551111, "87654", 4.5, 55 }
+                    { 1, "123 Main St", "Apt 45", "Cityville", 826, "Example Hotel 1", 5551234, "12345", 4.0, 50 },
+                    { 2, "456 Oak St", "Suite 22", "Townsville", 826, "Example Hotel 2", 5555678, "67890", 3.5, 40 },
+                    { 3, "789 Pine St", "Unit 33", "Villagetown", 826, "Example Hotel 3", 5559999, "10111", 4.2000000000000002, 60 },
+                    { 4, "101 Cedar St", "Apt 10", "Mountainview", 826, "Example Hotel 4", 5554321, "54321", 3.7999999999999998, 45 },
+                    { 5, "202 Birch St", "Suite 5", "Laketown", 826, "Example Hotel 5", 5551111, "87654", 4.5, 55 }
                 });
 
             migrationBuilder.InsertData(
@@ -554,11 +591,11 @@ namespace BookingProcessor.Migrations
                 columns: new[] { "HotelBookingID", "CheckInDate", "CheckOutDate", "HotelID", "RoomID" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 11, 21, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5310), new DateTime(2023, 11, 28, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5310), 1, 1 },
-                    { 2, new DateTime(2023, 11, 24, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5310), new DateTime(2023, 12, 1, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5310), 2, 2 },
-                    { 3, new DateTime(2023, 11, 29, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5310), new DateTime(2023, 12, 6, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5320), 3, 3 },
-                    { 4, new DateTime(2023, 12, 4, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5320), new DateTime(2023, 12, 11, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5320), 4, 4 },
-                    { 5, new DateTime(2023, 12, 9, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5320), new DateTime(2023, 12, 16, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5320), 5, 5 }
+                    { 1, new DateTime(2023, 12, 6, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7740), new DateTime(2023, 12, 13, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7740), 1, 1 },
+                    { 2, new DateTime(2023, 12, 9, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7740), new DateTime(2023, 12, 16, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7740), 2, 2 },
+                    { 3, new DateTime(2023, 12, 14, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7740), new DateTime(2023, 12, 21, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7750), 3, 3 },
+                    { 4, new DateTime(2023, 12, 19, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7750), new DateTime(2023, 12, 26, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7750), 4, 4 },
+                    { 5, new DateTime(2023, 12, 24, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7750), new DateTime(2023, 12, 31, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7750), 5, 5 }
                 });
 
             migrationBuilder.InsertData(
@@ -578,11 +615,11 @@ namespace BookingProcessor.Migrations
                 columns: new[] { "InsuranceBookingID", "EndDate", "InsuranceID", "StartDate" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 11, 28, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5340), 1, new DateTime(2023, 11, 21, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5340) },
-                    { 2, new DateTime(2023, 12, 1, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5340), 2, new DateTime(2023, 11, 24, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5340) },
-                    { 3, new DateTime(2023, 12, 6, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5350), 3, new DateTime(2023, 11, 29, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5350) },
-                    { 4, new DateTime(2023, 12, 11, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5350), 4, new DateTime(2023, 12, 4, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5350) },
-                    { 5, new DateTime(2023, 12, 16, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5350), 5, new DateTime(2023, 12, 9, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5350) }
+                    { 1, new DateTime(2023, 12, 13, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7770), 1, new DateTime(2023, 12, 6, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7770) },
+                    { 2, new DateTime(2023, 12, 16, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7780), 2, new DateTime(2023, 12, 9, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7780) },
+                    { 3, new DateTime(2023, 12, 21, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7780), 3, new DateTime(2023, 12, 14, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7780) },
+                    { 4, new DateTime(2023, 12, 26, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7780), 4, new DateTime(2023, 12, 19, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7780) },
+                    { 5, new DateTime(2023, 12, 31, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7780), 5, new DateTime(2023, 12, 24, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7780) }
                 });
 
             migrationBuilder.InsertData(
@@ -614,11 +651,11 @@ namespace BookingProcessor.Migrations
                 columns: new[] { "VehicleBookingID", "DropOffDate", "PickUpDate", "VehicleID" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 11, 28, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5390), new DateTime(2023, 11, 21, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5390), 1 },
-                    { 2, new DateTime(2023, 12, 1, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5390), new DateTime(2023, 11, 24, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5390), 2 },
-                    { 3, new DateTime(2023, 12, 6, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5390), new DateTime(2023, 11, 29, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5390), 3 },
-                    { 4, new DateTime(2023, 12, 11, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5390), new DateTime(2023, 12, 4, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5390), 4 },
-                    { 5, new DateTime(2023, 12, 16, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5400), new DateTime(2023, 12, 9, 22, 49, 24, 135, DateTimeKind.Local).AddTicks(5400), 5 }
+                    { 1, new DateTime(2023, 12, 13, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7820), new DateTime(2023, 12, 6, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7820), 1 },
+                    { 2, new DateTime(2023, 12, 16, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7820), new DateTime(2023, 12, 9, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7820), 2 },
+                    { 3, new DateTime(2023, 12, 21, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7830), new DateTime(2023, 12, 14, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7830), 3 },
+                    { 4, new DateTime(2023, 12, 26, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7830), new DateTime(2023, 12, 19, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7830), 4 },
+                    { 5, new DateTime(2023, 12, 31, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7830), new DateTime(2023, 12, 24, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7830), 5 }
                 });
         }
 

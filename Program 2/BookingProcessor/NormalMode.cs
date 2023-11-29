@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -10,18 +11,14 @@ using BookingProcessor.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-
-
 namespace BookingProcessor
 {
     public class NormalMode
     {
-
         /* Define the URL and port number to listen for HTTP requests. 
         Default configuration is any available local IP on port 8080. */
         private readonly string url = "http://+:8080/";
         private readonly IServiceProvider serviceProvider;
-
         public NormalMode(IServiceProvider serviceProvider)
         {
             this.serviceProvider = serviceProvider;
@@ -54,15 +51,16 @@ namespace BookingProcessor
                     // Extract request type from the URL
                     string requestType = ExtractRequestType(request.Url);
 
-                    // Decide how to process requests based on incoming information. 
+                    // Decide how to process requests based on the HTTP method. 
                     if (request.HttpMethod == "GET")
                     {
                         await HandleGetRequest(request, response, requestType);
                     }
                     else if (request.HttpMethod == "PUT")
                     {
-                        await HandlePutRequest(request, response);
+                        await HandlePutRequest(request, response, requestType);
                     }
+
                     // Any other request types e.g POST will be denied.
                     else
                     {
@@ -180,16 +178,82 @@ namespace BookingProcessor
         }
 
 
-        // How to handle incoming PUT requests
-        public async Task HandlePutRequest(HttpListenerRequest request, HttpListenerResponse response)
+        // Authored by @elms64
+        // -----------------------------------------------------------------------------------------------------------------------
+        // Handles incoming PUT requests and uploads bookings to the database
+        public async Task HandlePutRequest(HttpListenerRequest request, HttpListenerResponse response, string requestType)
         {
-            // Should only really be booking data when creating a booking at the end of the users process.
+            using (var scope = serviceProvider.CreateScope())
+            {
+                var bookingContext = scope.ServiceProvider.GetRequiredService<BookingContext>();
+                byte[] buffer = Array.Empty<byte>();
+
+                // The request type may be a standard booking or a batch process. 
+                switch (requestType)
+                {
+                    // If a normal booking request comes in, upload it to the database and return an invoice.
+                    case "Booking":
+                        buffer = await CreateBooking(request, bookingContext);
+                        break;
+
+                    // If a batch process comes in initiate recovery mode and check for any other batch processes.
+                    case "BatchProcess":
+                        buffer = Encoding.UTF8.GetBytes("Batch request received, initiating recovery mode. Please allow up to 24 hours for backup procedures to take effect");
+                        InitRecoveryMode();
+                        break;
+
+                    default:
+                        buffer = Encoding.UTF8.GetBytes("Invalid request type");
+                        break;
+                }
+
+                response.ContentType = "application/json";
+                response.ContentLength64 = buffer.Length;
+                response.OutputStream.Write(buffer, 0, buffer.Length);
+                response.Close();
+            }
         }
 
-        // Determine if an incoming request is a stored transaction.
-        private bool IsBatchProcess(string requestData)
+        // Method for creating a database entry for a new booking, performing validation checks to avoid duplicate entries. 
+        private async Task<byte[]> CreateBooking(HttpListenerRequest request, BookingContext bookingContext)
         {
-            return requestData.Contains("BATCH_PROCESS");
+            try
+            {
+                // Receive booking information from a HTTP PUT request
+                using (var reader = new StreamReader(request.InputStream, request.ContentEncoding))
+                {
+                    string requestBody = await reader.ReadToEndAsync();
+                    Booking newBooking = JsonSerializer.Deserialize<Booking>(requestBody);
+                    // Recalculates MD5 checksum and ensures transaction has not already been processed
+                    string recalculatedChecksum = CalcMD5.CalculateMd5(requestBody);
+                    bool checksumExists = await bookingContext.Booking.AnyAsync(b => b.CheckSum == recalculatedChecksum);
+
+                    // Do not process transaction if it is a repeat entry. 
+                    if (checksumExists)
+                    {
+                        return Encoding.UTF8.GetBytes("This booking already exists, please do not retry transaction.");
+                    }
+
+                    // If the transaction does not already exist, upload to the database/
+                    else
+                    {
+                        newBooking.OrderNumber = 0;
+                        bookingContext.Booking.Add(newBooking);
+                        await bookingContext.SaveChangesAsync();
+
+                        // Return booking information and order number to the client
+                        newBooking.OrderNumber = newBooking.OrderNumber;
+                        string jsonResponse = JsonSerializer.Serialize(newBooking);
+                        byte[] buffer = Encoding.UTF8.GetBytes(jsonResponse);
+                        return buffer;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+                return Encoding.UTF8.GetBytes("Error creating booking, please try again later.");
+            }
         }
 
         // Method to initiate recovery mode, used when an incoming process is a batch transaction.
@@ -199,46 +263,7 @@ namespace BookingProcessor
             recoveryMode.Run().GetAwaiter().GetResult();
         }
 
+        // -----------------------------------------------------------------------------------------------------------------------
 
     }
 }
-
-
-
-
-
-
-
-
-/*
-//George code here 
-*/
-
-//Currently working on
-/*private async Task GET_SPECIFIC_CAR_TYPE(HttpListenerResponse response)
-{
-    returnVehicleType vehicleHandler = new returnVehicleType();
-    var vehicleTypeData = await vehicleHandler.getSpecificVehicleType(serviceProvider);
-    Console.WriteLine("Vehicle type data sent to Program 1!");
-    response.ContentType = "application/json";
-    response.ContentLength64 = vehicleTypeData.Length;
-    response.OutputStream.Write(vehicleTypeData, 0, vehicleTypeData.Length);
-}/*
-
-public class returnVehicleType
-{
-
-// Method for returning a list of vehicles filtered by the type of vehicle
-//Currently working on
-public async Task<byte[]> getSpecificVehicleType(IServiceProvider serviceProvider)
-{
-using (var scope = serviceProvider.CreateScope())
-{
-
-    var bookingContext = scope.ServiceProvider.GetRequiredService<BookingContext>();
-    var get_vehicleTypes = await bookingContext.Vehicle.Where(v => v.VehicleType).Select(v => new { v.VehicleID, v.VehicleType, v.PricePerDay }).ToListAsync();
-    Console.WriteLine("BZZZZ");
-    string jsonResponse = JsonSerializer.Serialize(get_vehicleTypes);
-    return Encoding.UTF8.GetBytes(jsonResponse);
-
-}*/
