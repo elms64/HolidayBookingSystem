@@ -1,15 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+using System.Net.Http;
 using System.Text.Json;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static BookingSystemUI.Form1;
-
 
 namespace BookingSystemUI
 {
@@ -17,8 +10,17 @@ namespace BookingSystemUI
     {
         private MainMenu mainForm;
         private Hotel Hotel;
-
         private const string ConsoleAppUrl = "http://localhost:8080";
+        private string selectedCountry;
+        private int selectedCountryID;
+        private string selectedOrigin;
+        private int selectedOriginID;
+
+        public class Country
+        {
+            public int CountryID { get; set; }
+            public string CountryName { get; set; }
+        }
 
         public BookingInit(MainMenu mainForm)
         {
@@ -30,68 +32,33 @@ namespace BookingSystemUI
 
         private async void BookingInit_Load(object sender, EventArgs e)
         {
-            // this is the content being sent to program 2, in plaintext.
-            string message = "SEND_COUNTRY";
-
-
+            // Load countries into where to and where from combo boxes
             try
             {
-                // create a new HttpClient called client, which is configured and then sent off.
+                
+                string targetURL = ConsoleAppUrl + "/Country";
                 using (HttpClient client = new HttpClient())
                 {
-                    //create a variable called data, this includes the message, and a couple other guff bits which you don't need to touch
-                    var data = new StringContent(message, Encoding.UTF8, "application/json");
-
-                    // This is where data is actually sent
-                    Task<HttpResponseMessage> responseTask = client.PostAsync(ConsoleAppUrl, data);
-
-                    // Use Task.WhenAny to wait for the response or a delay
-                    Task completedTask = await Task.WhenAny(responseTask, Task.Delay(TimeSpan.FromSeconds(3))); // Adjust the timeout duration as needed
-
-                    // if it gets a response, run this block of code, put whatever in here, should probably be formatting data
-                    // like done in this example, population of comboBoxCountry and comboBoxOrigin
-                    if (completedTask == responseTask)
+                    HttpResponseMessage response = await client.GetAsync(targetURL);
+                    if (response.IsSuccessStatusCode)
                     {
-                        // Response received within the timeout
-                        HttpResponseMessage response = await responseTask;
-                        
-                        // If the response is a successStatusCode, run this code
-                        if (response.IsSuccessStatusCode)
+                        string responseData = await response.Content.ReadAsStringAsync();
+                        var countries = JsonSerializer.Deserialize<List<Country>>(responseData);
+                        foreach (var country in countries)
                         {
-                            // the following two lines, convert the json response into a list called countries.
-                            string jsonResponse = await response.Content.ReadAsStringAsync();
-                            var countries = JsonSerializer.Deserialize<List<CountryData>>(jsonResponse);
-
-                            // Clear existing items in the comboBoxCountry
-                            comboBoxCountry.Items.Clear();
-
-                            // Add countries to comboBoxCountry, for each item in countries, it will add a new listing
-                            foreach (var country in countries)
-                            {
-                                comboBoxCountry.Items.Add(new KeyValuePair<string, int>(country.CountryName, country.CountryID));
-                                comboBoxOrigin.Items.Add(new KeyValuePair<string, int>(country.CountryName, country.CountryID));
-                                // Assuming CountryData has a property named CountryName
-                            }
-
-                            // Sort the items alphabetically
-                            comboBoxCountry.Sorted = true;
-                            comboBoxOrigin.Sorted = true;
-                        }
-                        else
-                        {
-                            Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                            comboBoxCountry.Items.Add($"{country.CountryID}: {country.CountryName}");
+                            comboBoxOrigin.Items.Add($"{country.CountryID}: {country.CountryName}");
                         }
                     }
                     else
                     {
-                        // Timeout occurred, show a message
-                        MessageBox.Show("No response received within the specified time.");
+                        Console.WriteLine($"Error: {response.StatusCode}");
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred: {ex.Message}");
+                Console.WriteLine($"Exception: {ex.Message}");
             }
         }
 
@@ -128,24 +95,27 @@ namespace BookingSystemUI
                 // Revert the value to a default (e.g., 7)
                 txtBoxHowLong.Text = "0";
                 lblReturnDateUpdate.Text = "Invalid duration";
-                //MessageBox.Show("Invalid Duration : Duration entered was too high.");
             }
         }
 
         private void btnNext_Click(object sender, EventArgs e)
         {
-            // Retrieve both the selected name and ID for comboBoxCountry
-            KeyValuePair<string, int>? selectedCountryItem = comboBoxCountry.SelectedItem as KeyValuePair<string, int>?;
-            string selectedCountry = selectedCountryItem?.Key;
-            int selectedCountryID = selectedCountryItem?.Value ?? -1; // Default value if null
+            // Retrieve both the selected country and origin
+            string selectedCountryItem = comboBoxCountry.SelectedItem as string;
+            ParseCountry(selectedCountryItem, out selectedCountryID, out selectedCountry);
 
-            // Retrieve both the selected name and ID for comboBoxOrigin
-            KeyValuePair<string, int>? selectedOriginItem = comboBoxOrigin.SelectedItem as KeyValuePair<string, int>?;
-            string selectedOrigin = selectedOriginItem?.Key;
-            int selectedOriginID = selectedOriginItem?.Value ?? -1; // Default value if null
+            string selectedOriginItem = comboBoxOrigin.SelectedItem as string;
+            ParseCountry(selectedOriginItem, out selectedOriginID, out selectedOrigin);
 
             DateTime selectedDepartureDate = dateTimePickerStart.Value;
             string selectedReturnDate = lblReturnDateUpdate.Text;
+
+            MessageBox.Show($"Selected Country ID: {selectedCountryID}\n" +
+                          $"Selected Country: {selectedCountry}\n" +
+                          $"Selected Origin ID: {selectedOriginID}\n" +
+                          $"Selected Return Date: {selectedReturnDate}\n" +
+                          $"Selected Origin: {selectedOrigin}\n" +
+                          $"Selected Departure Date: {selectedDepartureDate.ToShortDateString()}");
 
             // Create an instance of the Flight form and pass the values
             Flight flight = new Flight(selectedCountry, selectedDepartureDate, selectedReturnDate, selectedOrigin, selectedOriginID, selectedCountryID, mainForm);
@@ -157,15 +127,19 @@ namespace BookingSystemUI
             this.Close();
         }
 
-        private void lblReturnDateUpdate_Click(object sender, EventArgs e)
+        private void ParseCountry(string countryString, out int id, out string name)
         {
+            id = -1;
+            name = null;
 
-        }
-
-        private void comboBoxCountry_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
+            if (countryString != null)
+            {
+                string[] parts = countryString.Split(':');
+                if (parts.Length == 2 && int.TryParse(parts[0], out id))
+                {
+                    name = parts[1].Trim();
+                }
+            }
         }
     }
-
 }
