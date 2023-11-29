@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            label1 = new Label();
             MainPanel = new Panel();
             Exit = new Button();
             viewOrder = new Button();
@@ -41,20 +40,10 @@
             sidebar.SuspendLayout();
             SuspendLayout();
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI Emoji", 18F, FontStyle.Bold, GraphicsUnit.Point);
-            label1.Location = new Point(669, 21);
-            label1.Name = "label1";
-            label1.Size = new Size(206, 32);
-            label1.TabIndex = 0;
-            label1.Text = "Scuffed holidays";
-            // 
             // MainPanel
             // 
-            MainPanel.Anchor = AnchorStyles.Top;
-            MainPanel.Location = new Point(256, 81);
+            MainPanel.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            MainPanel.Location = new Point(258, 84);
             MainPanel.Name = "MainPanel";
             MainPanel.Size = new Size(1050, 650);
             MainPanel.TabIndex = 1;
@@ -67,12 +56,12 @@
             Exit.ForeColor = Color.FromArgb(0, 126, 249);
             Exit.Image = Properties.Resources.Exit;
             Exit.ImageAlign = ContentAlignment.MiddleLeft;
-            Exit.Location = new Point(3, 315);
+            Exit.Location = new Point(3, 318);
             Exit.Name = "Exit";
-            Exit.Padding = new Padding(15, 0, 0, 0);
+            Exit.Padding = new Padding(15, 0, 15, 0);
             Exit.Size = new Size(225, 72);
             Exit.TabIndex = 2;
-            Exit.Text = "    Quit App";
+            Exit.Text = "   Quit App";
             Exit.UseVisualStyleBackColor = true;
             Exit.Click += Exit_Click;
             // 
@@ -84,12 +73,12 @@
             viewOrder.ForeColor = Color.FromArgb(0, 126, 249);
             viewOrder.Image = Properties.Resources.invoice;
             viewOrder.ImageAlign = ContentAlignment.MiddleLeft;
-            viewOrder.Location = new Point(3, 159);
+            viewOrder.Location = new Point(3, 162);
             viewOrder.Name = "viewOrder";
-            viewOrder.Padding = new Padding(15, 0, 0, 0);
+            viewOrder.Padding = new Padding(15, 0, 15, 0);
             viewOrder.Size = new Size(225, 72);
             viewOrder.TabIndex = 6;
-            viewOrder.Text = "         View Order";
+            viewOrder.Text = "      View Order";
             viewOrder.UseVisualStyleBackColor = true;
             viewOrder.Click += Basket_Click;
             // 
@@ -101,12 +90,12 @@
             Mainbutton.ForeColor = Color.FromArgb(0, 126, 249);
             Mainbutton.Image = Properties.Resources.home;
             Mainbutton.ImageAlign = ContentAlignment.MiddleLeft;
-            Mainbutton.Location = new Point(3, 237);
+            Mainbutton.Location = new Point(3, 240);
             Mainbutton.Name = "Mainbutton";
-            Mainbutton.Padding = new Padding(15, 0, 0, 0);
+            Mainbutton.Padding = new Padding(15, 0, 15, 0);
             Mainbutton.Size = new Size(225, 72);
             Mainbutton.TabIndex = 7;
-            Mainbutton.Text = "          Main Menu";
+            Mainbutton.Text = "       Main Menu";
             Mainbutton.UseVisualStyleBackColor = true;
             Mainbutton.Click += Mainbutton_Click;
             // 
@@ -118,33 +107,34 @@
             btnBookingInit.ForeColor = Color.FromArgb(0, 126, 249);
             btnBookingInit.Image = Properties.Resources.Plane;
             btnBookingInit.ImageAlign = ContentAlignment.MiddleLeft;
-            btnBookingInit.Location = new Point(3, 81);
+            btnBookingInit.Location = new Point(3, 84);
             btnBookingInit.Name = "btnBookingInit";
-            btnBookingInit.Padding = new Padding(15, 0, 0, 0);
+            btnBookingInit.Padding = new Padding(15, 0, 15, 0);
             btnBookingInit.Size = new Size(225, 72);
             btnBookingInit.TabIndex = 8;
-            btnBookingInit.Text = "          Booking Init";
+            btnBookingInit.Text = "          Start Booking";
             btnBookingInit.UseVisualStyleBackColor = true;
             btnBookingInit.Click += btnBookingInit_Click;
             // 
             // sidebar
             // 
+            sidebar.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             sidebar.BackColor = Color.FromArgb(24, 30, 54);
             sidebar.Controls.Add(menuButton);
             sidebar.Controls.Add(btnBookingInit);
             sidebar.Controls.Add(viewOrder);
             sidebar.Controls.Add(Mainbutton);
             sidebar.Controls.Add(Exit);
-            sidebar.Dock = DockStyle.Left;
             sidebar.Location = new Point(0, 0);
-            sidebar.MaximumSize = new Size(228, 750);
-            sidebar.MinimumSize = new Size(78, 750);
+            sidebar.MaximumSize = new Size(228, 1500);
+            sidebar.MinimumSize = new Size(78, 1500);
             sidebar.Name = "sidebar";
-            sidebar.Size = new Size(228, 750);
+            sidebar.Size = new Size(228, 1500);
             sidebar.TabIndex = 10;
             // 
             // menuButton
             // 
+            menuButton.BackColor = Color.FromArgb(15, 20, 40);
             menuButton.FlatAppearance.BorderSize = 0;
             menuButton.FlatStyle = FlatStyle.Flat;
             menuButton.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
@@ -154,10 +144,10 @@
             menuButton.Location = new Point(3, 3);
             menuButton.Name = "menuButton";
             menuButton.Padding = new Padding(15, 0, 0, 0);
-            menuButton.Size = new Size(225, 72);
+            menuButton.Size = new Size(225, 75);
             menuButton.TabIndex = 5;
-            menuButton.Text = "  Menu";
-            menuButton.UseVisualStyleBackColor = true;
+            menuButton.Text = "Nav bar";
+            menuButton.UseVisualStyleBackColor = false;
             menuButton.Click += menuButton_Click;
             // 
             // sidebarTimer
@@ -174,19 +164,15 @@
             ClientSize = new Size(1329, 750);
             Controls.Add(sidebar);
             Controls.Add(MainPanel);
-            Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.SizableToolWindow;
             Name = "MainMenu";
             Text = "MainMenu";
             Load += MainMenu_Load;
             sidebar.ResumeLayout(false);
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
-
-        private Label label1;
         private Panel MainPanel;
         private Button Exit;
         private Button viewOrder;

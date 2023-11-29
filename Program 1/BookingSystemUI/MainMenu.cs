@@ -17,6 +17,8 @@ namespace BookingSystemUI
         public MainMenu()
         {
             InitializeComponent();
+
+            this.WindowState = FormWindowState.Maximized;
         }
 
 
