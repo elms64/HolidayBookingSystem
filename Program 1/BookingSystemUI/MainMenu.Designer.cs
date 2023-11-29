@@ -28,146 +28,158 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             label1 = new Label();
             MainPanel = new Panel();
             Exit = new Button();
-            Startbooking = new Button();
-            HotelBooking = new Button();
-            CarBooking = new Button();
-            InsuranceBooking = new Button();
-            Basket = new Button();
+            viewOrder = new Button();
             Mainbutton = new Button();
             btnBookingInit = new Button();
+            sidebar = new FlowLayoutPanel();
+            menuButton = new Button();
+            sidebarTimer = new System.Windows.Forms.Timer(components);
+            sidebar.SuspendLayout();
             SuspendLayout();
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Emoji", 18F, FontStyle.Bold, GraphicsUnit.Point);
-            label1.Location = new Point(563, 7);
+            label1.Location = new Point(669, 21);
             label1.Name = "label1";
-            label1.Size = new Size(250, 40);
+            label1.Size = new Size(206, 32);
             label1.TabIndex = 0;
             label1.Text = "Scuffed holidays";
             // 
             // MainPanel
             // 
             MainPanel.Anchor = AnchorStyles.Top;
-            MainPanel.Location = new Point(162, 53);
-            MainPanel.Margin = new Padding(3, 4, 3, 4);
+            MainPanel.Location = new Point(256, 81);
             MainPanel.Name = "MainPanel";
-            MainPanel.Size = new Size(1200, 867);
+            MainPanel.Size = new Size(1050, 650);
             MainPanel.TabIndex = 1;
             // 
             // Exit
             // 
-            Exit.Location = new Point(14, 864);
-            Exit.Margin = new Padding(3, 4, 3, 4);
+            Exit.FlatAppearance.BorderSize = 0;
+            Exit.FlatStyle = FlatStyle.Flat;
+            Exit.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
+            Exit.ForeColor = Color.FromArgb(0, 126, 249);
+            Exit.Image = Properties.Resources.Exit;
+            Exit.ImageAlign = ContentAlignment.MiddleLeft;
+            Exit.Location = new Point(3, 315);
             Exit.Name = "Exit";
-            Exit.Size = new Size(133, 111);
+            Exit.Padding = new Padding(15, 0, 0, 0);
+            Exit.Size = new Size(225, 72);
             Exit.TabIndex = 2;
-            Exit.Text = "Quit application";
+            Exit.Text = "    Quit App";
             Exit.UseVisualStyleBackColor = true;
             Exit.Click += Exit_Click;
             // 
-            // Startbooking
+            // viewOrder
             // 
-            Startbooking.Location = new Point(14, 152);
-            Startbooking.Margin = new Padding(3, 4, 3, 4);
-            Startbooking.Name = "Startbooking";
-            Startbooking.Size = new Size(133, 111);
-            Startbooking.TabIndex = 0;
-            Startbooking.Text = "Flight booking";
-            Startbooking.UseVisualStyleBackColor = true;
-            Startbooking.Click += Startbooking_Click;
-            // 
-            // HotelBooking
-            // 
-            HotelBooking.Location = new Point(14, 271);
-            HotelBooking.Margin = new Padding(3, 4, 3, 4);
-            HotelBooking.Name = "HotelBooking";
-            HotelBooking.Size = new Size(133, 111);
-            HotelBooking.TabIndex = 3;
-            HotelBooking.Text = "Hotel booking";
-            HotelBooking.UseVisualStyleBackColor = true;
-            HotelBooking.Click += HotelBooking_Click;
-            // 
-            // CarBooking
-            // 
-            CarBooking.Location = new Point(14, 389);
-            CarBooking.Margin = new Padding(3, 4, 3, 4);
-            CarBooking.Name = "CarBooking";
-            CarBooking.Size = new Size(133, 111);
-            CarBooking.TabIndex = 4;
-            CarBooking.Text = "Car rental";
-            CarBooking.UseVisualStyleBackColor = true;
-            CarBooking.Click += CarBooking_Click;
-            // 
-            // InsuranceBooking
-            // 
-            InsuranceBooking.Location = new Point(14, 508);
-            InsuranceBooking.Margin = new Padding(3, 4, 3, 4);
-            InsuranceBooking.Name = "InsuranceBooking";
-            InsuranceBooking.Size = new Size(133, 111);
-            InsuranceBooking.TabIndex = 5;
-            InsuranceBooking.Text = "Insurance";
-            InsuranceBooking.UseVisualStyleBackColor = true;
-            InsuranceBooking.Click += InsuranceBooking_Click;
-            // 
-            // Basket
-            // 
-            Basket.Location = new Point(14, 627);
-            Basket.Margin = new Padding(3, 4, 3, 4);
-            Basket.Name = "Basket";
-            Basket.Size = new Size(133, 111);
-            Basket.TabIndex = 6;
-            Basket.Text = "Basket";
-            Basket.UseVisualStyleBackColor = true;
-            Basket.Click += Basket_Click;
+            viewOrder.FlatAppearance.BorderSize = 0;
+            viewOrder.FlatStyle = FlatStyle.Flat;
+            viewOrder.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
+            viewOrder.ForeColor = Color.FromArgb(0, 126, 249);
+            viewOrder.Image = Properties.Resources.invoice;
+            viewOrder.ImageAlign = ContentAlignment.MiddleLeft;
+            viewOrder.Location = new Point(3, 159);
+            viewOrder.Name = "viewOrder";
+            viewOrder.Padding = new Padding(15, 0, 0, 0);
+            viewOrder.Size = new Size(225, 72);
+            viewOrder.TabIndex = 6;
+            viewOrder.Text = "         View Order";
+            viewOrder.UseVisualStyleBackColor = true;
+            viewOrder.Click += Basket_Click;
             // 
             // Mainbutton
             // 
-            Mainbutton.Location = new Point(14, 745);
-            Mainbutton.Margin = new Padding(3, 4, 3, 4);
+            Mainbutton.FlatAppearance.BorderSize = 0;
+            Mainbutton.FlatStyle = FlatStyle.Flat;
+            Mainbutton.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
+            Mainbutton.ForeColor = Color.FromArgb(0, 126, 249);
+            Mainbutton.Image = Properties.Resources.home;
+            Mainbutton.ImageAlign = ContentAlignment.MiddleLeft;
+            Mainbutton.Location = new Point(3, 237);
             Mainbutton.Name = "Mainbutton";
-            Mainbutton.Size = new Size(133, 111);
+            Mainbutton.Padding = new Padding(15, 0, 0, 0);
+            Mainbutton.Size = new Size(225, 72);
             Mainbutton.TabIndex = 7;
-            Mainbutton.Text = "Main menu";
+            Mainbutton.Text = "          Main Menu";
             Mainbutton.UseVisualStyleBackColor = true;
             Mainbutton.Click += Mainbutton_Click;
             // 
             // btnBookingInit
             // 
-            btnBookingInit.Location = new Point(14, 33);
-            btnBookingInit.Margin = new Padding(3, 4, 3, 4);
+            btnBookingInit.FlatAppearance.BorderSize = 0;
+            btnBookingInit.FlatStyle = FlatStyle.Flat;
+            btnBookingInit.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
+            btnBookingInit.ForeColor = Color.FromArgb(0, 126, 249);
+            btnBookingInit.Image = Properties.Resources.Plane;
+            btnBookingInit.ImageAlign = ContentAlignment.MiddleLeft;
+            btnBookingInit.Location = new Point(3, 81);
             btnBookingInit.Name = "btnBookingInit";
-            btnBookingInit.Size = new Size(133, 111);
+            btnBookingInit.Padding = new Padding(15, 0, 0, 0);
+            btnBookingInit.Size = new Size(225, 72);
             btnBookingInit.TabIndex = 8;
-            btnBookingInit.Text = "Booking Init";
+            btnBookingInit.Text = "          Booking Init";
             btnBookingInit.UseVisualStyleBackColor = true;
             btnBookingInit.Click += btnBookingInit_Click;
             // 
+            // sidebar
+            // 
+            sidebar.BackColor = Color.FromArgb(24, 30, 54);
+            sidebar.Controls.Add(menuButton);
+            sidebar.Controls.Add(btnBookingInit);
+            sidebar.Controls.Add(viewOrder);
+            sidebar.Controls.Add(Mainbutton);
+            sidebar.Controls.Add(Exit);
+            sidebar.Dock = DockStyle.Left;
+            sidebar.Location = new Point(0, 0);
+            sidebar.MaximumSize = new Size(228, 750);
+            sidebar.MinimumSize = new Size(78, 750);
+            sidebar.Name = "sidebar";
+            sidebar.Size = new Size(228, 750);
+            sidebar.TabIndex = 10;
+            // 
+            // menuButton
+            // 
+            menuButton.FlatAppearance.BorderSize = 0;
+            menuButton.FlatStyle = FlatStyle.Flat;
+            menuButton.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point);
+            menuButton.ForeColor = Color.FromArgb(0, 126, 249);
+            menuButton.Image = Properties.Resources.list;
+            menuButton.ImageAlign = ContentAlignment.MiddleLeft;
+            menuButton.Location = new Point(3, 3);
+            menuButton.Name = "menuButton";
+            menuButton.Padding = new Padding(15, 0, 0, 0);
+            menuButton.Size = new Size(225, 72);
+            menuButton.TabIndex = 5;
+            menuButton.Text = "  Menu";
+            menuButton.UseVisualStyleBackColor = true;
+            menuButton.Click += menuButton_Click;
+            // 
+            // sidebarTimer
+            // 
+            sidebarTimer.Interval = 10;
+            sidebarTimer.Tick += sidebarTimer_Tick;
+            // 
             // MainMenu
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoValidate = AutoValidate.EnablePreventFocusChange;
-            ClientSize = new Size(1371, 1000);
-            Controls.Add(btnBookingInit);
-            Controls.Add(Mainbutton);
-            Controls.Add(Basket);
-            Controls.Add(InsuranceBooking);
-            Controls.Add(Exit);
-            Controls.Add(CarBooking);
-            Controls.Add(HotelBooking);
+            BackColor = Color.FromArgb(46, 51, 73);
+            ClientSize = new Size(1329, 750);
+            Controls.Add(sidebar);
             Controls.Add(MainPanel);
             Controls.Add(label1);
-            Controls.Add(Startbooking);
             FormBorderStyle = FormBorderStyle.SizableToolWindow;
-            Margin = new Padding(3, 4, 3, 4);
             Name = "MainMenu";
             Text = "MainMenu";
             Load += MainMenu_Load;
+            sidebar.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -177,12 +189,11 @@
         private Label label1;
         private Panel MainPanel;
         private Button Exit;
-        private Button Startbooking;
-        private Button HotelBooking;
-        private Button CarBooking;
-        private Button InsuranceBooking;
-        private Button Basket;
+        private Button viewOrder;
         private Button Mainbutton;
         private Button btnBookingInit;
+        private FlowLayoutPanel sidebar;
+        private Button menuButton;
+        private System.Windows.Forms.Timer sidebarTimer;
     }
 }

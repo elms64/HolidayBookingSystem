@@ -13,36 +13,19 @@ namespace BookingSystemUI
 {
     public partial class MainMenu : Form
     {
-
+        bool sidebarExpand;
         public MainMenu()
         {
             InitializeComponent();
         }
 
-        private void Startbooking_Click(object sender, EventArgs e)
-        {
 
-        }
 
         private void Exit_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
-        private void HotelBooking_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void CarBooking_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void InsuranceBooking_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void Basket_Click(object sender, EventArgs e)
         {
@@ -79,6 +62,33 @@ namespace BookingSystemUI
         private void MainMenu_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void sidebarTimer_Tick(object sender, EventArgs e)
+        {
+            if (sidebarExpand)
+            {
+                sidebar.Width -= 10;
+                if (sidebar.Width == sidebar.MinimumSize.Width)
+                {
+                    sidebarExpand = false;
+                    sidebarTimer.Stop();
+                }
+            }
+            else
+            {
+                sidebar.Width += 10;
+                if (sidebar.Width == sidebar.MaximumSize.Width)
+                {
+                    sidebarExpand = true;
+                    sidebarTimer.Stop();
+                }
+            }
+        }
+
+        private void menuButton_Click(object sender, EventArgs e)
+        {
+            sidebarTimer.Start();
         }
     }
 }

@@ -35,6 +35,10 @@
             // 
             // StartBooking
             // 
+            StartBooking.FlatAppearance.BorderSize = 0;
+            StartBooking.FlatStyle = FlatStyle.Flat;
+            StartBooking.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point);
+            StartBooking.ForeColor = Color.FromArgb(0, 126, 249);
             StartBooking.Location = new Point(420, 164);
             StartBooking.Name = "StartBooking";
             StartBooking.Size = new Size(315, 131);
@@ -45,6 +49,10 @@
             // 
             // ViewOrders
             // 
+            ViewOrders.FlatAppearance.BorderSize = 0;
+            ViewOrders.FlatStyle = FlatStyle.Flat;
+            ViewOrders.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point);
+            ViewOrders.ForeColor = Color.FromArgb(0, 126, 249);
             ViewOrders.Location = new Point(420, 301);
             ViewOrders.Name = "ViewOrders";
             ViewOrders.Size = new Size(315, 131);
@@ -55,6 +63,10 @@
             // 
             // ExitApp
             // 
+            ExitApp.FlatAppearance.BorderSize = 0;
+            ExitApp.FlatStyle = FlatStyle.Flat;
+            ExitApp.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point);
+            ExitApp.ForeColor = Color.FromArgb(0, 126, 249);
             ExitApp.Location = new Point(420, 438);
             ExitApp.Name = "ExitApp";
             ExitApp.Size = new Size(315, 131);
@@ -67,6 +79,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(46, 51, 73);
             ClientSize = new Size(1200, 750);
             Controls.Add(ExitApp);
             Controls.Add(ViewOrders);
