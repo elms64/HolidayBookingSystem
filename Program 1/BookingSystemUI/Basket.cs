@@ -122,6 +122,7 @@ namespace BookingSystemUI
                 else
                 {
                     Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                    // Insert SaveBatches method here possibly to trigger saving a batch process
                 }
             }
             catch (Exception ex)

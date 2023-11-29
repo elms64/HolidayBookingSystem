@@ -27,12 +27,22 @@ namespace BookingSystemUI
 
 
 
+        public class Airport
+        {
+            public int AirportID { get; set; }
+            public int CountryID { get; set; }
+            public string AirportName { get; set; }
+        }
+
         // Constructor
         // This receives the data from BookingInit.
         public Flight(string selectedCountry, DateTime selectedDepartureDate, string selectedReturnDate, string selectedOrigin, int selectedOriginID, int selectedCountryID, MainMenu mainForm)
         {
             InitializeComponent();
             this.mainForm = mainForm;
+            flwPnlFlight.AutoScroll = true;
+
+
 
             // updates the labels with given variables, mostly for debugging / outputting data to the user.
             this.selectedCountryID = selectedCountryID;
@@ -59,12 +69,19 @@ namespace BookingSystemUI
 
         }
 
+        public class AirportData
+        {
+            public int AirportName { get; set; }
+            public string AirportID { get; set; }
+        }
+
+
         private async void Flight_Load(object sender, EventArgs e)
         {
             try
             {
                 // Create a new HTTP client
-                string targetURL = ConsoleAppUrl + "/Flight";
+                string targetURL = ConsoleAppUrl + "/Flights"; // Assuming there is an endpoint for flight data
                 using (HttpClient client = new HttpClient())
                 {
                     // Add headers to the client
@@ -78,20 +95,19 @@ namespace BookingSystemUI
                     HttpResponseMessage response = await client.GetAsync(targetURL);
                     if (response.IsSuccessStatusCode)
                     {
-                        string FlightAirportJsonResponse = await response.Content.ReadAsStringAsync();
+                        string flightJsonResponse = await response.Content.ReadAsStringAsync();
+                        var airports = JsonSerializer.Deserialize<List<AirportData>>(flightJsonResponse);
+                        DisplayAirports(airports);
 
                         // Log the response data to the console for debugging
-                        Console.WriteLine($"Received response data: {FlightAirportJsonResponse}");
+                        Console.WriteLine($"Received response data: {flightJsonResponse}");
 
-                        // Display airport information in a MessageBox
-                        MessageBox.Show(FlightAirportJsonResponse, "Airport Information");
+                        // Deserialize the JSON response
 
-                        // If you need to deserialize the JSON response, uncomment the following lines
-                        // var airports = JsonSerializer.Deserialize<List<Airport>>(FlightAirportJsonResponse);
-                        // foreach (var airport in airports)
-                        // {
-                        //     // Process the received airports
-                        // }
+
+                        // Create a new panel for each origin airport
+
+
                     }
                     else
                     {
@@ -113,6 +129,38 @@ namespace BookingSystemUI
             {
                 Console.WriteLine($"An error occurred: {ex.Message}");
                 Console.WriteLine($"Error Details: {ex}");
+            }
+        }
+
+        private void DisplayAirports(List<AirportData> airports)
+        {
+            foreach (var airport in airports)
+            {
+                MessageBox.Show("Test");
+                Panel panel = new Panel();
+                panel.BorderStyle = BorderStyle.FixedSingle;
+                panel.Size = new Size(300, 60);
+
+                panel.Tag = airport.AirportID;
+
+                
+
+                Label airportNameLabel = new Label();
+                airportNameLabel.Text = "Name: " + airport.AirportName;
+                airportNameLabel.Location = new Point(10, 10);
+
+                Label airportIDLabel = new Label();
+                airportIDLabel.Text = "ID : " + airport.AirportID;
+                airportIDLabel.Location = new Point(10, 30);
+
+               
+
+                panel.Controls.Add(airportNameLabel);
+                panel.Controls.Add(airportIDLabel);
+
+                flwPnlFlight.Controls.Add(panel);
+
+
             }
         }
         private async Task SendRequest(string messageType, int value)
