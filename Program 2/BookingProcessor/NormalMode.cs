@@ -10,6 +10,8 @@ using BookingProcessor.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
+
+
 namespace BookingProcessor
 {
     public class NormalMode
@@ -91,7 +93,8 @@ namespace BookingProcessor
             {
                 var bookingContext = scope.ServiceProvider.GetRequiredService<BookingContext>();
                 byte[] buffer = Array.Empty<byte>();
-
+                
+                
                 switch (requestType)
                 {
                     // Return all Countries from Country Table.
@@ -115,6 +118,8 @@ namespace BookingProcessor
                         int originCountryID = 0;
                         int destinationCountryID = 0;
 
+                        
+
                         if (request.Headers.Get("OriginCountryID") != null && int.TryParse(request.Headers.Get("OriginCountryID"), out originCountryID))
                         {
                             Console.WriteLine($"OriginCountryID Header: {originCountryID}");
@@ -125,16 +130,26 @@ namespace BookingProcessor
                             Console.WriteLine($"DestinationCountryID Header: {destinationCountryID}");
                         }
 
+                        // Separate lists for origin and destination airports
+                        List<Airport> originAirports = bookingContext.Airport.Where(a => a.CountryID == originCountryID).ToList();
+                        List<Airport> destinationAirports = bookingContext.Airport.Where(a => a.CountryID == destinationCountryID).ToList();
+
+                        // Print the matching airports for origin
+                        foreach (var airport in originAirports)
+                        {
+                            Console.WriteLine($"Origin - AirportID: {airport.AirportID}, CountryID: {airport.CountryID}, AirportName: {airport.AirportName}");
+                        }
+
+                        // Print the matching airports for destination
+                        foreach (var airport in destinationAirports)
+                        {
+                            Console.WriteLine($"Destination - AirportID: {airport.AirportID}, CountryID: {airport.CountryID}, AirportName: {airport.AirportName}");
+                        }
+
+                       
                         // Now you have the extracted header values (originCountryID and destinationCountryID), you can use them as needed
 
-                        // Retrieve all airports in the origin country
-
-
-                        // Retrieve all airports in the destination country
-
-
-                        // Combine origin and destination airport lists
-                        // Serialize the combined list to JSON
+                        // Assuming you have a variable named "context" that represents your DbContext
 
 
                         // Print to the console before sending
