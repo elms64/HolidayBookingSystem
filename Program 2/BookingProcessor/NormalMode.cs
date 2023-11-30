@@ -91,6 +91,8 @@ namespace BookingProcessor
                 var bookingContext = scope.ServiceProvider.GetRequiredService<BookingContext>();
                 byte[] buffer = Array.Empty<byte>();
 
+                int originID;
+                int destinationID;
 
                 switch (requestType)
                 {
@@ -112,10 +114,12 @@ namespace BookingProcessor
                         if (request.Headers.Get("OriginCountryID") != null && int.TryParse(request.Headers.Get("OriginCountryID"), out originCountryID))
                         {
                             Console.WriteLine($"OriginCountryID Header: {originCountryID}");
+                            originID = originCountryID;
                         }
                         if (request.Headers.Get("DestinationCountryID") != null && int.TryParse(request.Headers.Get("DestinationCountryID"), out destinationCountryID))
                         {
                             Console.WriteLine($"DestinationCountryID Header: {destinationCountryID}");
+                            destinationID = destinationCountryID;
                         }
 
                         // Create separate lists for origin and destination airports
@@ -179,12 +183,18 @@ namespace BookingProcessor
                         string flightJsonResponse = JsonSerializer.Serialize(matchingFlights);
                         buffer = Encoding.UTF8.GetBytes(flightJsonResponse);
                         Console.WriteLine($"Matching Flight JSON Response: {flightJsonResponse}");
-                    break;
+                        break;
 
                     // !! Implement logic to return by destination country !!
                     // Return relevant Hotels from Hotel Table based on given detination information
                     case "Hotel":
-                        List<string?> hotels = await bookingContext.Hotel.Select(h => h.HotelName).ToListAsync();
+
+                        List<string?> hotels = await bookingContext.Hotel
+                        .Where(h => h.CountryID == destinationID)
+                        .Select(h => h.HotelName)
+                        .ToListAsync();
+
+                        // Serialize the result to JSON
                         string hotelJsonResponse = JsonSerializer.Serialize(hotels);
                         buffer = Encoding.UTF8.GetBytes(hotelJsonResponse);
                         break;
@@ -193,7 +203,7 @@ namespace BookingProcessor
                     // Authored by @gjepic
                     case "Vehicle":
                         var vehicle = await bookingContext.Vehicle
-                         .Select(c => new { VehicleID = c.VehicleID, VehicleType = c.VehicleType }).ToListAsync();
+                        .Select(c => new { VehicleID = c.VehicleID, VehicleType = c.VehicleType }).ToListAsync();
                         string vehicleJsonResponse = JsonSerializer.Serialize(vehicle);
                         buffer = Encoding.UTF8.GetBytes(vehicleJsonResponse);
                         break;
@@ -203,7 +213,7 @@ namespace BookingProcessor
                         List<string?> plans = await bookingContext.Insurance.Select(p => p.InsuranceType).ToListAsync();
                         string insuranceJsonResponse = JsonSerializer.Serialize(plans);
                         buffer = Encoding.UTF8.GetBytes(insuranceJsonResponse);
-                        break;
+                    break;
 
                 }
 

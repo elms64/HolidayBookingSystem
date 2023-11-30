@@ -53,66 +53,15 @@ namespace BookingSystemUI
             lblSelectedReturnDate.Text = selectedReturnDate;
             lblSelectedDepartureDate.Text = selectedDepartureDate.ToString();
 
-            //Populate hotel data.
+            // Add code for GET request. No need to send CountryID or anything - has been remembered from flight form.
+            // Populate hotel data.
+            
 
-            try
-            {
-                await SendRequest("SEARCH_HOTEL_BY_COUNTRY", this.selectedCountryID);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error occurred: {ex.Message}");
-            }
+           
 
         }
 
-        private async Task SendRequest(string messageType, int value)
-        {
-            //pass the message and the selectedCountry/OriginID
-            string message = $"{messageType}:{value}";
-
-            try
-            {
-                // Create a new HTTPclient
-                using (HttpClient client = new HttpClient())
-                {
-                    // Add headers to the client, not 100% necessary, but for a polished finish they should probably be present in all of them
-                    client.DefaultRequestHeaders.Add("CountryID", selectedCountryID.ToString());
-
-                    // Data variable has the message passed in.
-                    var data = new StringContent(message, Encoding.UTF8, "application/json");
-
-                    // Data is actually sent here.
-                    Task<HttpResponseMessage> responseTask = client.PostAsync(ConsoleAppUrl, data);
-
-                    // Use Task.WhenAny to wait for the response or a delay
-                    Task completedTask = await Task.WhenAny(responseTask, Task.Delay(TimeSpan.FromSeconds(3))); // Adjust the timeout duration as needed
-
-
-                    if (completedTask == responseTask)
-                    {
-                        // Response received within the timeout
-                        HttpResponseMessage response = await responseTask;
-
-                        // If the response is successful
-                        if (response.IsSuccessStatusCode)
-                        {
-                            // Load the received flight data to the front end.
-                            var responseData = await response.Content.ReadAsStringAsync();
-                            // TODO: Deserialize and process the responseData
-                        }
-                        else
-                        {
-                            Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
-                        }
-                    }
-                    else
-                    {
-                        // Timeout occurred, show a message
-                        MessageBox.Show($"No response received within the specified time for message: {message}");
-                    }
-                }
-            }
+        
             catch (HttpRequestException ex)
             {
                 Console.WriteLine($"HTTP Request Error: {ex.Message}");
