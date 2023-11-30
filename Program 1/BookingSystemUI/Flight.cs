@@ -175,11 +175,14 @@ namespace BookingSystemUI
         // Next you need to send us the dates, selected airport IDs. 
         // Then we'll send you flights.
 
+        // Looking at the code above, add /Flight instead of /Airport
+
         // Name the headers : 
         // selectedDepartureAirportID
         // selectedArrivalAirportID
         // selectedDepartureDate
         // selectedArrivalDate
+
 
         private void DisplayAirports(string json)
         {

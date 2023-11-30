@@ -9,9 +9,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using BookingProcessor;
 using System.Text.Json;
-{
-
-}
 
 public class SeedData
 {

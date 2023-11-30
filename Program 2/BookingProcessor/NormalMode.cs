@@ -139,37 +139,47 @@ namespace BookingProcessor
 
                     // TODO: Load specific flights from database based on selected Airport in previous case
                     case "Flight":
-
                         int selectedDepartureAirportID = 0;
                         int selectedArrivalAirportID = 0;
+                        DateTime selectedDepartureDate = DateTime.MinValue;
+                        DateTime selectedArrivalDate = DateTime.MinValue;
 
-                        // Header for selectedDepartureAirportID
+                        // Extract and parse headers
                         if (request.Headers.Get("selectedDepartureAirportID") != null && int.TryParse(request.Headers.Get("selectedDepartureAirportID"), out selectedDepartureAirportID))
                         {
                             Console.WriteLine($"selectedDepartureAirportID Header: {selectedDepartureAirportID}");
                         }
 
-                        // Header for selectedArrivalAirportID
                         if (request.Headers.Get("selectedArrivalAirportID") != null && int.TryParse(request.Headers.Get("selectedArrivalAirportID"), out selectedArrivalAirportID))
                         {
                             Console.WriteLine($"selectedArrivalAirportID Header: {selectedArrivalAirportID}");
                         }
 
-                        // Header for Selected Departure Date
-                        if (request.Headers.Get("selectedDepartureDate") != null && DateTime.TryParse(request.Headers.Get("selectedDepartureDate"), out DateTime selectedDepartureDate))
+                        if (request.Headers.Get("selectedDepartureDate") != null && DateTime.TryParse(request.Headers.Get("selectedDepartureDate"), out selectedDepartureDate))
                         {
                             Console.WriteLine($"selectedDepartureDate Header: {selectedDepartureDate}");
                         }
 
-                        // Header for Selected Arrival Date
-                        if (request.Headers.Get("selectedArrivalDate") != null && DateTime.TryParse(request.Headers.Get("selectedArrivalDate"), out DateTime selectedArrivalDate))
+                        if (request.Headers.Get("selectedArrivalDate") != null && DateTime.TryParse(request.Headers.Get("selectedArrivalDate"), out selectedArrivalDate))
                         {
                             Console.WriteLine($"selectedArrivalDate Header: {selectedArrivalDate}");
                         }
-                        List<int> flight = await bookingContext.Flight.Select(f => f.FlightID).ToListAsync();
-                        string flightJsonResponse = JsonSerializer.Serialize(flight);
+
+                        // Select flights based on matching criteria
+                        var matchingFlights = bookingContext.Flight
+                            .Where(f =>
+                                f.DepartureAirportID == selectedDepartureAirportID &&
+                                f.ArrivalAirportID == selectedArrivalAirportID &&
+                                f.DepartureDateTime == selectedDepartureDate &&
+                                f.ArrivalDateTime == selectedArrivalDate)
+                            .Select(f => f.FlightID)
+                            .ToList();
+
+                        // Serialize the matching Flight information to JSON, send and log the response
+                        string flightJsonResponse = JsonSerializer.Serialize(matchingFlights);
                         buffer = Encoding.UTF8.GetBytes(flightJsonResponse);
-                        break;
+                        Console.WriteLine($"Matching Flight JSON Response: {flightJsonResponse}");
+                    break;
 
                     // !! Implement logic to return by destination country !!
                     // Return relevant Hotels from Hotel Table based on given detination information
