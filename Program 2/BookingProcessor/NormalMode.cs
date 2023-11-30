@@ -139,6 +139,33 @@ namespace BookingProcessor
 
                     // TODO: Load specific flights from database based on selected Airport in previous case
                     case "Flight":
+
+                        int selectedDepartureAirportID = 0;
+                        int selectedArrivalAirportID = 0;
+
+                        // Header for selectedDepartureAirportID
+                        if (request.Headers.Get("selectedDepartureAirportID") != null && int.TryParse(request.Headers.Get("selectedDepartureAirportID"), out selectedDepartureAirportID))
+                        {
+                            Console.WriteLine($"selectedDepartureAirportID Header: {selectedDepartureAirportID}");
+                        }
+
+                        // Header for selectedArrivalAirportID
+                        if (request.Headers.Get("selectedArrivalAirportID") != null && int.TryParse(request.Headers.Get("selectedArrivalAirportID"), out selectedArrivalAirportID))
+                        {
+                            Console.WriteLine($"selectedArrivalAirportID Header: {selectedArrivalAirportID}");
+                        }
+
+                        // Header for Selected Departure Date
+                        if (request.Headers.Get("selectedDepartureDate") != null && DateTime.TryParse(request.Headers.Get("selectedDepartureDate"), out DateTime selectedDepartureDate))
+                        {
+                            Console.WriteLine($"selectedDepartureDate Header: {selectedDepartureDate}");
+                        }
+
+                        // Header for Selected Arrival Date
+                        if (request.Headers.Get("selectedArrivalDate") != null && DateTime.TryParse(request.Headers.Get("selectedArrivalDate"), out DateTime selectedArrivalDate))
+                        {
+                            Console.WriteLine($"selectedArrivalDate Header: {selectedArrivalDate}");
+                        }
                         List<int> flight = await bookingContext.Flight.Select(f => f.FlightID).ToListAsync();
                         string flightJsonResponse = JsonSerializer.Serialize(flight);
                         buffer = Encoding.UTF8.GetBytes(flightJsonResponse);

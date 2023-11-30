@@ -171,7 +171,15 @@ namespace BookingSystemUI
             }
         }
 
+        // Maybe make a new button or something for select airport, store as variables. 
+        // Next you need to send us the dates, selected airport IDs. 
+        // Then we'll send you flights.
 
+        // Name the headers : 
+        // selectedDepartureAirportID
+        // selectedArrivalAirportID
+        // selectedDepartureDate
+        // selectedArrivalDate
 
         private void DisplayAirports(string json)
         {
