@@ -92,7 +92,7 @@ namespace BookingProcessor
                 byte[] buffer = Array.Empty<byte>();
 
                 int originID;
-                int destinationID;
+                int destinationID = 0;
 
                 switch (requestType)
                 {

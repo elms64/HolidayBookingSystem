@@ -2,6 +2,7 @@
 
 using System;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 using BookingProcessor.Models;
 using Microsoft.EntityFrameworkCore;
@@ -37,7 +38,7 @@ namespace BookingProcessor
                             ConsoleUtils.PrintWithDotsAsync("Retrieved the following backed up transactions:", 3, 300).Wait();
 
                             // Processes batch requests
-                            ProcessBatch(batchProcessData);
+                            await ProcessBatch(batchProcessData);
                             ConsoleUtils.PrintWithDotsAsync("Batch transactions complete, switching to normal mode...", 3, 300).Wait();
                         }
                         else
@@ -47,7 +48,6 @@ namespace BookingProcessor
                         }
                     }
                 }
-
                 // Switches back to Normal Mode after processing all batch processes
                 SwitchToNormalMode();
             }
@@ -78,10 +78,25 @@ namespace BookingProcessor
         }
 
         // Deals with incoming batch transactions.
-        private static void ProcessBatch(string batchProcessData)
+        private async Task ProcessBatch(string batchProcessData)
         {
-
+            try
+            {
+                using (var scope = serviceProvider.CreateScope())
+                {
+                    var bookingContext = scope.ServiceProvider.GetRequiredService<BookingContext>();
+                    Booking newBooking = JsonSerializer.Deserialize<Booking>(batchProcessData);
+                    newBooking.OrderNumber = 0;
+                    bookingContext.Booking.Add(newBooking);
+                    await bookingContext.SaveChangesAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred creating scope or obtaining BookingContext: {ex.Message}");
+            }
         }
+
 
         // Switches the mode of operation to normal mode. 
         private void SwitchToNormalMode()
