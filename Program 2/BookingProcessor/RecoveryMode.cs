@@ -54,7 +54,7 @@ namespace BookingProcessor
             catch (Exception ex)
             {
                 Console.WriteLine($"An error occurred in Recovery Mode: {ex.Message}");
-                ConsoleUtils.PrintWithDotsAsync("Switching to normal mode", 4, 300).Wait();
+                ConsoleUtils.PrintWithDotsAsync("Switching to normal mode", 3, 300).Wait();
             }
         }
 

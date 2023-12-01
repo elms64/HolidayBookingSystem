@@ -15,7 +15,7 @@ namespace BookingProcessor
             for (int i = 0; i < dotCount; i++)
             {
                 Console.Write(".");
-                await Task.Delay(1000);
+                await Task.Delay(800);
             }
 
             Console.WriteLine();

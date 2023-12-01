@@ -125,7 +125,7 @@ namespace BookingSystemUI
 
                     // If request was unsuccessful then it will be saved into batch transactions
                     SaveBatches svbtch = new SaveBatches();
-                    svbtch.SaveBatchProcess(jsonPayload);
+                    svbtch.SaveBatchProcess(jsonPayload, guid);
                 }
             }
             catch (Exception ex)

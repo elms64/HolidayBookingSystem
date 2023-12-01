@@ -18,6 +18,8 @@ namespace BookingProcessor
         /* Define the URL and port number to listen for HTTP requests. 
         Default configuration is any available local IP on port 8080. */
         private readonly string url = "http://+:8080/";
+
+        public event Action OnRestartRequested;
         private readonly IServiceProvider serviceProvider;
         public NormalMode(IServiceProvider serviceProvider)
         {
@@ -27,63 +29,84 @@ namespace BookingProcessor
         // Main operating method, listens for HTTP requests and processes them accordingly.
         public async Task Run()
         {
-            ConsoleUtils.PrintWithDotsAsync("Normal mode initializing", 4, 500).Wait();
+            ConsoleUtils.PrintWithDotsAsync("Normal mode initializing", 3, 500).Wait();
             await Task.Delay(100);
 
-            using (HttpListener listener = new HttpListener())
+            // Allows user to press ESC to exit the application and restart. 
+            using (var cts = new CancellationTokenSource())
             {
-                listener.Prefixes.Add(url);
-                listener.Start();
-                Console.WriteLine("Connection open");
-                await Task.Delay(1500);
-                Console.WriteLine($"Listening for requests on {url}");
+                Console.WriteLine("Press ESC to exit.");
 
-                while (true)
+                _ = Task.Run(() =>
                 {
-                    // Logs any incoming requests and responses in the console
-                    HttpListenerContext context = listener.GetContext();
-                    HttpListenerRequest request = context.Request;
-                    HttpListenerResponse response = context.Response;
-                    Console.WriteLine($"Received request from {request.RemoteEndPoint}.");
-                    Console.WriteLine($"Request URL: {request.Url}");
-                    Console.WriteLine($"HTTP Method: {request.HttpMethod}");
-
-                    // Extract request type from the URL
-                    string requestType = ExtractRequestType(request.Url);
-
-                    // Decide how to process requests based on the HTTP method. 
-                    if (request.HttpMethod == "GET")
+                    while (!cts.Token.IsCancellationRequested)
                     {
-                        await HandleGetRequest(request, response, requestType);
+                        if (Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Escape)
+                        {
+                            OnRestartRequested?.Invoke();
+                            cts.Cancel();
+                        }
                     }
-                    else if (request.HttpMethod == "PUT")
-                    {
-                        await HandlePutRequest(request, response, requestType);
-                    }
+                });
 
-                    // Any other request types e.g POST will be denied.
-                    else
-                    {
-                        string responseString = "Invalid request";
-                        byte[] buffer = Encoding.UTF8.GetBytes(responseString);
-                        response.ContentLength64 = buffer.Length;
-                        response.OutputStream.Write(buffer, 0, buffer.Length);
-                        response.Close();
-                    }
+                // Opens HTTP listener and awaits requests.
+                using (HttpListener listener = new HttpListener())
+                {
+                    listener.Prefixes.Add(url);
+                    listener.Start();
+                    Console.WriteLine("Connection open");
+                    await Task.Delay(1500);
+                    Console.WriteLine($"Listening for requests on {url}");
 
-                    Console.WriteLine("Response sent.");
+                    while (true)
+                    {
+                        // Logs any incoming requests and responses in the console.
+                        HttpListenerContext context = listener.GetContext();
+                        HttpListenerRequest request = context.Request;
+                        HttpListenerResponse response = context.Response;
+                        Console.WriteLine($"Received request from {request.RemoteEndPoint}.");
+                        Console.WriteLine($"Request URL: {request.Url}");
+                        Console.WriteLine($"HTTP Method: {request.HttpMethod}");
+
+                        // Extract request type from the URL.
+                        string requestType = ExtractRequestType(request.Url);
+
+                        // Decide how to process requests based on the HTTP method. 
+                        if (request.HttpMethod == "GET")
+                        {
+                            await HandleGetRequest(request, response, requestType);
+                        }
+                        else if (request.HttpMethod == "PUT")
+                        {
+                            await HandlePutRequest(request, response, requestType);
+                        }
+
+                        // Any other request types e.g POST will be denied.
+                        else
+                        {
+                            string responseString = "Invalid request";
+                            byte[] buffer = Encoding.UTF8.GetBytes(responseString);
+                            response.ContentLength64 = buffer.Length;
+                            response.OutputStream.Write(buffer, 0, buffer.Length);
+                            response.Close();
+                        }
+
+                        Console.WriteLine("Response sent.");
+
+                        cts.Token.WaitHandle.WaitOne();
+                    }
                 }
             }
         }
 
-        // Gets the request type based on the last part of the target URL
+        // Gets the request type based on the last part of the target URL.
         private string ExtractRequestType(Uri url)
         {
             return url.Segments.Last().TrimEnd('/');
         }
 
 
-        // How to handle incoming GET requests
+        // How to handle incoming GET requests.
         private async Task HandleGetRequest(HttpListenerRequest request, HttpListenerResponse response, string requestType)
         {
             using (var scope = serviceProvider.CreateScope())
@@ -108,7 +131,7 @@ namespace BookingProcessor
                     case "Airport":
                         string FlightAirportJsonResponse;
 
-                        // Retrieve Country information from received GET request
+                        // Retrieve Country information from received GET request.
                         int originCountryID = 0;
                         int destinationCountryID = 0;
                         if (request.Headers.Get("OriginCountryID") != null && int.TryParse(request.Headers.Get("OriginCountryID"), out originCountryID))
@@ -122,11 +145,9 @@ namespace BookingProcessor
                             destinationID = destinationCountryID;
                         }
 
-                        // Create separate lists for origin and destination airports
+                        // Create separate lists for origin and destination airports.
                         List<Airport> originAirports = bookingContext.Airport.Where(a => a.CountryID == originCountryID).ToList();
                         List<Airport> destinationAirports = bookingContext.Airport.Where(a => a.CountryID == destinationCountryID).ToList();
-
-                        // Print the matching airports for origin
 
                         // Selecting Origin and Destination flight IDs
                         var airportInfo = new
@@ -141,7 +162,7 @@ namespace BookingProcessor
                         Console.WriteLine($"Flight Airport JSON Response: {FlightAirportJsonResponse}");
                         break;
 
-                    // TODO: Load specific flights from database based on selected Airport in previous case
+                    // Loads specific flights from database based on selected Airport in previous case.
                     case "Flight":
                         int selectedDepartureAirportID = 0;
                         int selectedArrivalAirportID = 0;
@@ -169,7 +190,7 @@ namespace BookingProcessor
                             Console.WriteLine($"selectedArrivalDate Header: {selectedArrivalDate}");
                         }
 
-                        // Select flights based on matching criteria
+                        // Selects flights based on matching criteria.
                         var matchingFlights = bookingContext.Flight
                             .Where(f =>
                                 f.DepartureAirportID == selectedDepartureAirportID &&
@@ -179,14 +200,13 @@ namespace BookingProcessor
                             .Select(f => f.FlightID)
                             .ToList();
 
-                        // Serialize the matching Flight information to JSON, send and log the response
+                        // Serialize the matching Flight information to JSON, sends and logs the response.
                         string flightJsonResponse = JsonSerializer.Serialize(matchingFlights);
                         buffer = Encoding.UTF8.GetBytes(flightJsonResponse);
                         Console.WriteLine($"Matching Flight JSON Response: {flightJsonResponse}");
                         break;
 
-                    // !! Implement logic to return by destination country !!
-                    // Return relevant Hotels from Hotel Table based on given detination information
+                    // Return relevant Hotels from Hotel Table based on given destination information.
                     case "Hotel":
 
                         List<string?> hotels = await bookingContext.Hotel
@@ -194,7 +214,7 @@ namespace BookingProcessor
                         .Select(h => h.HotelName)
                         .ToListAsync();
 
-                        // Serialize the result to JSON
+                        // Serialize the result to JSON.
                         string hotelJsonResponse = JsonSerializer.Serialize(hotels);
                         buffer = Encoding.UTF8.GetBytes(hotelJsonResponse);
                         break;
@@ -213,7 +233,7 @@ namespace BookingProcessor
                         List<string?> plans = await bookingContext.Insurance.Select(p => p.InsuranceType).ToListAsync();
                         string insuranceJsonResponse = JsonSerializer.Serialize(plans);
                         buffer = Encoding.UTF8.GetBytes(insuranceJsonResponse);
-                    break;
+                        break;
 
                 }
 
@@ -281,14 +301,14 @@ namespace BookingProcessor
                         return Encoding.UTF8.GetBytes("This booking already exists, please do not retry transaction.");
                     }
 
-                    // If the transaction does not already exist, upload to the database/
+                    // If the transaction does not already exist, upload it to the database.
                     else
                     {
                         newBooking.OrderNumber = 0;
                         bookingContext.Booking.Add(newBooking);
                         await bookingContext.SaveChangesAsync();
 
-                        // Return booking information and order number to the client
+                        // Returns booking information and order number to the client.
                         newBooking.OrderNumber = newBooking.OrderNumber;
                         string jsonResponse = JsonSerializer.Serialize(newBooking);
                         byte[] buffer = Encoding.UTF8.GetBytes(jsonResponse);

@@ -9,36 +9,35 @@ namespace BookingSystemUI
 {
     public class SaveBatches
     {
-        public async Task SaveBatchProcess(string message)
+        public async Task SaveBatchProcess(string message, Guid guid)
         {
             MessageBox.Show(message);
             try
             {
-                MessageBox.Show("1");
-                string folderPath = Path.Combine(Environment.CurrentDirectory, "Program 1", "Batch-Requests");
+                // MessageBox.Show("1");
+                string folderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "BatchRequests");
                 if (!Directory.Exists(folderPath))
                 {
                     Directory.CreateDirectory(folderPath);
                 }
-                MessageBox.Show("2");
-                // Generate a unique filename using a GUID
-                string fileName = $"Request_{Guid.NewGuid()}.json";
+                // MessageBox.Show("2");
+                string fileName = guid;
 
                 // Combine the folder path and filename to get the full file path
                 string filePath = Path.Combine(folderPath, fileName);
 
-                MessageBox.Show("3");
+                // MessageBox.Show("3");
                 // Check if the file already exists (unlikely due to unique filename)
                 if (!File.Exists(filePath))
                 {
                     // Write the HTTP message to the JSON file asynchronously
                     await File.WriteAllTextAsync(filePath, message);
-                    MessageBox.Show("4");
+                    // MessageBox.Show("4");
                     MessageBox.Show($"HTTP message saved to: {filePath}");
                 }
                 else
                 {
-                    MessageBox.Show("5");
+                    // MessageBox.Show("5");
                     Console.WriteLine($"File already exists: {filePath}");
                 }
             }

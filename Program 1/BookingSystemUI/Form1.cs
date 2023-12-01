@@ -100,6 +100,7 @@ namespace BookingSystemUI
                     // Use Task.WhenAny to wait for the response or a delay
                     Task completedTask = await Task.WhenAny(responseTask, Task.Delay(TimeSpan.FromSeconds(3))); // Adjust the timeout duration as needed
 
+                    // If whatever is meant to happens happens within 3 seconds
                     if (completedTask == responseTask)
                     {
                         // Response received within the timeout
@@ -115,14 +116,16 @@ namespace BookingSystemUI
                             Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
                         }
                     }
+
+                    // If the response / whatever is meant to happen is not done in time
                     else
                     {
                         // Timeout occurred, show a message
                         MessageBox.Show("No response received within the specified time.");
 
                         // Save the HTTP message to a JSON file
-                        SaveBatches saver = new SaveBatches();
-                        await saver.SaveBatchProcess(message);
+                        await SaveBatches.SaveBatchProcess(message);
+
                     }
                 }
             }
