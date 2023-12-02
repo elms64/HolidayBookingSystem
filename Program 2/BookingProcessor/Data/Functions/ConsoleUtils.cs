@@ -1,4 +1,6 @@
-// Authored by @elms64
+// GitHub Authors: @elms64
+
+// Prints dots sequentially in the console. Used alongside log messages to improve the overall user experience. 
 
 using System;
 using System.Threading.Tasks;
@@ -7,7 +9,7 @@ namespace BookingProcessor
 {
     public static class ConsoleUtils
     {
-        // Prints 3 dots with a console message
+        // The time delay and amount of dots can be specified when calling this method. 
         public static async Task PrintWithDotsAsync(string message, int dotCount, int delay, string additionalMessage = "")
         {
             Console.Write(message);

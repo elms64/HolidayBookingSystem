@@ -1,11 +1,17 @@
-﻿// Authored by @elms64 and @Kloakk
+﻿// GitHub authors: @elms64 and @Kloakk
+
+/* Main entry point for the Bookings Beyond Boundaries backend server system. 
+ * This program provides an introductory message to the target user (System Administrator).
+ * The program provides several commands to initiate different modes of operation: Automatic, Normal and Recovery.
+ * The program is part of a distributed system that allows office users to send booking requests and retrieve information from the database 
+ * by communicating via HTTP to this server. It is designed for a small office LAN environment and correct network IPs 
+ * will need to be configured on deployment. See the documentation for more information. */
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using BookingProcessor.Models;
 using System;
-using System.Reflection;
-using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace BookingProcessor
 {
@@ -21,18 +27,11 @@ namespace BookingProcessor
             NormalMode normalMode = new NormalMode(serviceProvider);
             var recoveryMode = new RecoveryMode(serviceProvider);
 
-            // Subscribe to the restart event
+            // Exits the program when called. 
             normalMode.OnRestartRequested += async () =>
             {
                 Console.WriteLine("Exiting the program.");
-                // Additional cleanup or preparation logic if needed
-
-                // Delay to allow cleanup (if any)
                 await Task.Delay(1000);
-
-                // Restart the program
-                // var filePath = "Program 2/BookingProcessor/Program.cs";
-                // Process.Start(filePath);
                 Environment.Exit(0);
             };
 
@@ -76,26 +75,27 @@ namespace BookingProcessor
                 Console.WriteLine("**************************************************");
                 Console.WriteLine("");
                 Console.WriteLine("Press Enter or type a command to continue:");
+
+                // Awaits user input.
                 string userInput = Console.ReadLine(); //@
 
-
+                // Starts automatic mode of operation, running recovery mode first. 
                 if (string.IsNullOrWhiteSpace(userInput))
                 {
-                    // Automatic transition from recovery to normal mode
                     await recoveryMode.Run();
-                    await normalMode.Run();
                 }
+
+                // Starts the program depending on the user input.
                 else
                 {
                     switch (userInput.ToLower())
                     {
                         case "recover":
-
-                            recoveryMode.Run().GetAwaiter().GetResult();
+                            await recoveryMode.Run();
                             break;
 
                         case "listen":
-                            normalMode.Run().GetAwaiter().GetResult();
+                            await normalMode.Run();
                             break;
 
                         case "exit":
@@ -104,28 +104,13 @@ namespace BookingProcessor
 
                         default:
                             Console.WriteLine("Invalid input. Please enter 'recover', 'listen', or 'exit'.");
-                            break;
+                            return;
                     }
                 }
+
+                // After recovery mode finishes, initiate normal mode automatically.
+                await normalMode.Run();
             }
         }
     }
 }
-
-
-
-
-
-/*
-    // First run in recovery mode to check if there any batch processes outstanding
-    var recoveryMode = new RecoveryMode(serviceProvider);
-    recoveryMode.Run().GetAwaiter().GetResult();
-
-    // After running in recovery mode, initiate normal mode
-    var normalMode = new NormalMode(serviceProvider);
-    normalMode.Run().GetAwaiter().GetResult();
-
-}
-}
-}
-*/

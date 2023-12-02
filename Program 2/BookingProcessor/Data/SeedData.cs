@@ -1,9 +1,10 @@
-// Authored by @Kloakk, @elms64 and @dlawlor2408
-// Initializes the database with some example data for testing
+// GitHub Authors: @Kloakk, @elms64 and @dlawlor2408
 
-// DateTime format:      YYYY MM DD  HH MM SS     
-//                      (2023,11,08, 17,26,11)
+/* Initializes the database with some example data for testing.
+ * The data structure uses the following DateTime format:      YYYY MM DD  HH MM SS     
+                                                              (2023,11,08, 17,26,11) */
 
+// System Libraries and Packages
 using BookingProcessor.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
@@ -12,8 +13,6 @@ using System.Text.Json;
 
 public class SeedData
 {
-
-
     public static void Initialize(ModelBuilder modelBuilder)
     {
         // Airline Seed Data
@@ -25,6 +24,7 @@ public class SeedData
         new Airline { AirlineID = 5, AirlineName = "Virgin Atlantic", PhoneNumber = "111-222-3333", Rating = 4.0, HQ = "Japan, Tokyo" }
         );
 
+        // @dlawlor2408
         // Airport Seed Data
         modelBuilder.Entity<Airport>().HasData(
         new Airport { AirportID = 1, CountryID = 840, AirportName = "Denver International Airport" }, //USA
@@ -56,8 +56,7 @@ public class SeedData
         new Airport { AirportID = 27, CountryID = 724, AirportName = "Palma De Mallorca Airport" } //SPAIN
         );
 
-        // Authored by @elms64
-        // ----------------------------------------------------------------------------------------------------------------
+        // @elms64
         // Booking Seed Data
         modelBuilder.Entity<Booking>().HasData(
             CreateBooking(1, 1, 826, 1, DateTime.Now, 1, 1, 1),
@@ -67,7 +66,7 @@ public class SeedData
             CreateBooking(5, 5, 826, 5, DateTime.Now, 5, 5, 5)
         );
 
-        // Method to create a Booking entity and calculate the checksum
+        // Creates a Booking entity and calculates the checksum.
         Booking CreateBooking(int orderNumber, int hotelBookingID, int countryID, int flightID, DateTime purchaseDate,
             int vehicleBookingID, int clientID, int insuranceBookingID)
         {
@@ -88,7 +87,7 @@ public class SeedData
             return booking;
         }
 
-        // Convert bookings to JSON for use with checksum calculation
+        // Converts bookings to JSON for use with checksum calculation.
         string GetBookingJson(int orderNumber, int hotelBookingID, int countryID, int flightID, DateTime purchaseDate,
             int vehicleBookingID, int clientID, int insuranceBookingID)
         {
@@ -105,8 +104,8 @@ public class SeedData
             };
             return JsonSerializer.Serialize(bookingInfo);
         }
-        // ----------------------------------------------------------------------------------------------------------------
 
+        // @Kloakk
         // Client Seed Data
         modelBuilder.Entity<Client>().HasData(
             new Client { ClientID = 1, FirstName = "John", LastName = "Doe", BirthDate = new DateTime(1990, 1, 1), Email = "john.doe@example.com", PhoneNumber = "123-456-7890" },
@@ -116,6 +115,7 @@ public class SeedData
             new Client { ClientID = 5, FirstName = "Eva", LastName = "Williams", BirthDate = new DateTime(1988, 11, 5), Email = "eva.williams@example.com", PhoneNumber = "111-222-3333" }
         );
 
+        // @dlawlor2408
         // Flight Seed Data
         modelBuilder.Entity<Flight>().HasData(
             new Flight
@@ -313,6 +313,7 @@ public class SeedData
 
         );
 
+        // @dlawlor2408
         // Hotel Seed Data
         modelBuilder.Entity<Hotel>().HasData(
           new Hotel
@@ -401,7 +402,7 @@ public class SeedData
             new Insurance { InsuranceID = 5, InsuranceType = "Deluxe", PricePerDay = 30.0 }
         );
 
-
+        // @gjepic
         // Insurance Booking Seed Data
         modelBuilder.Entity<InsuranceBooking>().HasData(
             new InsuranceBooking { InsuranceBookingID = 1, InsuranceID = 1, StartDate = DateTime.Now.AddDays(7), EndDate = DateTime.Now.AddDays(14) },

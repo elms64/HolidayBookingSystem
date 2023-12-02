@@ -1,5 +1,12 @@
-// Authored by @elms64 and @Kloakk
+// GitHub authors: @elms64, @Kloakk, @dlawlor2408 and @gjepic.
 
+/* Normal mode of operation for Booking Processor. Listens to incoming HTTP requests and responds on a case by case basis.
+*  Certain events may trigger Recovery Mode.
+*  All incoming requests to this server must adhere to the expected conventions.
+*  For example, to provide airport information ensure GET requests include OriginCountryID and DestinationCountryID in the header. 
+*  Please see the software documentation for further information.  */
+
+// System Libraries and Packages
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -16,9 +23,10 @@ namespace BookingProcessor
     public class NormalMode
     {
         /* Define the URL and port number to listen for HTTP requests. 
-        Default configuration is any available local IP on port 8080. */
-        private readonly string url = "http://+:8080/";
+           Default configuration is any available local IP on port 8080. */
 
+        // Variables
+        private readonly string url = "http://+:8080/";
         public event Action OnRestartRequested;
         private readonly IServiceProvider serviceProvider;
         public NormalMode(IServiceProvider serviceProvider)
@@ -26,6 +34,7 @@ namespace BookingProcessor
             this.serviceProvider = serviceProvider;
         }
 
+        // @elms64, @Kloakk
         // Main operating method, listens for HTTP requests and processes them accordingly.
         public async Task Run()
         {
@@ -117,9 +126,11 @@ namespace BookingProcessor
                 int originID;
                 int destinationID = 0;
 
+                // To process different types of requests, different cases are defined for every use case.
                 switch (requestType)
                 {
-                    // Return all Countries from Country Table.
+                    // @Kloakk
+                    // Returns all Countries from Country Table.
                     case "Country":
                         var countries = await bookingContext.Country
                         .Select(c => new { CountryID = c.CountryID, CountryName = c.CountryName }).ToListAsync();
@@ -127,11 +138,12 @@ namespace BookingProcessor
                         buffer = Encoding.UTF8.GetBytes(countryJsonResponse);
                         break;
 
-                    // Return relevant Flights from Flight Table based on given destination and origin countries.
+                    // @Kloakk
+                    // Returns relevant Flights from Flight Table based on given destination and origin countries.
                     case "Airport":
-                        string FlightAirportJsonResponse;
+                        string AirportJsonResponse;
 
-                        // Retrieve Country information from received GET request.
+                        // Incoming HTTP request will be expected to have an OriginCountryID and DestinationCountryID in its header.
                         int originCountryID = 0;
                         int destinationCountryID = 0;
                         if (request.Headers.Get("OriginCountryID") != null && int.TryParse(request.Headers.Get("OriginCountryID"), out originCountryID))
@@ -145,23 +157,22 @@ namespace BookingProcessor
                             destinationID = destinationCountryID;
                         }
 
-                        // Create separate lists for origin and destination airports.
+                        // Create separate lists for origin and destination airports that are in the countries specified in the HTTP request. 
                         List<Airport> originAirports = bookingContext.Airport.Where(a => a.CountryID == originCountryID).ToList();
                         List<Airport> destinationAirports = bookingContext.Airport.Where(a => a.CountryID == destinationCountryID).ToList();
-
-                        // Selecting Origin and Destination flight IDs
                         var airportInfo = new
                         {
                             OriginAirports = originAirports.Select(a => new { a.AirportID, a.CountryID, a.AirportName }),
                             DestinationAirports = destinationAirports.Select(a => new { a.AirportID, a.CountryID, a.AirportName })
                         };
 
-                        // Serialize the Flight information to JSON, send and log the response
-                        FlightAirportJsonResponse = JsonSerializer.Serialize(airportInfo);
-                        buffer = Encoding.UTF8.GetBytes(FlightAirportJsonResponse);
-                        Console.WriteLine($"Flight Airport JSON Response: {FlightAirportJsonResponse}");
+                        // Serialize the new Airport information to JSON, send and log the response.
+                        AirportJsonResponse = JsonSerializer.Serialize(airportInfo);
+                        buffer = Encoding.UTF8.GetBytes(AirportJsonResponse);
+                        Console.WriteLine($"Flight Airport JSON Response: {AirportJsonResponse}");
                         break;
 
+                    // @dlawlor2408
                     // Loads specific flights from database based on selected Airport in previous case.
                     case "Flight":
                         int selectedDepartureAirportID = 0;
@@ -169,7 +180,7 @@ namespace BookingProcessor
                         DateTime selectedDepartureDate = DateTime.MinValue;
                         DateTime selectedArrivalDate = DateTime.MinValue;
 
-                        // Extract and parse headers
+                        // Extract and parse headers.
                         if (request.Headers.Get("selectedDepartureAirportID") != null && int.TryParse(request.Headers.Get("selectedDepartureAirportID"), out selectedDepartureAirportID))
                         {
                             Console.WriteLine($"selectedDepartureAirportID Header: {selectedDepartureAirportID}");
@@ -190,7 +201,7 @@ namespace BookingProcessor
                             Console.WriteLine($"selectedArrivalDate Header: {selectedArrivalDate}");
                         }
 
-                        // Selects flights based on matching criteria.
+                        // Select flights based on selected Airports for departure and arrival.
                         var matchingFlights = bookingContext.Flight
                             .Where(f =>
                                 f.DepartureAirportID == selectedDepartureAirportID &&
@@ -206,7 +217,8 @@ namespace BookingProcessor
                         Console.WriteLine($"Matching Flight JSON Response: {flightJsonResponse}");
                         break;
 
-                    // Return relevant Hotels from Hotel Table based on given destination information.
+                    // @Kloakk
+                    // Return Hotels from Hotel Table based on given destination information.
                     case "Hotel":
 
                         List<string?> hotels = await bookingContext.Hotel
@@ -219,8 +231,8 @@ namespace BookingProcessor
                         buffer = Encoding.UTF8.GetBytes(hotelJsonResponse);
                         break;
 
-                    // Return all Vehicles from Vehicle Table.
-                    // Authored by @gjepic
+                    // @gjepic
+                    // Returns all Vehicles from Vehicle Table.
                     case "Vehicle":
                         var vehicle = await bookingContext.Vehicle
                         .Select(c => new { VehicleID = c.VehicleID, VehicleType = c.VehicleType }).ToListAsync();
@@ -228,7 +240,7 @@ namespace BookingProcessor
                         buffer = Encoding.UTF8.GetBytes(vehicleJsonResponse);
                         break;
 
-                    // Return all Insurance plans from Insurance Table.
+                    // Returns all Insurance plans from Insurance Table.
                     case "Insurance":
                         List<string?> plans = await bookingContext.Insurance.Select(p => p.InsuranceType).ToListAsync();
                         string insuranceJsonResponse = JsonSerializer.Serialize(plans);
@@ -245,9 +257,8 @@ namespace BookingProcessor
         }
 
 
-        // Authored by @elms64
-        // -----------------------------------------------------------------------------------------------------------------------
-        // Handles incoming PUT requests and uploads bookings to the database
+        // @elms64
+        // Handles incoming PUT requests and uploads bookings to the database.
         public async Task HandlePutRequest(HttpListenerRequest request, HttpListenerResponse response, string requestType)
         {
             using (var scope = serviceProvider.CreateScope())
@@ -281,6 +292,7 @@ namespace BookingProcessor
             }
         }
 
+        // @elms64
         // Method for creating a database entry for a new booking, performing validation checks to avoid duplicate entries. 
         private async Task<byte[]> CreateBooking(HttpListenerRequest request, BookingContext bookingContext)
         {
@@ -291,7 +303,8 @@ namespace BookingProcessor
                 {
                     string requestBody = await reader.ReadToEndAsync();
                     Booking newBooking = JsonSerializer.Deserialize<Booking>(requestBody);
-                    // Recalculates MD5 checksum and ensures transaction has not already been processed
+
+                    // Recalculates MD5 checksum and ensures transaction has not already been processed.
                     string recalculatedChecksum = CalcMD5.CalculateMd5(requestBody);
                     bool checksumExists = await bookingContext.Booking.AnyAsync(b => b.CheckSum == recalculatedChecksum);
 
@@ -323,6 +336,7 @@ namespace BookingProcessor
             }
         }
 
+        // @elms64
         // Method to initiate recovery mode, used when an incoming process is a batch transaction.
         private void InitRecoveryMode()
         {

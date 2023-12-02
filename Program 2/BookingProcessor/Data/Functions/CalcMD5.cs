@@ -1,6 +1,7 @@
-// Authored by @elms64
-// Cryptography method for generating checksums for validation purposes. 
+// GitHub Authors: @elms64
+// Cryptography method for generating checksums for validation purposes using MD5 one way hashing.  
 
+// System Libraries and Packages
 using System.Security.Cryptography;
 using System.Text;
 
