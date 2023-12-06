@@ -63,7 +63,7 @@
             // 
             // btnNext
             // 
-            btnNext.Location = new Point(444, 557);
+            btnNext.Location = new Point(488, 552);
             btnNext.Name = "btnNext";
             btnNext.Size = new Size(103, 23);
             btnNext.TabIndex = 12;

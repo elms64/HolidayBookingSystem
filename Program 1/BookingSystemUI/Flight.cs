@@ -13,6 +13,8 @@ using static BookingSystemUI.Form1;
 
 namespace BookingSystemUI
 {
+    private
+
     public partial class Flight : Form
     {
         // Variables
@@ -90,7 +92,7 @@ namespace BookingSystemUI
             try
             {
                 // Create a new HTTP client
-                string targetURL = ConsoleAppUrl + "/Airport";
+                string targetURL = ConsoleAppUrl + "/Flight";
                 using (HttpClient client = new HttpClient())
                 {
                     // Add headers to the client
@@ -190,6 +192,8 @@ namespace BookingSystemUI
             {
                 List<AirportData> airports = JsonSerializer.Deserialize<List<AirportData>>(json);
 
+                flwPnlFlight.Controls.Clear();
+
                 if (airports != null && airports.Any())
                 {
                     foreach (var airport in airports)
@@ -223,6 +227,19 @@ namespace BookingSystemUI
             catch (JsonException ex)
             {
                 MessageBox.Show($"Error deserializing JSON: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void AirportPanel_Click(object sender, EventArgs e)
+        {
+            // This method is called when a panel (flight) is clicked
+            if (sender is Panel panel)
+            {
+                // Access the AirportID from the Tag property
+                string airportID = panel.Tag?.ToString();
+
+                // Do something with the selected flight (airport)
+                MessageBox.Show($"Flight selected: {airportID}", "Flight Selection", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
         private async Task SendRequest(string messageType, int value)

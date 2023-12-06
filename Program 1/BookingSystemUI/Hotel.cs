@@ -60,28 +60,6 @@ namespace BookingSystemUI
            
 
         }
-
-        
-            catch (HttpRequestException ex)
-            {
-                Console.WriteLine($"HTTP Request Error: {ex.Message}");
-                Console.WriteLine($"HTTP Request Error Details: {ex}");
-            }
-            catch (TaskCanceledException ex)
-            {
-                Console.WriteLine($"Task Canceled Error: {ex.Message}");
-                Console.WriteLine($"Task Canceled Error Details: {ex}");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error occurred: {ex.Message}");
-                Console.WriteLine($"Error Details: {ex}");
-            }
-        }
-
-
-
-
         private void dateTimePicker2_ValueChanged(object sender, EventArgs e)
         {
 
