@@ -41,20 +41,29 @@ namespace BookingProcessor
             ConsoleUtils.PrintWithDotsAsync("Normal mode initializing", 3, 500).Wait();
             await Task.Delay(100);
 
-            // Allows user to press ESC to exit the application and restart. 
-            using (var cts = new CancellationTokenSource())
+            CancellationTokenSource cts = new CancellationTokenSource();
+
+            // Allows the user to press ESC to exit the application and restart.
+            using (cts)
             {
                 Console.WriteLine("Press ESC to exit.");
 
-                _ = Task.Run(() =>
+                _ = Task.Run(async () =>
                 {
-                    while (!cts.Token.IsCancellationRequested)
+                    while (true)
                     {
-                        if (Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Escape)
+                        if (cts.Token.IsCancellationRequested)
                         {
                             OnRestartRequested?.Invoke();
+                            break;
+                        }
+
+                        if (Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Escape)
+                        {
                             cts.Cancel();
                         }
+
+                        await Task.Delay(100);
                     }
                 });
 
@@ -67,42 +76,61 @@ namespace BookingProcessor
                     await Task.Delay(1500);
                     Console.WriteLine($"Listening for requests on {url}");
 
-                    while (true)
+                    try
                     {
-                        // Logs any incoming requests and responses in the console.
-                        HttpListenerContext context = listener.GetContext();
-                        HttpListenerRequest request = context.Request;
-                        HttpListenerResponse response = context.Response;
-                        Console.WriteLine($"Received request from {request.RemoteEndPoint}.");
-                        Console.WriteLine($"Request URL: {request.Url}");
-                        Console.WriteLine($"HTTP Method: {request.HttpMethod}");
-
-                        // Extract request type from the URL.
-                        string requestType = ExtractRequestType(request.Url);
-
-                        // Decide how to process requests based on the HTTP method. 
-                        if (request.HttpMethod == "GET")
+                        while (true)
                         {
-                            await HandleGetRequest(request, response, requestType);
-                        }
-                        else if (request.HttpMethod == "PUT")
-                        {
-                            await HandlePutRequest(request, response, requestType);
-                        }
+                            // Check for cancellation before accepting a new request
+                            if (cts.Token.IsCancellationRequested)
+                            {
+                                break;
+                            }
 
-                        // Any other request types e.g POST will be denied.
-                        else
-                        {
-                            string responseString = "Invalid request";
-                            byte[] buffer = Encoding.UTF8.GetBytes(responseString);
-                            response.ContentLength64 = buffer.Length;
-                            response.OutputStream.Write(buffer, 0, buffer.Length);
-                            response.Close();
+                            // Asynchronously wait for an incoming request
+                            HttpListenerContext context = await listener.GetContextAsync();
+
+                            // Process the request on a separate thread
+                            _ = Task.Run(async () =>
+                            {
+                                HttpListenerRequest request = context.Request;
+                                HttpListenerResponse response = context.Response;
+                                Console.WriteLine($"Received request from {request.RemoteEndPoint}.");
+                                Console.WriteLine($"Request URL: {request.Url}");
+                                Console.WriteLine($"HTTP Method: {request.HttpMethod}");
+
+                                // Extract request type from the URL.
+                                string requestType = ExtractRequestType(request.Url);
+
+                                // Decide how to process requests based on the HTTP method. 
+                                if (request.HttpMethod == "GET")
+                                {
+                                    await HandleGetRequest(request, response, requestType);
+                                }
+                                else if (request.HttpMethod == "PUT")
+                                {
+                                    await HandlePutRequest(request, response, requestType);
+                                }
+                                // Any other request types e.g POST will be denied.
+                                else
+                                {
+                                    string responseString = "Invalid request";
+                                    byte[] buffer = Encoding.UTF8.GetBytes(responseString);
+                                    response.ContentLength64 = buffer.Length;
+                                    response.OutputStream.Write(buffer, 0, buffer.Length);
+                                    response.Close();
+                                }
+
+                                Console.WriteLine("Response sent.");
+                            });
                         }
-
-                        Console.WriteLine("Response sent.");
-
-                        cts.Token.WaitHandle.WaitOne();
+                    }
+                    catch (HttpListenerException ex) when (ex.ErrorCode == 995) // 995 is the code for operation aborted
+                    {
+                        // The listener was stopped or disposed, nothing to worry about
+                    }
+                    finally
+                    {
+                        listener.Close(); // Close the listener when done
                     }
                 }
             }
@@ -172,7 +200,7 @@ namespace BookingProcessor
                         Console.WriteLine($"Flight Airport JSON Response: {AirportJsonResponse}");
                         break;
 
-                    // @dlawlor2408
+                    // @dlawlor2408 and @Kloakk
                     // Loads specific flights from database based on selected Airport in previous case.
                     case "Flight":
                         int selectedDepartureAirportID = 0;
