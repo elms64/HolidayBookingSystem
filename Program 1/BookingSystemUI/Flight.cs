@@ -92,7 +92,7 @@ namespace BookingSystemUI
             try
             {
                 // Create a new HTTP client
-                string targetURL = ConsoleAppUrl + "/Flight";
+                string targetURL = ConsoleAppUrl + "/Airport";
                 using (HttpClient client = new HttpClient())
                 {
                     // Add headers to the client
