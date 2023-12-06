@@ -21,7 +21,7 @@ namespace BookingSystemUI
                     Directory.CreateDirectory(folderPath);
                 }
                 // MessageBox.Show("2");
-                string fileName = guid;
+                string fileName = guid.ToString();
 
                 // Combine the folder path and filename to get the full file path
                 string filePath = Path.Combine(folderPath, fileName);
