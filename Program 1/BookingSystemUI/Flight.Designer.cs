@@ -63,7 +63,7 @@
             // 
             // btnNext
             // 
-            btnNext.Location = new Point(488, 552);
+            btnNext.Location = new Point(492, 576);
             btnNext.Name = "btnNext";
             btnNext.Size = new Size(103, 23);
             btnNext.TabIndex = 12;
@@ -136,9 +136,10 @@
             // 
             // pnlFlight
             // 
+            pnlFlight.BackColor = SystemColors.ActiveCaption;
             pnlFlight.Location = new Point(95, 244);
             pnlFlight.Name = "pnlFlight";
-            pnlFlight.Size = new Size(850, 262);
+            pnlFlight.Size = new Size(898, 302);
             pnlFlight.TabIndex = 24;
             // 
             // Flight

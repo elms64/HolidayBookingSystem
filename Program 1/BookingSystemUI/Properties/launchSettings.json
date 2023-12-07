@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "BookingSystemUI": {
+      "commandName": "Project",
+      "commandLineArgs": "if exist \"$(TargetPath).locked\" del \"$(TargetPath).locked\"\r\nif exist \"$(TargetPath)\" if not exist \"$(TargetPath).locked\" move \"$(TargetPath)\" \"$(TargetPath).locked\""
+    }
+  }
+}

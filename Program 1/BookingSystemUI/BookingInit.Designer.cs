@@ -41,6 +41,7 @@
             comboBoxOrigin = new ComboBox();
             label2 = new Label();
             label3 = new Label();
+            btnSajan = new Button();
             SuspendLayout();
             // 
             // dateTimePickerStart
@@ -67,7 +68,6 @@
             comboBoxCountry.Name = "comboBoxCountry";
             comboBoxCountry.Size = new Size(121, 23);
             comboBoxCountry.TabIndex = 3;
-//          comboBoxCountry.SelectedIndexChanged += comboBoxCountry_SelectedIndexChanged;
             // 
             // lblCountry
             // 
@@ -112,7 +112,6 @@
             lblReturnDateUpdate.Size = new Size(145, 15);
             lblReturnDateUpdate.TabIndex = 8;
             lblReturnDateUpdate.Text = "Updated Return Date Here";
-//            lblReturnDateUpdate.Click += lblReturnDateUpdate_Click;
             // 
             // btnNext
             // 
@@ -159,12 +158,23 @@
             label3.TabIndex = 13;
             label3.Text = "just pass the variables onto the next form";
             // 
+            // btnSajan
+            // 
+            btnSajan.Location = new Point(46, 512);
+            btnSajan.Name = "btnSajan";
+            btnSajan.Size = new Size(75, 23);
+            btnSajan.TabIndex = 14;
+            btnSajan.Text = "Sajan";
+            btnSajan.UseVisualStyleBackColor = true;
+            btnSajan.Click += btnSajan_Click;
+            // 
             // BookingInit
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(1018, 572);
+            Controls.Add(btnSajan);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(lblOrigin);
@@ -201,5 +211,6 @@
         private ComboBox comboBoxOrigin;
         private Label label2;
         private Label label3;
+        private Button btnSajan;
     }
 }

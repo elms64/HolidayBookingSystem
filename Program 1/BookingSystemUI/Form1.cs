@@ -124,7 +124,7 @@ namespace BookingSystemUI
                         MessageBox.Show("No response received within the specified time.");
 
                         // Save the HTTP message to a JSON file
-                        await SaveBatches.SaveBatchProcess(message);
+                        //await SaveBatches.SaveBatchProcess(message);
 
                     }
                 }

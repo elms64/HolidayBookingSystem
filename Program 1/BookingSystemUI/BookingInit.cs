@@ -35,7 +35,7 @@ namespace BookingSystemUI
             // Load countries into where to and where from combo boxes
             try
             {
-                
+
                 string targetURL = ConsoleAppUrl + "/Country";
                 using (HttpClient client = new HttpClient())
                 {
@@ -140,6 +140,13 @@ namespace BookingSystemUI
                     name = parts[1].Trim();
                 }
             }
+        }
+
+        private void btnSajan_Click(object sender, EventArgs e)
+        {
+            Form1 form1 = new Form1();
+            form1.Show();
+            this.Hide();
         }
     }
 }

@@ -13,7 +13,6 @@ using static BookingSystemUI.Form1;
 
 namespace BookingSystemUI
 {
-    private
 
     public partial class Flight : Form
     {
@@ -84,7 +83,31 @@ namespace BookingSystemUI
         }
 
 
+        private void Panel_Click(object sender, EventArgs e) //Sajan This will make the panel clickable.
+        {
+            // This will handle the panel click event
+            Panel clickedPanel = sender as Panel;
+            if (clickedPanel != null)
+            {
+                // Extract information or perform actions based on the clicked panel
+                // For example, you can access the label text as follows:
+                Label label = clickedPanel.Controls.OfType<Label>().FirstOrDefault();
 
+                //pnlFlight.Controls.Remove(clickedPanel); //This code here will only remove the clicked panels, not really useful ATM.
+                ClearPanels(); //This will clear the whole panel
+
+                if (label != null)
+                {
+                    string airportInfo = label.Text;
+                    MessageBox.Show($"Panel clicked!\n{airportInfo}");
+                }
+            }
+        }
+        private void ClearPanels() 
+        {
+            // Clear all panels from pnlFlight
+            pnlFlight.Controls.Clear();
+        }
 
 
         private async void Flight_Load(object sender, EventArgs e)
@@ -116,7 +139,7 @@ namespace BookingSystemUI
 
                         // Clear existing controls in pnlFlight if needed
                         pnlFlight.Controls.Clear();
-
+                        
                         int yOffset = 0;
 
                         // Create a new panel for each origin airport
@@ -128,6 +151,9 @@ namespace BookingSystemUI
                             Panel panel = new Panel();
                             panel.BorderStyle = BorderStyle.FixedSingle;
                             panel.Size = new Size(850, 100);
+                            panel.BackColor = Color.White; //Sajan Test
+                            panel.Enabled = true; //Sajan Test
+
 
                             // Create a label to display airport information
                             Label label = new Label();
@@ -139,6 +165,8 @@ namespace BookingSystemUI
 
                             // Add the label to the panel
                             panel.Controls.Add(label);
+
+                            panel.Click += Panel_Click;//allows the panel to be clicked
 
                             // Add the panel to pnlFlight
                             pnlFlight.Controls.Add(panel);
@@ -185,7 +213,7 @@ namespace BookingSystemUI
         // selectedDepartureDate
         // selectedArrivalDate
 
-
+       
         private void DisplayAirports(string json)
         {
             try
@@ -201,17 +229,35 @@ namespace BookingSystemUI
                         MessageBox.Show("Test");
                         Panel panel = new Panel();
                         panel.BorderStyle = BorderStyle.FixedSingle;
-                        panel.Size = new Size(300, 60);
+                                               
 
                         panel.Tag = airport.AirportID;
 
+                       /* // Set properties for interactivity
+                        panel.Enabled = true; //Sajan Test
+                        panel.Cursor = Cursors.Hand; //Sajan Test
+
+                        Click event to select the panel
+                        panel.Click += AirportPanel_Click;//Sajan Test*/
+                       
                         Label airportNameLabel = new Label();
                         airportNameLabel.Text = "Name: " + airport.AirportName;
                         airportNameLabel.Location = new Point(10, 10);
 
+                        airportNameLabel.Enabled = true; //Sajan
+                        airportNameLabel.Cursor = Cursors.Hand; //Sajan
+                                               
                         Label airportIDLabel = new Label();
                         airportIDLabel.Text = "ID : " + airport.AirportID;
                         airportIDLabel.Location = new Point(10, 30);
+
+                        // Add MouseClick event to labels to trigger the click event of the panel
+                        // airportNameLabel.MouseClick += (s, e) => AirportPanel_Click(panel, e); //Sajan Test
+                        // airportNameLabel.MouseClick += (s, e) => AirportPanel_Click(panel, e); //Sajan Test
+
+                        
+                        
+                        
 
                         panel.Controls.Add(airportNameLabel);
                         panel.Controls.Add(airportIDLabel);
@@ -230,7 +276,8 @@ namespace BookingSystemUI
             }
         }
 
-        private void AirportPanel_Click(object sender, EventArgs e)
+       /* Delete later if sure we dont need it, left it for now
+        private void AirportPanel_Click(object sender, EventArgs e) //Bogdan Test
         {
             // This method is called when a panel (flight) is clicked
             if (sender is Panel panel)
@@ -242,6 +289,57 @@ namespace BookingSystemUI
                 MessageBox.Show($"Flight selected: {airportID}", "Flight Selection", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
+        
+        // Common event handler for panel click
+        private void Panel_Click(object sender, EventArgs e) //Sajan Test
+        {
+            // Get the clicked panel
+            Panel clickedPanel = sender as Panel;
+
+            // Get the AirportID from the Tag property
+            int airportID = (int)clickedPanel.Tag;
+
+            // Now you can use the airportID as needed
+            MessageBox.Show($"Panel with AirportID {airportID} clicked!");
+        }
+
+        private void Label_Click(object sender, EventArgs e)
+        {
+            // Get the clicked label
+            Label clickedLabel = sender as Label;
+
+            // Now you can use the label's properties or perform other actions
+            MessageBox.Show($"Label with text '{clickedLabel.Text}' clicked!");
+        }
+        private void Panel_MouseEnter(object sender, EventArgs e) //Sajan Test
+        {
+            Panel enteredPanel = sender as Panel;
+            enteredPanel.BackColor = Color.LightGray; // Change color when mouse enters
+        }
+
+        private void Panel_MouseLeave(object sender, EventArgs e) //Sajan Test
+        {
+            Panel leftPanel = sender as Panel;
+            leftPanel.BackColor = SystemColors.Control; // Change back to default color when mouse leaves
+        }
+        private void Label_Click(object sender, EventArgs e) //Sajan Test
+        {
+            // Handle label click event
+            Label clickedLabel = sender as Label;
+
+            // Access the text of the clicked label
+            string labelText = clickedLabel.Text;
+
+            // Access the corresponding panel if needed
+            Panel parentPanel = clickedLabel.Parent as Panel;
+
+            // Access the AirportID from the panel's Tag property
+            int airportID = (int)parentPanel.Tag;
+
+            // Now you can use the labelText, airportID, or perform other actions
+            MessageBox.Show($"Label with text '{labelText}' in panel with AirportID {airportID} clicked!");
+        }*/
+
         private async Task SendRequest(string messageType, int value)
         {
 
