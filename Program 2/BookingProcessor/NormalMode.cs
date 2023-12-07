@@ -281,17 +281,17 @@ namespace BookingProcessor
                     case "Insurance":
 
                         var Insurance = await bookingContext.Insurance
-                        .Select(i => new { InsuranceID = i.InsuranceID, InsuranceName = i.InsuranceType}).ToListAsync();
+                        .Select(i => new { InsuranceID = i.InsuranceID, InsuranceName = i.InsuranceType }).ToListAsync();
                         string insuranceJsonResponse = JsonSerializer.Serialize(Insurance);
                         buffer = Encoding.UTF8.GetBytes(insuranceJsonResponse);
                         Console.WriteLine(insuranceJsonResponse);
-                    break;
-                       
-                       /* List<string?> plans = await bookingContext.Insurance.Select(p => p.InsuranceType).ToListAsync();
-                        string insuranceJsonResponse = JsonSerializer.Serialize(plans);
-                        buffer = Encoding.UTF8.GetBytes(insuranceJsonResponse);
-                        Console.WriteLine($"Insurance Response Response: {insuranceJsonResponse}");*/
-                        
+                        break;
+
+                    /* List<string?> plans = await bookingContext.Insurance.Select(p => p.InsuranceType).ToListAsync();
+                     string insuranceJsonResponse = JsonSerializer.Serialize(plans);
+                     buffer = Encoding.UTF8.GetBytes(insuranceJsonResponse);
+                     Console.WriteLine($"Insurance Response Response: {insuranceJsonResponse}");*/
+
 
                     case "Room":
                         if (request.Headers.Get("room") != null && int.TryParse(request.Headers.Get("room"), out returnedRoomID))
@@ -300,7 +300,7 @@ namespace BookingProcessor
                         }
 
                         var matchingRooms = bookingContext.Room
-                            .Where(h => h.HotelID == returnedRoomID)  // Filter based on HotelID instead of RoomID
+                           
                             .Select(h => new { RoomID = h.RoomID, HotelID = h.HotelID, RoomType = h.RoomType, PricePerNight = h.PricePerNight })
                             .ToList();
 

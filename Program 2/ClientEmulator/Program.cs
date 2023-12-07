@@ -322,7 +322,6 @@ namespace ClientEmulator
                 string targetURL = ConsoleAppUrl + "/Insurance";
                 using (HttpClient client = new HttpClient())
                 {
-
                     Console.WriteLine($"Sending request to: {targetURL}");
 
                     HttpResponseMessage response = await client.GetAsync(targetURL);
@@ -330,14 +329,12 @@ namespace ClientEmulator
                     if (response.IsSuccessStatusCode)
                     {
                         string insuranceJsonResponse = await response.Content.ReadAsStringAsync();
-                        var insuranceTypes = JsonSerializer.Deserialize<List<string>>(insuranceJsonResponse);
+                        var insuranceList = JsonSerializer.Deserialize<List<Insurance>>(insuranceJsonResponse);
 
-                        foreach (var insuranceType in insuranceTypes)
+                        foreach (var insurance in insuranceList)
                         {
-                            Console.WriteLine($"Insurance Type: {insuranceType}");
+                            Console.WriteLine($"Insurance ID: {insurance.InsuranceID}, Insurance Type: {insurance.InsuranceName}");
                         }
-
-
                     }
                     else
                     {
@@ -361,21 +358,57 @@ namespace ClientEmulator
 
         private static async Task ReturnAvailableCars()
         {
+            try
+            {
+                string targetURL = ConsoleAppUrl + "/Vehicle";
+                using (HttpClient client = new HttpClient())
+                {
+                    Console.WriteLine($"Sending request to: {targetURL}");
 
+                    HttpResponseMessage response = await client.GetAsync(targetURL);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string vehicleJsonResponse = await response.Content.ReadAsStringAsync();
+                        var vehicleList = JsonSerializer.Deserialize<List<Vehicle>>(vehicleJsonResponse);
+
+                        foreach (var vehicle in vehicleList)
+                        {
+                            Console.WriteLine($"Vehicle ID: {vehicle.VehicleID}, Vehicle Type: {vehicle.VehicleType}");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Error: {response.StatusCode}");
+                    }
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                Console.WriteLine($"HTTP Request Error: {ex.Message}");
+            }
+            catch (TaskCanceledException ex)
+            {
+                Console.WriteLine($"Task Canceled Error: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
         }
 
         private static async Task ProcessBooking()
         {
-            // Allow the DB to auto increment order number
-            newBooking!.OrderNumber = 0;
-            bookingContext.Booking.Add(bookingData);
-            await bookingContext.SaveChangesAsync();
+            // // Allow the DB to auto increment order number
+            // newBooking!.OrderNumber = 0;
+            // bookingContext.Booking.Add(bookingData);
+            // await bookingContext.SaveChangesAsync();
 
-            // Returns booking information and order number to the client.
-            newBooking.OrderNumber = newBooking.OrderNumber;
-            string jsonResponse = JsonSerializer.Serialize(newBooking);
-            byte[] buffer = Encoding.UTF8.GetBytes(jsonResponse);
-            return buffer;
+            // // Returns booking information and order number to the client.
+            // newBooking.OrderNumber = newBooking.OrderNumber;
+            // string jsonResponse = JsonSerializer.Serialize(newBooking);
+            // byte[] buffer = Encoding.UTF8.GetBytes(jsonResponse);
+            // return buffer;
         }
 
 
