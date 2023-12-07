@@ -82,8 +82,8 @@ namespace BookingSystemUI
             public List<Airport> DestinationAirports { get; set; }
         }
 
-
-        private void Panel_Click(object sender, EventArgs e) //Sajan This will make the panel clickable.
+        //This will make the panel clickable.
+        private void Panel_Click(object sender, EventArgs e) 
         {
             // This will handle the panel click event
             Panel clickedPanel = sender as Panel;
