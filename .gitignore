@@ -21,8 +21,4 @@ Program 1/BookingSystemUI/obj
 Program 2/BookingProcessor/Data/booking_data.db-shm
 Program 2/BookingProcessor/Data/booking_data.db-wal
 
-# Ignore Client Emulator for now
-Program 2/ClientEmulator
-Program 2/ClientEmulator/Program.cs
-Program 2/ClientEmulator/ClientEmulator.sln
-Program 2/ClientEmulator/ClientEmulator.csproj
+

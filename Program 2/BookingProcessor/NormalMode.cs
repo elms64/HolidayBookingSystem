@@ -50,7 +50,7 @@ namespace BookingProcessor
 
                 _ = Task.Run(async () =>
                 {
-                                               
+
                     while (true)
                     {
                         if (cts.Token.IsCancellationRequested)
@@ -154,6 +154,7 @@ namespace BookingProcessor
 
                 int originID;
                 int destinationID = 0;
+                int returnedRoomID = 0;
 
                 // To process different types of requests, different cases are defined for every use case.
                 switch (requestType)
@@ -220,7 +221,7 @@ namespace BookingProcessor
                             Console.WriteLine($"selectedArrivalAirportID Header: {selectedArrivalAirportID}");
                         }
 
-                        if (request.Headers.Get("selectedDepartureDate") != null && DateTime.TryParse(request.Headers.Get("selectedDepartureDate"), out selectedDepartureDate))
+                        /*if (request.Headers.Get("selectedDepartureDate") != null && DateTime.TryParse(request.Headers.Get("selectedDepartureDate"), out selectedDepartureDate))
                         {
                             Console.WriteLine($"selectedDepartureDate Header: {selectedDepartureDate}");
                         }
@@ -228,15 +229,15 @@ namespace BookingProcessor
                         if (request.Headers.Get("selectedArrivalDate") != null && DateTime.TryParse(request.Headers.Get("selectedArrivalDate"), out selectedArrivalDate))
                         {
                             Console.WriteLine($"selectedArrivalDate Header: {selectedArrivalDate}");
-                        }
+                        }*/
 
                         // Select flights based on selected Airports for departure and arrival.
                         var matchingFlights = bookingContext.Flight
                             .Where(f =>
                                 f.DepartureAirportID == selectedDepartureAirportID &&
-                                f.ArrivalAirportID == selectedArrivalAirportID &&
-                                f.DepartureDateTime == selectedDepartureDate &&
-                                f.ArrivalDateTime == selectedArrivalDate)
+                                f.ArrivalAirportID == selectedArrivalAirportID)
+                            //f.DepartureDateTime == selectedDepartureDate &&
+                            //f.ArrivalDateTime == selectedArrivalDate)
                             .Select(f => f.FlightID)
                             .ToList();
 
@@ -250,14 +251,21 @@ namespace BookingProcessor
                     // Return Hotels from Hotel Table based on given destination information.
                     case "Hotel":
 
-                        List<string?> hotels = await bookingContext.Hotel
+                        if (request.Headers.Get("destination") != null && int.TryParse(request.Headers.Get("destination"), out destinationID))
+                        {
+                            Console.WriteLine($"destination Header: {destinationID}");
+                        }
+
+
+                        var matchingHotels = bookingContext.Hotel
                         .Where(h => h.CountryID == destinationID)
-                        .Select(h => h.HotelName)
-                        .ToListAsync();
+                        .Select(h => new { HotelID = h.HotelID, HotelName = h.HotelName })
+                        .ToList();
 
                         // Serialize the result to JSON.
-                        string hotelJsonResponse = JsonSerializer.Serialize(hotels);
+                        string hotelJsonResponse = JsonSerializer.Serialize(matchingHotels);
                         buffer = Encoding.UTF8.GetBytes(hotelJsonResponse);
+                        Console.WriteLine($"Matching Hotel JSON Response: {hotelJsonResponse}");
                         break;
 
                     // @gjepic
@@ -271,9 +279,36 @@ namespace BookingProcessor
 
                     // Returns all Insurance plans from Insurance Table.
                     case "Insurance":
-                        List<string?> plans = await bookingContext.Insurance.Select(p => p.InsuranceType).ToListAsync();
-                        string insuranceJsonResponse = JsonSerializer.Serialize(plans);
+
+                        var Insurance = await bookingContext.Insurance
+                        .Select(i => new { InsuranceID = i.InsuranceID, InsuranceName = i.InsuranceType }).ToListAsync();
+                        string insuranceJsonResponse = JsonSerializer.Serialize(Insurance);
                         buffer = Encoding.UTF8.GetBytes(insuranceJsonResponse);
+                        Console.WriteLine(insuranceJsonResponse);
+                        break;
+
+                    /* List<string?> plans = await bookingContext.Insurance.Select(p => p.InsuranceType).ToListAsync();
+                     string insuranceJsonResponse = JsonSerializer.Serialize(plans);
+                     buffer = Encoding.UTF8.GetBytes(insuranceJsonResponse);
+                     Console.WriteLine($"Insurance Response Response: {insuranceJsonResponse}");*/
+
+
+                    case "Room":
+                        if (request.Headers.Get("room") != null && int.TryParse(request.Headers.Get("room"), out returnedRoomID))
+                        {
+                            Console.WriteLine($"room Header: {returnedRoomID}");
+                        }
+
+                        var matchingRooms = bookingContext.Room
+                           
+                            .Select(h => new { RoomID = h.RoomID, HotelID = h.HotelID, RoomType = h.RoomType, PricePerNight = h.PricePerNight })
+                            .ToList();
+
+                        // Serialize the result to JSON.
+                        string roomJsonResponse = JsonSerializer.Serialize(matchingRooms);
+                        buffer = Encoding.UTF8.GetBytes(roomJsonResponse);
+                        Console.WriteLine($"Matching Hotel JSON Response: {roomJsonResponse}");
+
                         break;
 
                 }

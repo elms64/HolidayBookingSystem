@@ -309,6 +309,44 @@ public class SeedData
                   DepartureDateTime = DateTime.Now.AddDays(1),
                   ArrivalDateTime = DateTime.Now.AddDays(1),
                   FlightCost = 120
+              },
+
+               new Flight
+               {
+                   FlightID = 17,
+                   DepartureAirportID = 5,//Heathrow airport
+                   ArrivalAirportID = 9, //Adolfo Suárez Madrid-Barajas Airport
+                   AirlineID = 5,
+                   BookedSeats = 70,
+                   MaxSeats = 90,
+                   DepartureDateTime = DateTime.Now.AddDays(1),
+                   ArrivalDateTime = DateTime.Now.AddDays(1),
+                   FlightCost = 120
+               },
+
+              new Flight
+              {
+                  FlightID = 18,
+                  DepartureAirportID = 5,//Heathrow airport
+                  ArrivalAirportID = 9, //Adolfo Suárez Madrid-Barajas Airport
+                  AirlineID = 5,
+                  BookedSeats = 70,
+                  MaxSeats = 90,
+                  DepartureDateTime = DateTime.Now.AddDays(2),
+                  ArrivalDateTime = DateTime.Now.AddDays(1),
+                  FlightCost = 120
+              },
+              new Flight
+              {
+                  FlightID = 19,
+                  DepartureAirportID = 5,//Heathrow airport
+                  ArrivalAirportID = 9, //Adolfo Suárez Madrid-Barajas Airport
+                  AirlineID = 5,
+                  BookedSeats = 70,
+                  MaxSeats = 90,
+                  DepartureDateTime = DateTime.Now.AddDays(3),
+                  ArrivalDateTime = DateTime.Now.AddDays(1),
+                  FlightCost = 120
               }
 
         );
@@ -319,7 +357,7 @@ public class SeedData
           new Hotel
           {
               HotelID = 1,
-              HotelName = "Example Hotel 1",
+              HotelName = "Premier Inn",
               CountryID = 826, //UK
               AddressLine1 = "123 Main St",
               AddressLine2 = "Apt 45",
@@ -332,7 +370,7 @@ public class SeedData
           new Hotel
           {
               HotelID = 2,
-              HotelName = "Example Hotel 2",
+              HotelName = "Marriott",
               CountryID = 826, //UK
               AddressLine1 = "456 Oak St",
               AddressLine2 = "Suite 22",
@@ -345,7 +383,7 @@ public class SeedData
           new Hotel
           {
               HotelID = 3,
-              HotelName = "Example Hotel 3",
+              HotelName = "Holiday Inn",
               CountryID = 826, //UK
               AddressLine1 = "789 Pine St",
               AddressLine2 = "Unit 33",
@@ -358,7 +396,7 @@ public class SeedData
           new Hotel
           {
               HotelID = 4,
-              HotelName = "Example Hotel 4",
+              HotelName = "Hilton Hotel",
               CountryID = 826, //UK
               AddressLine1 = "101 Cedar St",
               AddressLine2 = "Apt 10",
@@ -371,7 +409,7 @@ public class SeedData
           new Hotel
           {
               HotelID = 5,
-              HotelName = "Example Hotel 5",
+              HotelName = "IHG",
               CountryID = 826, //UK
               AddressLine1 = "202 Birch St",
               AddressLine2 = "Suite 5",
@@ -380,7 +418,60 @@ public class SeedData
               PhoneNumber = 5551111,
               Rating = 4.5,
               RoomCount = 55
-          }
+          },
+           new Hotel
+           {
+               HotelID = 6,
+               HotelName = "Premier Inn",
+               CountryID = 724, //UK
+               AddressLine1 = "202 Birch St",
+               AddressLine2 = "Suite 5",
+               City = "Laketown",
+               Postcode = "87654",
+               PhoneNumber = 5551111,
+               Rating = 4.5,
+               RoomCount = 55
+           },
+           new Hotel
+           {
+               HotelID = 7,
+               HotelName = "Marriott",
+               CountryID = 724, //spain
+               AddressLine1 = "456 West St",
+               AddressLine2 = "Suite 22",
+               City = "Madrid",
+               Postcode = "67890",
+               PhoneNumber = 5555678,
+               Rating = 3.5,
+               RoomCount = 40
+           },
+           new Hotel
+           {
+               HotelID = 8,
+               HotelName = "Holiday Inn",
+               CountryID = 724, //spain
+               AddressLine1 = "456 Oak St",
+               AddressLine2 = "Suite 22",
+               City = "Sevilla",
+               Postcode = "67890",
+               PhoneNumber = 5555678,
+               Rating = 3.5,
+               RoomCount = 40
+           },
+            new Hotel
+            {
+                HotelID = 9,
+                HotelName = "Marriott",
+                CountryID = 724, //spain
+                AddressLine1 = "456 Oak St",
+                AddressLine2 = "Suite 22",
+                City = "Sevilla",
+                Postcode = "67890",
+                PhoneNumber = 5555678,
+                Rating = 3.5,
+                RoomCount = 40
+            }
+
       );
 
         // Hotel Booking Seed Data
@@ -389,7 +480,24 @@ public class SeedData
            new HotelBooking { HotelBookingID = 2, HotelID = 2, RoomID = 2, CheckInDate = DateTime.Now.AddDays(10), CheckOutDate = DateTime.Now.AddDays(17) },
            new HotelBooking { HotelBookingID = 3, HotelID = 3, RoomID = 3, CheckInDate = DateTime.Now.AddDays(15), CheckOutDate = DateTime.Now.AddDays(22) },
            new HotelBooking { HotelBookingID = 4, HotelID = 4, RoomID = 4, CheckInDate = DateTime.Now.AddDays(20), CheckOutDate = DateTime.Now.AddDays(27) },
-           new HotelBooking { HotelBookingID = 5, HotelID = 5, RoomID = 5, CheckInDate = DateTime.Now.AddDays(25), CheckOutDate = DateTime.Now.AddDays(32) }
+           new HotelBooking { HotelBookingID = 5, HotelID = 5, RoomID = 5, CheckInDate = DateTime.Now.AddDays(25), CheckOutDate = DateTime.Now.AddDays(32) },
+           new HotelBooking { HotelBookingID = 6, HotelID = 6, RoomID = 6, CheckInDate = DateTime.Now.AddDays(30), CheckOutDate = DateTime.Now.AddDays(37) },
+           new HotelBooking { HotelBookingID = 7, HotelID = 6, RoomID = 7, CheckInDate = DateTime.Now.AddDays(7), CheckOutDate = DateTime.Now.AddDays(14) },
+           new HotelBooking { HotelBookingID = 8, HotelID = 6, RoomID = 8, CheckInDate = DateTime.Now.AddDays(7), CheckOutDate = DateTime.Now.AddDays(14) },
+           new HotelBooking { HotelBookingID = 9, HotelID = 6, RoomID = 9, CheckInDate = DateTime.Now.AddDays(7), CheckOutDate = DateTime.Now.AddDays(14) },
+           new HotelBooking { HotelBookingID = 10, HotelID = 7, RoomID = 10, CheckInDate = DateTime.Now.AddDays(7), CheckOutDate = DateTime.Now.AddDays(14) },
+           new HotelBooking { HotelBookingID = 11, HotelID = 7, RoomID = 11, CheckInDate = DateTime.Now.AddDays(7), CheckOutDate = DateTime.Now.AddDays(14) },
+           new HotelBooking { HotelBookingID = 12, HotelID = 7, RoomID = 12, CheckInDate = DateTime.Now.AddDays(7), CheckOutDate = DateTime.Now.AddDays(14) },
+           new HotelBooking { HotelBookingID = 13, HotelID = 7, RoomID = 13, CheckInDate = DateTime.Now.AddDays(7), CheckOutDate = DateTime.Now.AddDays(14) },
+           new HotelBooking { HotelBookingID = 14, HotelID = 8, RoomID = 14, CheckInDate = DateTime.Now.AddDays(7), CheckOutDate = DateTime.Now.AddDays(14) },
+           new HotelBooking { HotelBookingID = 15, HotelID = 8, RoomID = 15, CheckInDate = DateTime.Now.AddDays(7), CheckOutDate = DateTime.Now.AddDays(14) },
+           new HotelBooking { HotelBookingID = 16, HotelID = 8, RoomID = 16, CheckInDate = DateTime.Now.AddDays(7), CheckOutDate = DateTime.Now.AddDays(14) },
+           new HotelBooking { HotelBookingID = 17, HotelID = 8, RoomID = 17, CheckInDate = DateTime.Now.AddDays(7), CheckOutDate = DateTime.Now.AddDays(14) },
+           new HotelBooking { HotelBookingID = 18, HotelID = 9, RoomID = 18, CheckInDate = DateTime.Now.AddDays(7), CheckOutDate = DateTime.Now.AddDays(14) },
+           new HotelBooking { HotelBookingID = 19, HotelID = 9, RoomID = 19, CheckInDate = DateTime.Now.AddDays(7), CheckOutDate = DateTime.Now.AddDays(14) },
+           new HotelBooking { HotelBookingID = 20, HotelID = 9, RoomID = 20, CheckInDate = DateTime.Now.AddDays(7), CheckOutDate = DateTime.Now.AddDays(14) },
+           new HotelBooking { HotelBookingID = 21, HotelID = 9, RoomID = 21, CheckInDate = DateTime.Now.AddDays(7), CheckOutDate = DateTime.Now.AddDays(14) }
+
        );
 
 
@@ -399,7 +507,9 @@ public class SeedData
             new Insurance { InsuranceID = 2, InsuranceType = "Standard", PricePerDay = 15.75 },
             new Insurance { InsuranceID = 3, InsuranceType = "Premium", PricePerDay = 20.0 },
             new Insurance { InsuranceID = 4, InsuranceType = "Extended", PricePerDay = 25.5 },
-            new Insurance { InsuranceID = 5, InsuranceType = "Deluxe", PricePerDay = 30.0 }
+            new Insurance { InsuranceID = 5, InsuranceType = "Deluxe", PricePerDay = 30.0 },
+            new Insurance { InsuranceID = 6, InsuranceType = "Presidential", PricePerDay = 30.0 },
+            new Insurance { InsuranceID = 7, InsuranceType = "Cheddar", PricePerDay = 30000.0 }
         );
 
         // @gjepic
@@ -414,11 +524,29 @@ public class SeedData
 
         // Room Seed Data
         modelBuilder.Entity<Room>().HasData(
-            new Room { RoomID = 1, HotelID = 1, RoomType = "Standard", RoomNo = 101, PricePerNight = 100 },
-            new Room { RoomID = 2, HotelID = 2, RoomType = "Deluxe", RoomNo = 201, PricePerNight = 150 },
-            new Room { RoomID = 3, HotelID = 3, RoomType = "Suite", RoomNo = 301, PricePerNight = 200 },
-            new Room { RoomID = 4, HotelID = 4, RoomType = "Standard", RoomNo = 102, PricePerNight = 110 },
-            new Room { RoomID = 5, HotelID = 5, RoomType = "Suite", RoomNo = 202, PricePerNight = 180 }
+            new Room { RoomID = 1, HotelID = 6, RoomType = "Single", RoomNo = 101, PricePerNight = 100 },
+            new Room { RoomID = 2, HotelID = 7, RoomType = "Double", RoomNo = 201, PricePerNight = 150 },
+            new Room { RoomID = 3, HotelID = 8, RoomType = "Suite", RoomNo = 301, PricePerNight = 200 },
+            new Room { RoomID = 4, HotelID = 9, RoomType = "Double", RoomNo = 102, PricePerNight = 110 },
+            new Room { RoomID = 5, HotelID = 9, RoomType = "Suite", RoomNo = 202, PricePerNight = 180 },
+            new Room { RoomID = 6, HotelID = 6, RoomType = "Single", RoomNo = 122, PricePerNight = 180 },
+            new Room { RoomID = 7, HotelID = 6, RoomType = "Double", RoomNo = 042, PricePerNight = 180 },
+            new Room { RoomID = 8, HotelID = 6, RoomType = "Double", RoomNo = 222, PricePerNight = 180 },
+            new Room { RoomID = 9, HotelID = 6, RoomType = "Double", RoomNo = 204, PricePerNight = 180 },
+            new Room { RoomID = 10, HotelID = 7, RoomType = "Double", RoomNo = 216, PricePerNight = 180 },
+            new Room { RoomID = 11, HotelID = 7, RoomType = "Double", RoomNo = 108, PricePerNight = 180 },
+            new Room { RoomID = 12, HotelID = 7, RoomType = "Suite", RoomNo = 109, PricePerNight = 180 },
+            new Room { RoomID = 13, HotelID = 7, RoomType = "Double", RoomNo = 110, PricePerNight = 180 },
+            new Room { RoomID = 14, HotelID = 8, RoomType = "Double", RoomNo = 134, PricePerNight = 180 },
+            new Room { RoomID = 15, HotelID = 8, RoomType = "Suite", RoomNo = 142, PricePerNight = 180 },
+            new Room { RoomID = 16, HotelID = 8, RoomType = "Single", RoomNo = 172, PricePerNight = 180 },
+            new Room { RoomID = 17, HotelID = 8, RoomType = "Single", RoomNo = 222, PricePerNight = 180 },
+            new Room { RoomID = 18, HotelID = 9, RoomType = "Suite", RoomNo = 212, PricePerNight = 180 },
+            new Room { RoomID = 19, HotelID = 9, RoomType = "Double", RoomNo = 112, PricePerNight = 180 },
+            new Room { RoomID = 20, HotelID = 9, RoomType = "Double", RoomNo = 104, PricePerNight = 180 },
+            new Room { RoomID = 21, HotelID = 9, RoomType = "Suite", RoomNo = 120, PricePerNight = 180 }
+
+
         );
 
         // Vehicle Seed Data
