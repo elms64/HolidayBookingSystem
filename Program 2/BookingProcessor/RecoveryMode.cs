@@ -95,10 +95,10 @@ namespace BookingProcessor
                 using (var scope = serviceProvider.CreateScope())
                 {
                     var bookingContext = scope.ServiceProvider.GetRequiredService<BookingContext>();
-                    Booking newBooking = JsonSerializer.Deserialize<Booking>(batchProcessData);
+                    Booking? newBooking = JsonSerializer.Deserialize<Booking>(batchProcessData);
 
                     // Check if any batches with the same GUID exist.
-                    bool guidExists = await bookingContext.Booking.AnyAsync(b => b.TransactionGUID == newBooking.TransactionGUID);
+                    bool guidExists = await bookingContext.Booking.AnyAsync(b => b.TransactionGUID == newBooking!.TransactionGUID);
 
                     // Check if any batches with the same checksum exist.
                     bool checksumExists = await bookingContext.Booking.AnyAsync(b =>
@@ -115,7 +115,7 @@ namespace BookingProcessor
                     }
                     else
                     {
-                        newBooking.OrderNumber = 0;
+                        newBooking!.OrderNumber = 0;
                         bookingContext.Booking.Add(newBooking);
                         await bookingContext.SaveChangesAsync();
                     }

@@ -1,3 +1,8 @@
+// GitHub Authors: @gjepic
+
+/* Model for all expected datatypes relating to insurance booking information.
+   Setup with Entity Framework Core to interact with the database programmatically */
+
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;

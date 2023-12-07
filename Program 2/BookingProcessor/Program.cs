@@ -24,7 +24,7 @@ namespace BookingProcessor
                     options.UseSqlite("Data Source=booking_data.db"))
                 .BuildServiceProvider();
 
-            NormalMode normalMode = new NormalMode(serviceProvider);
+            NormalMode normalMode = new(serviceProvider);
             var recoveryMode = new RecoveryMode(serviceProvider);
 
             // Exits the program when called. 
@@ -59,8 +59,8 @@ namespace BookingProcessor
                 Console.WriteLine("*    Commands:                                   *");
                 Console.WriteLine("*    Type 'Recover' to initiate recovery mode.   *");
                 Console.WriteLine("*    Type 'Listen' to start normal mode.         *");
-                Console.WriteLine("*    Press Enter to boot the automatic startup.  *");
                 Console.WriteLine("*    Type 'Exit' to exit the application.        *");
+                Console.WriteLine("*    Press Enter to boot the automatic startup.  *");
                 Console.WriteLine("*                                                *");
                 Console.WriteLine("*    To boot recovery mode whilst listening,     *");
                 Console.WriteLine("*    Press ESC to exit then restart the server   *");
@@ -77,7 +77,7 @@ namespace BookingProcessor
                 Console.WriteLine("Press Enter or type a command to continue:");
 
                 // Awaits user input.
-                string userInput = Console.ReadLine(); //@
+                string? userInput = Console.ReadLine(); //@
 
                 // Starts automatic mode of operation, running recovery mode first. 
                 if (string.IsNullOrWhiteSpace(userInput))

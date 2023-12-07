@@ -27,7 +27,7 @@ namespace BookingProcessor
 
         // Variables
         private readonly string url = "http://+:8080/";
-        public event Action OnRestartRequested;
+        public event Action? OnRestartRequested;
         private readonly IServiceProvider serviceProvider;
         public NormalMode(IServiceProvider serviceProvider)
         {
@@ -50,6 +50,7 @@ namespace BookingProcessor
 
                 _ = Task.Run(async () =>
                 {
+                                               
                     while (true)
                     {
                         if (cts.Token.IsCancellationRequested)
@@ -99,7 +100,7 @@ namespace BookingProcessor
                                 Console.WriteLine($"HTTP Method: {request.HttpMethod}");
 
                                 // Extract request type from the URL.
-                                string requestType = ExtractRequestType(request.Url);
+                                string requestType = ExtractRequestType(request.Url!);
 
                                 // Decide how to process requests based on the HTTP method. 
                                 if (request.HttpMethod == "GET")
@@ -330,7 +331,7 @@ namespace BookingProcessor
                 using (var reader = new StreamReader(request.InputStream, request.ContentEncoding))
                 {
                     string requestBody = await reader.ReadToEndAsync();
-                    Booking newBooking = JsonSerializer.Deserialize<Booking>(requestBody);
+                    Booking? newBooking = JsonSerializer.Deserialize<Booking>(requestBody);
 
                     // Recalculates MD5 checksum and ensures transaction has not already been processed.
                     string recalculatedChecksum = CalcMD5.CalculateMd5(requestBody);
@@ -345,7 +346,7 @@ namespace BookingProcessor
                     // If the transaction does not already exist, upload it to the database.
                     else
                     {
-                        newBooking.OrderNumber = 0;
+                        newBooking!.OrderNumber = 0;
                         bookingContext.Booking.Add(newBooking);
                         await bookingContext.SaveChangesAsync();
 

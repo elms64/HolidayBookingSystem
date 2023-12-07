@@ -1,4 +1,4 @@
-// GitHub authors: @elms64
+// GitHub authors: @elms64 & @gjepic
 
 /* Entity Framework Database Context, defining Models to be scaffolded with a SQLite DB schema.
  * This code must be reconfigured to use other SQL database providers such as SQL Server or MySQL. */
