@@ -162,11 +162,12 @@ namespace ClientEmulator
                         string userConfirmation = Console.ReadLine()!;
                         if (userConfirmation == "continue")
                         {
-                            await SignUpClient();
-                            await HotelBooking(selectedHotelID, selectedRoom);
-                            await VehicleBooking(selectedCar);
-                            await InsuranceBooking(selectedInsurance);
-                            await ProcessBooking();
+                            int clientID = await SignUpClient();
+                            int HotelBookingID = await HotelBooking(selectedHotelID, selectedRoom);
+                            int VehicleBookingID =  await VehicleBooking(selectedCar);
+                            int InsuranceBookingID = await InsuranceBooking(selectedInsurance);
+                            await ProcessBooking(destination!, clientID.ToString(), HotelBookingID.ToString(), selectedFlightID, VehicleBookingID.ToString(), InsuranceBookingID.ToString());
+
                         }
                         else if (userConfirmation == "cancel")
                         {
@@ -417,7 +418,7 @@ namespace ClientEmulator
         }
 
         // Collects information about a new client and sends it to the server for processing, retrieving the new Client ID.
-        private static async Task SignUpClient()
+        private static async Task<int> SignUpClient()
         {
             Console.WriteLine("Enter the clients first name : ");
             string? firstName = Console.ReadLine();
@@ -468,19 +469,23 @@ namespace ClientEmulator
                     if (clientIDObj is JsonElement clientIDElement && clientIDElement.TryGetInt32(out int clientID))
                     {
                         Console.WriteLine($"Client data sent successfully! ClientID: {clientID}");
+                        return clientID;
                     }
                     else
                     {
                         Console.WriteLine("Error: Unable to parse ClientID from the response.");
+                        return -1;
                     }
                 }
                 else
                 {
                     Console.WriteLine("Error: ClientID not found in the response.");
+                    return -1;
                 }
             }
+            return -1;
         }
-        private static async Task HotelBooking(string HotelID, string RoomID)
+        private static async Task<int> HotelBooking(string HotelID, string RoomID)
         {
             string serverURL = ConsoleAppUrl + "/HotelBooking";
 
@@ -506,19 +511,23 @@ namespace ClientEmulator
                     // Extract the value from JsonElement
                     int hotelBookingID = hotelBookingIDElement.GetInt32();
                     Console.WriteLine($"Hotel booking transaction sent successfully! HotelBookingID: {hotelBookingID}");
+                    return hotelBookingID;
                 }
                 else
                 {
                     Console.WriteLine("Error: Unable to parse HotelBookingID from the response.");
+                    return -1;
                 }
             }
             else
             {
                 Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                return -1;
             }
+            
         }
 
-        private static async Task VehicleBooking(string selectedCar)
+        private static async Task<int> VehicleBooking(string selectedCar)
         {
             string serverURL = ConsoleAppUrl + "/VehicleBooking";
             // Convert the booking transaction to JSON and send a PUT request
@@ -541,19 +550,22 @@ namespace ClientEmulator
                 {
                     int VehicleBookingID = vehicleBookingIDElement.GetInt32();
                     Console.WriteLine($"Vehicle Booking transaction send successfully! VehicleBookingID: {VehicleBookingID}");
+                    return VehicleBookingID;
                 }
                 else
                 {
                     Console.WriteLine("Error : Unable to parse vehicleBookingID from the response.");
+                    return -1;
                 }
             }
             else
             {
                 Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                return -1;
             }
         }
 
-        private static async Task InsuranceBooking(string selectedInsurance)
+        private static async Task<int> InsuranceBooking(string selectedInsurance)
         {
             string serverURL = ConsoleAppUrl + "/InsuranceBooking";
             // Convert the booking transaction to JSON and send a PUT request
@@ -575,23 +587,28 @@ namespace ClientEmulator
                 {
                     int InsuranceBookingID = insuranceBookingIDElement.GetInt32();
                     Console.WriteLine($"Vehicle Booking transaction send successfully! VehicleBookingID: {InsuranceBookingID}");
+                    return InsuranceBookingID; 
                 }
                 else
                 {
-                    Console.WriteLine("Error : Unable to parse vehicleBookingID from the response.");
+                    Console.WriteLine("Error : Unable to parse insuranceBookingID from the response.");
+                    return -1;
                 }
             }
             else
             {
                 Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                return -1;
             }
 
         }
 
 
         // Processes all the booking information into a variable to be sent via HTTP.
-        private static async Task ProcessBooking()
+        private static async Task ProcessBooking(string destination, string ClientID, string HotelBookingID, string selectedFlightID, string VehiclebookingID, string InsuranceBookingID)
         {
+            Console.WriteLine("Sending Booking Data!");
+            Console.WriteLine($"Booking Data being sent : \n CountryID : {destination} \n HotelBookingID : {HotelBookingID} \n FlightID : {selectedFlightID}\n VehicleBookingID : {VehiclebookingID} \n InsuranceBookingID : {InsuranceBookingID}");
             try
             {
                 // Create a list to store key-value pairs for booking data
@@ -602,11 +619,11 @@ namespace ClientEmulator
                 bookingData.Add(new KeyValuePair<string, string>("TransactionGUID", Guid.NewGuid().ToString()));
                 bookingData.Add(new KeyValuePair<string, string>("PurchaseDate", DateTime.Now.ToString())); // Example purchase date
                 bookingData.Add(new KeyValuePair<string, string>("CountryID", destination)); // Example country ID
-                bookingData.Add(new KeyValuePair<string, string>("ClientID", returnedID)); // Example client ID
-                bookingData.Add(new KeyValuePair<string, string>("HotelBookingID", "1")); // Example hotel booking ID <-- need to make HotelBooking at runtime
+                bookingData.Add(new KeyValuePair<string, string>("ClientID", ClientID)); // Example client ID
+                bookingData.Add(new KeyValuePair<string, string>("HotelBookingID", HotelBookingID)); // Example hotel booking ID <-- need to make HotelBooking at runtime
                 bookingData.Add(new KeyValuePair<string, string>("FlightID", selectedFlightID)); // Example flight ID
-                bookingData.Add(new KeyValuePair<string, string>("VehicleBookingID", "1")); // Example vehicle booking ID <-- need to make HotelBooking at runtime
-                bookingData.Add(new KeyValuePair<string, string>("InsuranceBookingID", "1")); // Example insurance booking ID <-- need to make HotelBooking at runtime
+                bookingData.Add(new KeyValuePair<string, string>("VehicleBookingID", VehiclebookingID)); // Example vehicle booking ID <-- need to make HotelBooking at runtime
+                bookingData.Add(new KeyValuePair<string, string>("InsuranceBookingID", InsuranceBookingID)); // Example insurance booking ID <-- need to make HotelBooking at runtime
 
                 // Calculate checksum for the booking data
                 string checksum = CalculateChecksum(JsonSerializer.Serialize(bookingData));

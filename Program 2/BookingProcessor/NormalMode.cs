@@ -571,7 +571,7 @@ namespace BookingProcessor
                     
                      using (JsonDocument jsonDocument = JsonDocument.Parse(requestBody)){
                         if (jsonDocument.RootElement.EnumerateArray().Any()){
-                            string? InsuranceID = jsonDocument.RootElement.EnumerateArray().FirstOrDefault(e=>e.GetProperty("Key").GetString()=="InsuranceID").GetProperty("Value").GetString();
+                            string? InsuranceID = jsonDocument.RootElement.GetProperty("InsuranceID").GetString();
 
 
                             InsuranceBooking insuranceBooking = new InsuranceBooking{
