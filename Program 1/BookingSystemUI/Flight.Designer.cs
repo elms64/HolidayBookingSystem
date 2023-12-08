@@ -39,6 +39,8 @@
             lblOriginCountryUpdate = new Label();
             lblOriginIdDEBUG = new Label();
             pnlFlight = new Panel();
+            lbshowdeparture = new Label();
+            lbshowarrival = new Label();
             SuspendLayout();
             // 
             // label2
@@ -142,12 +144,32 @@
             pnlFlight.Size = new Size(898, 302);
             pnlFlight.TabIndex = 24;
             // 
+            // lbshowdeparture
+            // 
+            lbshowdeparture.AutoSize = true;
+            lbshowdeparture.Location = new Point(731, 172);
+            lbshowdeparture.Name = "lbshowdeparture";
+            lbshowdeparture.Size = new Size(96, 15);
+            lbshowdeparture.TabIndex = 26;
+            lbshowdeparture.Text = "lbshowdeparture";
+            // 
+            // lbshowarrival
+            // 
+            lbshowarrival.AutoSize = true;
+            lbshowarrival.Location = new Point(731, 187);
+            lbshowarrival.Name = "lbshowarrival";
+            lbshowarrival.Size = new Size(77, 15);
+            lbshowarrival.TabIndex = 27;
+            lbshowarrival.Text = "lbshowarrival";
+            // 
             // Flight
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(1034, 611);
+            Controls.Add(lbshowarrival);
+            Controls.Add(lbshowdeparture);
             Controls.Add(pnlFlight);
             Controls.Add(lblOriginIdDEBUG);
             Controls.Add(lblOriginCountryUpdate);
@@ -180,5 +202,7 @@
         private Label lblOriginIdDEBUG;
         private FlowLayoutPanel flwPnlFlight;
         private Panel pnlFlight;
+        private Label lbshowdeparture;
+        private Label lbshowarrival;
     }
 }
