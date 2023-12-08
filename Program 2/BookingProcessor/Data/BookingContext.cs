@@ -6,6 +6,7 @@
 // System Libraries and Packages
 using Microsoft.EntityFrameworkCore;
 using BookingProcessor.Data;
+using ClientEmulator.Models;
 
 namespace BookingProcessor.Models
 {
@@ -20,6 +21,8 @@ namespace BookingProcessor.Models
         public DbSet<Client> Client { get; set; }
         public DbSet<Country> Country { get; set; }
         public DbSet<Flight> Flight { get; set; }
+
+        public DbSet<FlightBooking> FlightBooking { get; set; }
         public DbSet<Hotel> Hotel { get; set; }
         public DbSet<HotelBooking> HotelBooking { get; set; }
         public DbSet<Insurance> Insurance { get; set; }

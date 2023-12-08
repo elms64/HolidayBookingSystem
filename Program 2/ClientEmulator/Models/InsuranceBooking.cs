@@ -18,6 +18,10 @@ namespace ClientEmulator.Models
         [ForeignKey("Insurance")]
         [DisplayName("Insurance ID")]
         public int InsuranceID { get; set; }
+        
+        [ForeignKey("Client")]
+        [DisplayName("Client ID")]
+        public int ClientID { get; set; }
 
         [DisplayName("Start Date")]
         public DateTime StartDate { get; set; }

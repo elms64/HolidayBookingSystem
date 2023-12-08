@@ -17,7 +17,11 @@ namespace ClientEmulator.Models
 
         [ForeignKey("Vehicle")]
         [DisplayName("Vehicle ID")]
-        public int VehicleID { get; set;  }
+        public int VehicleID { get; set; }
+
+        [ForeignKey("Client")]
+        [DisplayName("Client ID")]
+        public int ClientID { get; set; }
 
         [DisplayName("Pick Up Date")]
         public DateTime PickUpDate { get; set; }

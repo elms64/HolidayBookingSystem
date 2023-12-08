@@ -5,6 +5,7 @@
 
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ClientEmulator.Models
 {
@@ -19,6 +20,10 @@ namespace ClientEmulator.Models
         
         [DisplayName("RoomID")]
         public int RoomID { get; set; }
+
+        [ForeignKey("Client")]
+        [DisplayName("Client ID")]
+        public int ClientID { get; set; }
 
         [DisplayName("CheckInDate")]
         public DateTime CheckInDate { get; set; } 

@@ -29,7 +29,6 @@ namespace ClientEmulator.Models
 
         [DisplayName("Booked Seats")]
         public int BookedSeats { get; set; }
-        
 
         [DisplayName("Max Seats")]
         public int MaxSeats { get; set; }
