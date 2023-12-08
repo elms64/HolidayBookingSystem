@@ -145,6 +145,9 @@ namespace BookingSystemUI
 
                         // Load departure airports
                         LoadDepartureAirports(airportInfo, selectedDepartureAirportInfo);
+
+                        // Load arrival airports
+                        LoadArrivalAirports(airportInfo, selectedArrivalAirportInfo);
                     }
                     else
                     {
@@ -179,6 +182,7 @@ namespace BookingSystemUI
                 {
                     foreach (var airport in airports)
                     {
+                        MessageBox.Show("Test");
                         Panel panel = new Panel();
                         panel.BorderStyle = BorderStyle.FixedSingle;
 
@@ -276,16 +280,13 @@ namespace BookingSystemUI
         {
             try
             {
-                // Clear existing panels in pnlFlight
-                pnlFlight.Controls.Clear();
-
                 int yOffset = 0;
 
                 // Create a new panel for each destination airport
                 foreach (var destinationAirport in airportInfo.DestinationAirports)
                 {
                     // Create a new panel
-                    MessageBox.Show("UK");
+                    MessageBox.Show("Spain");
                     Panel panel = new Panel();
                     panel.BorderStyle = BorderStyle.FixedSingle;
                     panel.Size = new Size(850, 100);
@@ -344,9 +345,14 @@ namespace BookingSystemUI
                     }
                     else if (airportType == "arrival")
                     {
+                        // Deserialize the JSON response
+                        var arrivalAirportInfo = JsonSerializer.Deserialize<AirportInfo>(airportInfo);
+
                         selectedArrivalAirportInfo = airportInfo;
                         lbshowarrival.Text = selectedArrivalAirportInfo;
 
+                        // Load arrival airports when an arrival panel is clicked
+                        LoadArrivalAirports(arrivalAirportInfo, selectedArrivalAirportInfo);
                     }
                 }
             }
