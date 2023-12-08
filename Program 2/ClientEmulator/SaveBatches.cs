@@ -1,3 +1,8 @@
+// GitHub Authors: @elms64 & @Kloakk
+
+// Saves a booking transaction as a JSON file to a batch process folder
+
+/* System Libraries */
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +15,8 @@ namespace ClientEmulator
     {
         public async Task SaveBatchProcess(string message, Guid guid)
         {
-            //MessageBox.Show(message);
             try
             {
-
                 string folderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "BatchRequests");
                 if (!Directory.Exists(folderPath))
                 {
@@ -25,7 +28,6 @@ namespace ClientEmulator
                 // Combine the folder path and filename to get the full file path
                 string filePath = Path.Combine(folderPath, fileName);
 
-
                 // Check if the file already exists (unlikely due to unique filename)
                 if (!File.Exists(filePath))
                 {
@@ -36,7 +38,6 @@ namespace ClientEmulator
                 }
                 else
                 {
-
                     Console.WriteLine($"File already exists: {filePath}");
                 }
             }

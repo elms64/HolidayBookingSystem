@@ -1,6 +1,6 @@
-// GitHub Authors: @elms64, @Kloakk
+// GitHub Authors: @elms64 & @Kloakk
 
-/* Client Emulator for front end interaction testing with backend server */
+// Client Emulator for front end interaction testing with backend server 
 
 /* System Libraries */
 using System;
@@ -27,49 +27,57 @@ namespace ClientEmulator
         /* Constructor */
         static async Task Main(string[] args)
         {
-            // Check if there are any stored batch processes and send to server
+            // Check if there are any stored batch processes and send to server.
+            await ShowLoadingBar();
             await SendBatches();
 
-            // Initialize the booking process
+            // Initialize the booking process.
             await BookingInit();
 
+            // Once operations are complete, press any key to exit the application.
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
         }
 
-        /* Data Classes */
-        public class AirportInfo
+        private static async Task ShowLoadingBar()
         {
-            public List<Airport>? OriginAirports { get; set; }
-            public List<Airport>? DestinationAirports { get; set; }
-        }
-        public class FlightInfo
-        {
-            public List<Flight>? SelectedFlights { get; set; }
-        }
-        public class HotelInfo
-        {
-            public List<Hotel>? matchingHotels { get; set; }
-        }
-        public class InsuranceInfo
-        {
-            public List<Insurance>? matchingInsurance { get; set; }
+            Console.Clear();
+            for (int i = 0; i < 60; i++)
+            {
+                Console.Write("*");
+                await Task.Delay(10);
+            }
+
+            Console.Clear(); // Clear the console
+            await Task.Delay(400);
+
+            for (int i = 0; i < 60; i++)
+            {
+                Console.Write("*");
+                await Task.Delay(1);
+            }
+           
+            
+            await Task.Delay(800); // Pause for 0.4 seconds
+            Console.WriteLine("");
         }
 
         /* Methods */
+
         // Initialises the booking process based on a chosen destination, country of origin and dates which
         // are based on the current time for a 7 day holiday for testing purposes. 
         private static async Task BookingInit()
         {
             // Get destination from user input
-            // Enter 826 for UK
-            Console.WriteLine("Where From");
+            // Enter 826 for UK (due to SeedData availability)
+            // Also entering the ID as this is only a simulation of front end, and that's how it would process a selected country
+            Console.WriteLine("What Country Are You Travelling From?");
             origin = Console.ReadLine();
 
             // Get origin from user input
-            // Enter 724 for Spain
-            Console.WriteLine("Where To");
-            //CountryID in booking bit at the bottom
+            // Enter 724 for Spain (due to SeedData availability)
+            // Also entering the ID as this is only a simulation of front end, and that's how it would process a selected country
+            Console.WriteLine("What Country Are You Travelling To?");
             destination = Console.ReadLine();
 
             Console.WriteLine("Departure Date: " + DateTime.Now);
@@ -84,6 +92,8 @@ namespace ClientEmulator
         {
             try
             {
+                // !! This may benefit from being migrated to its own class eg ReturnFlights.cs !! //
+
                 /* Initiate the booking process by sending a GET request to the server with a selected country of origin
                    and a destinatin country. If communication is successful the server will reply with details of airports
                    matching the chosen countries and begin the session. */
@@ -98,50 +108,46 @@ namespace ClientEmulator
 
                     if (response.IsSuccessStatusCode)
                     {
+
                         /* Booking Stage 1: Airports, Client Signup and Flights. */
                         /* ------------------------------------------------------------------------------------------ */
 
                         // Collect the departure airport and arrival airport from the user.
                         string flightAirportJsonResponse = await response.Content.ReadAsStringAsync();
-                        var airportInfo = JsonSerializer.Deserialize<AirportInfo>(flightAirportJsonResponse);
-                        foreach (var originAirport in airportInfo!.OriginAirports!)
+                        var airportInfo = JsonSerializer.Deserialize<List<Airport>>(flightAirportJsonResponse);
+                        foreach (var originAirport in airportInfo!)
                         {
                             Console.WriteLine(originAirport.ToString());
                         }
+
                         Console.WriteLine("Enter the ID of your desired departure airport:");
                         string departureAirport = Console.ReadLine()!;
                         Console.WriteLine("\n");
-                        foreach (var destinationAirport in airportInfo!.DestinationAirports!)
-                        {
 
+                        foreach (var destinationAirport in airportInfo!)
+                        {
                             Console.WriteLine(destinationAirport.ToString());
                         }
                         Console.WriteLine("Enter the ID of your desired arrival airport:");
                         string arrivalAirport = Console.ReadLine()!;
 
                         // Return flights based on the chosen airports.
-                        //await ReturnFlights.ReturnFlightsList(departureAirport, arrivalAirport);
-
                         ReturnFlights rtnflight = new ReturnFlights();
                         await rtnflight.ReturnFlightsList(departureAirport, arrivalAirport);
 
-
-                         
                         // Choose and confirm flight.
                         Console.WriteLine(" ✈  Please select the flight ID you wish to book: ✈ ");
                         string selectedFlightID = Console.ReadLine()!;
 
-
                         Console.WriteLine("You have selected Flight ID: " + selectedFlightID);
-
                         Console.WriteLine("\n");
                         Console.WriteLine("Are you happy to proceed?");
-
 
                         string confirmFlight = Console.ReadLine();
                         Console.WriteLine("");
                         int FlightBookingID = 0;
                         int clientID = 0;
+
                         // Enter client details if happy to proceed with flight booking.
                         if (confirmFlight == "Yes")
                         {
@@ -220,8 +226,6 @@ namespace ClientEmulator
                             ReturnInsurancePlans rtnInsurance = new ReturnInsurancePlans();
                             await rtnInsurance.ReturnInsuranceList();
 
-                           
-
                             Console.WriteLine("Please select the type of insurance you would like:");
                             selectedInsurance = Console.ReadLine()!;
 
@@ -260,7 +264,7 @@ namespace ClientEmulator
                             ReturnVehicles rtnvhcl = new ReturnVehicles();
                             await rtnvhcl.ReturnVehicleList();
 
-                            
+
                             Console.WriteLine("Please select the ID of the car you wish to hire:");
                             selectedCar = Console.ReadLine()!;
                             Console.WriteLine("You have chosen the car ID: " + selectedCar);
@@ -298,10 +302,6 @@ namespace ClientEmulator
                         string userConfirmation = Console.ReadLine()!;
                         if (userConfirmation == "continue")
                         {
-                            // Previously handled it by running them all at the end. Have refactored but left here just in case. 
-                            //int HotelBookingID = await HotelBooking(selectedHotelID, selectedRoom);
-                            //int VehicleBookingID = await VehicleBooking(selectedCar);
-                            //int InsuranceBookingID = await InsuranceBooking(selectedInsurance);
                             ProcessBooking probk = new ProcessBooking();
                             await probk.ProcessBookingAsync(destination!, clientID, HotelBookingID, FlightBookingID, VehicleBookingID, InsuranceBookingID);
 
@@ -335,10 +335,6 @@ namespace ClientEmulator
             }
         }
 
-
-        /* Methods */
-        /* The following methods are used to return information to the user via HTTP GET requests and send information to the 
-           backend server via PUT requests. These methods are called earlier in the program to run through the booking process. */
 
         // Checks to see if there are any batch processes stored. If there are sends a PUT request to the server. 
         private static async Task SendBatches()

@@ -1,3 +1,8 @@
+// GitHub Authors: @elms64 & @Kloakk
+
+// Returns a list of rooms based on a given hotel
+
+/* System Libraries */
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -9,11 +14,8 @@ namespace ClientEmulator
 {
     public class ReturnRooms
     {
+        /* Variables */
         private static readonly string ConsoleAppUrl = "http://localhost:8080";
-        private static string? origin;
-        private static string? destination;
-        private static readonly HttpClient httpClient = new HttpClient();
-
 
         public async Task ReturnRoomsList(string selectedHotelID)
         {

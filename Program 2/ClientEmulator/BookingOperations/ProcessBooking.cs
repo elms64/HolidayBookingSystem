@@ -1,3 +1,8 @@
+// GitHub Authors: @elms64 & @Kloakk
+
+// Creates a booking PUT request and sends it over HTTP to the server
+
+/* System Libraries */
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -10,8 +15,9 @@ using System.Security.Cryptography;
 namespace ClientEmulator
 {
     public class ProcessBooking {
+
+        /* Variables */
         private static readonly string ConsoleAppUrl = "http://localhost:8080";
-       
         private static readonly HttpClient httpClient = new HttpClient();
 
         public async Task ProcessBookingAsync(string destination, int ClientID, int HotelBookingID, int selectedFlightID, int VehiclebookingID, int InsuranceBookingID)

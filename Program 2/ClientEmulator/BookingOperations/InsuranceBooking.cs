@@ -1,3 +1,8 @@
+// GitHub Authors: @elms64 & @Kloakk
+
+// Creates an insurance booking PUT request and sends it over HTTP to the server
+
+/* System Libraries */
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -10,9 +15,8 @@ namespace ClientEmulator
 {
     public class InsuranceBooking
     {
+        /* Variables */
         private static readonly string ConsoleAppUrl = "http://localhost:8080";
-        private static string? origin;
-        private static string? destination;
         private static readonly HttpClient httpClient = new HttpClient();
 
 

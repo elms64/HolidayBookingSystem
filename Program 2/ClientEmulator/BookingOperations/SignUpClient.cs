@@ -1,3 +1,8 @@
+// GitHub Authors: @elms64 & @Kloakk
+
+// Signs up a client to the system by sending a PUT request to the server via HTTP.
+
+/* System Libraries */
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -10,9 +15,8 @@ namespace ClientEmulator
 {
     public class SignUpClient
     {
+        /* Variables */
         private static readonly string ConsoleAppUrl = "http://localhost:8080";
-        private static string? origin;
-        private static string? destination;
         private static readonly HttpClient httpClient = new HttpClient();
 
 

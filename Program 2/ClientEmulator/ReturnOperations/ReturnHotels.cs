@@ -1,3 +1,8 @@
+// GitHub Authors: @elms64 & @Kloakk
+
+// Returns a list of hotels based on a given destination.
+
+/* System Libraries */
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -9,11 +14,8 @@ namespace ClientEmulator
 {
     public class ReturnHotels
     {
+        /* Variables */
         private static readonly string ConsoleAppUrl = "http://localhost:8080";
-        private static string? origin;
-        private static string? destination;
-        private static readonly HttpClient httpClient = new HttpClient();
-
 
         public async Task ReturnHotelsList(string destination)
         {

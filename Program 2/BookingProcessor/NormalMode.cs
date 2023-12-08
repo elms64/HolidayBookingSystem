@@ -1,4 +1,4 @@
-// GitHub authors: @elms64, @Kloakk, @dlawlor2408 and @gjepic.
+// GitHub authors: @elms64, @Kloakk, @dlawlor2408.
 
 /* Normal mode of operation for Booking Processor. Listens to incoming HTTP requests and responds on a case by case basis.
 *  Certain events may trigger Recovery Mode.

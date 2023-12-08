@@ -1,3 +1,8 @@
+// GitHub Authors: @elms64 & @Kloakk
+
+// Creates a flight booking PUT request and sends it over HTTP to the server
+
+/* System Libraries */
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -9,8 +14,8 @@ namespace ClientEmulator
 {
     public class FlightBooking
     {
+        /* Variables */
         private static readonly string ConsoleAppUrl = "http://localhost:8080";
-       
         private static readonly HttpClient httpClient = new HttpClient();
 
         public async Task<int> FlightBookingAsync(string selectedFlightID, int clientID)

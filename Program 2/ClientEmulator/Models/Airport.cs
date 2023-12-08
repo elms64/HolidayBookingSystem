@@ -22,9 +22,6 @@ public class Airport
     [DisplayName("Airport Name")]
     public string? AirportName { get; set; }
 
-    public override string ToString()
-    {
-        return $"AirportID: {AirportID}, CountryID: {CountryID}, AirportName: {AirportName}";
-    }
+    
 }
 }
