@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using BookingProcessor.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System.Globalization;
 
 namespace BookingProcessor
 {
@@ -564,17 +565,22 @@ namespace BookingProcessor
 
         private async Task<byte[]> CreateInsuranceBooking(HttpListenerRequest request, BookingContext bookingContext)
         {
-            try {
-                using (var reader = new StreamReader(request.InputStream, request.ContentEncoding)){
-                    
+            try
+            {
+                using (var reader = new StreamReader(request.InputStream, request.ContentEncoding))
+                {
+
                     string requestBody = await reader.ReadToEndAsync();
-                    
-                     using (JsonDocument jsonDocument = JsonDocument.Parse(requestBody)){
-                        if (jsonDocument.RootElement.EnumerateArray().Any()){
-                            string? InsuranceID = jsonDocument.RootElement.GetProperty("InsuranceID").GetString();
+
+                    using (JsonDocument jsonDocument = JsonDocument.Parse(requestBody))
+                    {
+                        if (jsonDocument.RootElement.EnumerateArray().Any())
+                        {
+                            string? InsuranceID = jsonDocument.RootElement.EnumerateArray().FirstOrDefault(e => e.GetProperty("Key").GetString() == "InsuranceID").GetProperty("Value").GetString();
 
 
-                            InsuranceBooking insuranceBooking = new InsuranceBooking{
+                            InsuranceBooking insuranceBooking = new InsuranceBooking
+                            {
                                 InsuranceBookingID = 0,
                                 InsuranceID = int.Parse(InsuranceID!),
                                 StartDate = DateTime.Now,
@@ -587,8 +593,9 @@ namespace BookingProcessor
 
                             int newInsuranceBookingID = insuranceBooking.InsuranceBookingID;
 
-                            var responseObj = new{
-                                InsuranceBookingId = newInsuranceBookingID,
+                            var responseObj = new
+                            {
+                                InsuranceBookingID = newInsuranceBookingID,
                                 Message = "Hotel booking created successfully",
                                 Status = "Success"
                             };
@@ -605,7 +612,7 @@ namespace BookingProcessor
                     }
                 }
             }
-              catch (Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine($"Exception: {ex.Message}\n{ex.StackTrace}");
                 return Encoding.UTF8.GetBytes("Error creating InsruanceBooking, please try again later.");
@@ -622,47 +629,69 @@ namespace BookingProcessor
                 using (var reader = new StreamReader(request.InputStream, request.ContentEncoding))
                 {
                     string requestBody = await reader.ReadToEndAsync();
-                    Booking? newBooking = JsonSerializer.Deserialize<Booking>(requestBody);
 
-                    // Recalculates MD5 checksum and ensures transaction has not already been processed.
-                    string recalculatedChecksum = CalcMD5.CalculateMd5(requestBody);
-                    bool checksumExists = await bookingContext.Booking.AnyAsync(b => b.CheckSum == recalculatedChecksum);
-
-                    // Do not process transaction if it is a repeat entry. 
-                    if (checksumExists)
+                    using (JsonDocument jsonDocument = JsonDocument.Parse(requestBody))
                     {
-                        return Encoding.UTF8.GetBytes("This booking already exists, please do not retry transaction.");
-                    }
+                        string? TransactionGUIDString = jsonDocument.RootElement.EnumerateArray().FirstOrDefault(e => e.GetProperty("Key").GetString() == "TransactionGUID").GetProperty("Value").GetString();
+                        string? CheckSum = jsonDocument.RootElement.EnumerateArray().FirstOrDefault(e => e.GetProperty("Key").GetString() == "CheckSum").GetProperty("Value").GetString();
+                        string? HotelBookingID = jsonDocument.RootElement.EnumerateArray().FirstOrDefault(e => e.GetProperty("Key").GetString() == "HotelBookingID").GetProperty("Value").GetString();
+                        string? CountryID = jsonDocument.RootElement.EnumerateArray().FirstOrDefault(e => e.GetProperty("Key").GetString() == "CountryID").GetProperty("Value").GetString();
+                        string? FlightID = jsonDocument.RootElement.EnumerateArray().FirstOrDefault(e => e.GetProperty("Key").GetString() == "FlightID").GetProperty("Value").GetString();
+                        string? PurchaseDate = jsonDocument.RootElement.EnumerateArray().FirstOrDefault(e => e.GetProperty("Key").GetString() == "PurchaseDate").GetProperty("Value").GetString();
+                        string? VehicleBookingID = jsonDocument.RootElement.EnumerateArray().FirstOrDefault(e => e.GetProperty("Key").GetString() == "VehicleBookingID").GetProperty("Value").GetString();
+                        string? ClientID = jsonDocument.RootElement.EnumerateArray().FirstOrDefault(e => e.GetProperty("Key").GetString() == "ClientID").GetProperty("Value").GetString();
+                        string? InsruanceBookingID = jsonDocument.RootElement.EnumerateArray().FirstOrDefault(e => e.GetProperty("Key").GetString() == "InsruanceBookingID").GetProperty("Value").GetString();
 
-                    // If the transaction does not already exist, upload it to the database.
-                    else
-                    {
-                        newBooking!.OrderNumber = 0;
-                        bookingContext.Booking.Add(newBooking);
-                        await bookingContext.SaveChangesAsync();
 
-                        // Returns booking information and order number to the client.
-                        newBooking.OrderNumber = newBooking.OrderNumber;
-                        string jsonResponse = JsonSerializer.Serialize(newBooking);
-                        byte[] buffer = Encoding.UTF8.GetBytes(jsonResponse);
-                        return buffer;
+
+
+                        // Recalculates MD5 checksum and ensures transaction has not already been processed.
+                        string recalculatedChecksum = CalcMD5.CalculateMd5(requestBody);
+                        bool checksumExists = await bookingContext.Booking.AnyAsync(b => b.CheckSum == recalculatedChecksum);
+
+                        // Do not process transaction if it is a repeat entry. 
+                        if (checksumExists)
+                        {
+                            return Encoding.UTF8.GetBytes("This booking already exists, please do not retry transaction.");
+                        }
+
+
+                        // If the transaction does not already exist, upload it to the database.
+                        else
+                        {
+                            Booking booking = new Booking
+                            {
+                                TransactionGUID = string.IsNullOrEmpty(TransactionGUIDString)? Guid.Empty : Guid.Parse(TransactionGUIDString),
+                                CheckSum = CheckSum,
+                                HotelBookingID = int.TryParse(HotelBookingID, out int hotelbookingId)?hotelbookingId:0,
+                                CountryID = int.TryParse(CountryID, out int CountryId)?CountryId:0,
+                                FlightID = int.TryParse(FlightID, out int flightId)?flightId:0,
+                                PurchaseDate = DateTime.TryParseExact(PurchaseDate, "MM/dd/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDate)
+        ? parsedDate
+        : DateTime.MinValue,
+
+
+                            };
+                        }
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Exception: {ex.Message}");
-                return Encoding.UTF8.GetBytes("Error creating booking, please try again later.");
+            catch (Exception ex){
+                Console.WriteLine(ex);
             }
         }
 
-        // @elms64
-        // Method to initiate recovery mode, used when an incoming process is a batch transaction.
-        private void InitRecoveryMode()
-        {
-            var recoveryMode = new RecoveryMode(serviceProvider);
-            recoveryMode.Run().GetAwaiter().GetResult();
-        }
 
+
+
+
+    // @elms64
+    // Method to initiate recovery mode, used when an incoming process is a batch transaction.
+    private void InitRecoveryMode()
+    {
+        var recoveryMode = new RecoveryMode(serviceProvider);
+        recoveryMode.Run().GetAwaiter().GetResult();
     }
+
+}
 }

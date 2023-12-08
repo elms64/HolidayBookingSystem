@@ -606,39 +606,46 @@ namespace ClientEmulator
 
         // Processes all the booking information into a variable to be sent via HTTP.
         private static async Task ProcessBooking(string destination, string ClientID, string HotelBookingID, string selectedFlightID, string VehiclebookingID, string InsuranceBookingID)
+{
+    Console.WriteLine("Sending Booking Data!");
+    Console.WriteLine($"Booking Data being sent : \n CountryID : {destination} \n HotelBookingID : {HotelBookingID} \n FlightID : {selectedFlightID}\n VehicleBookingID : {VehiclebookingID} \n InsuranceBookingID : {InsuranceBookingID}");
+    try
+    {
+        // Create a list to store key-value pairs for booking data
+        var bookingData = new List<KeyValuePair<string, string>>();
+
+        // Add key-value pairs for each property of the Booking model
+        bookingData.Add(new KeyValuePair<string, string>("OrderNumber", "0")); // Example order number
+        bookingData.Add(new KeyValuePair<string, string>("TransactionGUID", Guid.NewGuid().ToString()));
+        bookingData.Add(new KeyValuePair<string, string>("PurchaseDate", DateTime.Now.ToString())); // Example purchase date
+        bookingData.Add(new KeyValuePair<string, string>("CountryID", destination)); // Example country ID
+        bookingData.Add(new KeyValuePair<string, string>("ClientID", ClientID)); // Example client ID
+        bookingData.Add(new KeyValuePair<string, string>("HotelBookingID", HotelBookingID)); // Example hotel booking ID <-- need to make HotelBooking at runtime
+        bookingData.Add(new KeyValuePair<string, string>("FlightID", selectedFlightID)); // Example flight ID
+        bookingData.Add(new KeyValuePair<string, string>("VehicleBookingID", VehiclebookingID)); // Example vehicle booking ID <-- need to make HotelBooking at runtime
+        bookingData.Add(new KeyValuePair<string, string>("InsuranceBookingID", InsuranceBookingID)); // Example insurance booking ID <-- need to make HotelBooking at runtime
+
+        // Calculate checksum for the booking data
+        string checksum = CalculateChecksum(JsonSerializer.Serialize(bookingData));
+
+        // Add checksum to the booking data
+        bookingData.Add(new KeyValuePair<string, string>("CheckSum", checksum));
+
+        // Print the data being sent in the response
+        Console.WriteLine("Data being sent in the response:");
+        foreach (var kvp in bookingData)
         {
-            Console.WriteLine("Sending Booking Data!");
-            Console.WriteLine($"Booking Data being sent : \n CountryID : {destination} \n HotelBookingID : {HotelBookingID} \n FlightID : {selectedFlightID}\n VehicleBookingID : {VehiclebookingID} \n InsuranceBookingID : {InsuranceBookingID}");
-            try
-            {
-                // Create a list to store key-value pairs for booking data
-                var bookingData = new List<KeyValuePair<string, string>>();
-
-                // Add key-value pairs for each property of the Booking model
-                bookingData.Add(new KeyValuePair<string, string>("OrderNumber", "0")); // Example order number
-                bookingData.Add(new KeyValuePair<string, string>("TransactionGUID", Guid.NewGuid().ToString()));
-                bookingData.Add(new KeyValuePair<string, string>("PurchaseDate", DateTime.Now.ToString())); // Example purchase date
-                bookingData.Add(new KeyValuePair<string, string>("CountryID", destination)); // Example country ID
-                bookingData.Add(new KeyValuePair<string, string>("ClientID", ClientID)); // Example client ID
-                bookingData.Add(new KeyValuePair<string, string>("HotelBookingID", HotelBookingID)); // Example hotel booking ID <-- need to make HotelBooking at runtime
-                bookingData.Add(new KeyValuePair<string, string>("FlightID", selectedFlightID)); // Example flight ID
-                bookingData.Add(new KeyValuePair<string, string>("VehicleBookingID", VehiclebookingID)); // Example vehicle booking ID <-- need to make HotelBooking at runtime
-                bookingData.Add(new KeyValuePair<string, string>("InsuranceBookingID", InsuranceBookingID)); // Example insurance booking ID <-- need to make HotelBooking at runtime
-
-                // Calculate checksum for the booking data
-                string checksum = CalculateChecksum(JsonSerializer.Serialize(bookingData));
-
-                // Add checksum to the booking data
-                bookingData.Add(new KeyValuePair<string, string>("CheckSum", checksum));
-
-                // Call SendBookingTransaction with the populated bookingData
-                await SendBookingTransaction(bookingData);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error occurred: {ex.Message}");
-            }
+            Console.WriteLine($"{kvp.Key}: {kvp.Value}");
         }
+
+        // Call SendBookingTransaction with the populated bookingData
+        await SendBookingTransaction(bookingData);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"An error occurred: {ex.Message}");
+    }
+}
 
         // Calculate a Checksum value for the booking content
         private static string CalculateChecksum(string data)
