@@ -23,8 +23,10 @@ namespace BookingProcessor.Models
         [DisplayName("CheckInDate")]
         public DateTime CheckInDate { get; set; } 
 
-
         [DisplayName("CheckOutDate")]
-         public DateTime CheckOutDate { get; set; } 
+        public DateTime CheckOutDate { get; set; } 
+
+        [DisplayName("Booking Status")]
+        public string BookingStatus { get; set; }
     }
 }

@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingProcessor.Migrations
 {
     [DbContext(typeof(BookingContext))]
-    [Migration("20231129232929_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20231208115555_BookingStatus")]
+    partial class BookingStatus
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -302,73 +302,6 @@ namespace BookingProcessor.Migrations
                     b.HasKey("OrderNumber");
 
                     b.ToTable("Booking");
-
-                    b.HasData(
-                        new
-                        {
-                            OrderNumber = 1,
-                            CheckSum = "b5aa77103079fff929c4ffe6b0b112cf",
-                            ClientID = 1,
-                            CountryID = 826,
-                            FlightID = 1,
-                            HotelBookingID = 1,
-                            InsuranceBookingID = 1,
-                            PurchaseDate = new DateTime(2023, 11, 29, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7050),
-                            TransactionGUID = new Guid("85b72c18-b180-4e3d-bfb1-11f822105c11"),
-                            VehicleBookingID = 1
-                        },
-                        new
-                        {
-                            OrderNumber = 2,
-                            CheckSum = "fc7d01d4b69ed3e7e77d87ebfe653eab",
-                            ClientID = 2,
-                            CountryID = 826,
-                            FlightID = 2,
-                            HotelBookingID = 2,
-                            InsuranceBookingID = 2,
-                            PurchaseDate = new DateTime(2023, 11, 29, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7490),
-                            TransactionGUID = new Guid("d6e92daa-ea28-41ee-b0c0-8c88504c918d"),
-                            VehicleBookingID = 2
-                        },
-                        new
-                        {
-                            OrderNumber = 3,
-                            CheckSum = "b32949e862ed1e6445fdc344fc2d3a90",
-                            ClientID = 3,
-                            CountryID = 826,
-                            FlightID = 3,
-                            HotelBookingID = 3,
-                            InsuranceBookingID = 3,
-                            PurchaseDate = new DateTime(2023, 11, 29, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7540),
-                            TransactionGUID = new Guid("ce390bf0-554b-45f4-97fa-4b94d82cefe6"),
-                            VehicleBookingID = 3
-                        },
-                        new
-                        {
-                            OrderNumber = 4,
-                            CheckSum = "4c1a7bdd043957ed663979d92ce554ca",
-                            ClientID = 4,
-                            CountryID = 826,
-                            FlightID = 4,
-                            HotelBookingID = 4,
-                            InsuranceBookingID = 4,
-                            PurchaseDate = new DateTime(2023, 11, 29, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7570),
-                            TransactionGUID = new Guid("dd3070ba-c9dd-4bf5-8ee1-7cde74f47ce9"),
-                            VehicleBookingID = 4
-                        },
-                        new
-                        {
-                            OrderNumber = 5,
-                            CheckSum = "822b35a6f332edbf29ee81da2276a023",
-                            ClientID = 5,
-                            CountryID = 826,
-                            FlightID = 5,
-                            HotelBookingID = 5,
-                            InsuranceBookingID = 5,
-                            PurchaseDate = new DateTime(2023, 11, 29, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7600),
-                            TransactionGUID = new Guid("7018ab15-191d-4893-bd88-11e273e95d52"),
-                            VehicleBookingID = 5
-                        });
                 });
 
             modelBuilder.Entity("BookingProcessor.Models.Client", b =>
@@ -395,53 +328,6 @@ namespace BookingProcessor.Migrations
                     b.HasKey("ClientID");
 
                     b.ToTable("Client");
-
-                    b.HasData(
-                        new
-                        {
-                            ClientID = 1,
-                            BirthDate = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "john.doe@example.com",
-                            FirstName = "John",
-                            LastName = "Doe",
-                            PhoneNumber = "123-456-7890"
-                        },
-                        new
-                        {
-                            ClientID = 2,
-                            BirthDate = new DateTime(1985, 5, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "jane.smith@example.com",
-                            FirstName = "Jane",
-                            LastName = "Smith",
-                            PhoneNumber = "987-654-3210"
-                        },
-                        new
-                        {
-                            ClientID = 3,
-                            BirthDate = new DateTime(1992, 8, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "alice.johnson@example.com",
-                            FirstName = "Alice",
-                            LastName = "Johnson",
-                            PhoneNumber = "555-123-4567"
-                        },
-                        new
-                        {
-                            ClientID = 4,
-                            BirthDate = new DateTime(1980, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "bob.anderson@example.com",
-                            FirstName = "Bob",
-                            LastName = "Anderson",
-                            PhoneNumber = "333-777-8888"
-                        },
-                        new
-                        {
-                            ClientID = 5,
-                            BirthDate = new DateTime(1988, 11, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "eva.williams@example.com",
-                            FirstName = "Eva",
-                            LastName = "Williams",
-                            PhoneNumber = "111-222-3333"
-                        });
                 });
 
             modelBuilder.Entity("BookingProcessor.Models.Country", b =>
@@ -1745,10 +1631,10 @@ namespace BookingProcessor.Migrations
                             FlightID = 1,
                             AirlineID = 1,
                             ArrivalAirportID = 2,
-                            ArrivalDateTime = new DateTime(2023, 12, 7, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7660),
+                            ArrivalDateTime = new DateTime(2023, 12, 16, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7310),
                             BookedSeats = 50,
                             DepartureAirportID = 1,
-                            DepartureDateTime = new DateTime(2023, 12, 6, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7660),
+                            DepartureDateTime = new DateTime(2023, 12, 15, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7270),
                             FlightCost = 500,
                             MaxSeats = 100
                         },
@@ -1757,10 +1643,10 @@ namespace BookingProcessor.Migrations
                             FlightID = 2,
                             AirlineID = 2,
                             ArrivalAirportID = 5,
-                            ArrivalDateTime = new DateTime(2023, 12, 11, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7670),
+                            ArrivalDateTime = new DateTime(2023, 12, 20, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7310),
                             BookedSeats = 30,
                             DepartureAirportID = 16,
-                            DepartureDateTime = new DateTime(2023, 12, 9, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7670),
+                            DepartureDateTime = new DateTime(2023, 12, 18, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7310),
                             FlightCost = 450,
                             MaxSeats = 80
                         },
@@ -1769,10 +1655,10 @@ namespace BookingProcessor.Migrations
                             FlightID = 3,
                             AirlineID = 3,
                             ArrivalAirportID = 4,
-                            ArrivalDateTime = new DateTime(2023, 12, 16, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7670),
+                            ArrivalDateTime = new DateTime(2023, 12, 25, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7320),
                             BookedSeats = 70,
                             DepartureAirportID = 3,
-                            DepartureDateTime = new DateTime(2023, 12, 14, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7670),
+                            DepartureDateTime = new DateTime(2023, 12, 23, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7310),
                             FlightCost = 600,
                             MaxSeats = 120
                         },
@@ -1781,10 +1667,10 @@ namespace BookingProcessor.Migrations
                             FlightID = 4,
                             AirlineID = 4,
                             ArrivalAirportID = 5,
-                            ArrivalDateTime = new DateTime(2023, 12, 21, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7680),
+                            ArrivalDateTime = new DateTime(2023, 12, 30, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7320),
                             BookedSeats = 40,
                             DepartureAirportID = 4,
-                            DepartureDateTime = new DateTime(2023, 12, 19, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7680),
+                            DepartureDateTime = new DateTime(2023, 12, 28, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7320),
                             FlightCost = 550,
                             MaxSeats = 100
                         },
@@ -1793,10 +1679,10 @@ namespace BookingProcessor.Migrations
                             FlightID = 5,
                             AirlineID = 4,
                             ArrivalAirportID = 1,
-                            ArrivalDateTime = new DateTime(2023, 12, 26, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7680),
+                            ArrivalDateTime = new DateTime(2024, 1, 4, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7320),
                             BookedSeats = 60,
                             DepartureAirportID = 5,
-                            DepartureDateTime = new DateTime(2023, 12, 24, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7680),
+                            DepartureDateTime = new DateTime(2024, 1, 2, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7320),
                             FlightCost = 480,
                             MaxSeats = 80
                         },
@@ -1805,10 +1691,10 @@ namespace BookingProcessor.Migrations
                             FlightID = 6,
                             AirlineID = 3,
                             ArrivalAirportID = 17,
-                            ArrivalDateTime = new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7680),
+                            ArrivalDateTime = new DateTime(2023, 12, 9, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7320),
                             BookedSeats = 80,
                             DepartureAirportID = 16,
-                            DepartureDateTime = new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7680),
+                            DepartureDateTime = new DateTime(2023, 12, 9, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7320),
                             FlightCost = 180,
                             MaxSeats = 140
                         },
@@ -1817,10 +1703,10 @@ namespace BookingProcessor.Migrations
                             FlightID = 7,
                             AirlineID = 5,
                             ArrivalAirportID = 18,
-                            ArrivalDateTime = new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7690),
+                            ArrivalDateTime = new DateTime(2023, 12, 9, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7330),
                             BookedSeats = 150,
                             DepartureAirportID = 16,
-                            DepartureDateTime = new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7680),
+                            DepartureDateTime = new DateTime(2023, 12, 9, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7330),
                             FlightCost = 150,
                             MaxSeats = 180
                         },
@@ -1829,10 +1715,10 @@ namespace BookingProcessor.Migrations
                             FlightID = 8,
                             AirlineID = 1,
                             ArrivalAirportID = 19,
-                            ArrivalDateTime = new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7690),
+                            ArrivalDateTime = new DateTime(2023, 12, 9, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7330),
                             BookedSeats = 120,
                             DepartureAirportID = 16,
-                            DepartureDateTime = new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7690),
+                            DepartureDateTime = new DateTime(2023, 12, 9, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7330),
                             FlightCost = 150,
                             MaxSeats = 150
                         },
@@ -1841,10 +1727,10 @@ namespace BookingProcessor.Migrations
                             FlightID = 9,
                             AirlineID = 5,
                             ArrivalAirportID = 20,
-                            ArrivalDateTime = new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7690),
+                            ArrivalDateTime = new DateTime(2023, 12, 9, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7330),
                             BookedSeats = 100,
                             DepartureAirportID = 16,
-                            DepartureDateTime = new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7690),
+                            DepartureDateTime = new DateTime(2023, 12, 9, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7330),
                             FlightCost = 100,
                             MaxSeats = 140
                         },
@@ -1853,10 +1739,10 @@ namespace BookingProcessor.Migrations
                             FlightID = 10,
                             AirlineID = 5,
                             ArrivalAirportID = 19,
-                            ArrivalDateTime = new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7690),
+                            ArrivalDateTime = new DateTime(2023, 12, 9, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7340),
                             BookedSeats = 70,
                             DepartureAirportID = 1,
-                            DepartureDateTime = new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7690),
+                            DepartureDateTime = new DateTime(2023, 12, 9, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7340),
                             FlightCost = 120,
                             MaxSeats = 90
                         },
@@ -1865,10 +1751,10 @@ namespace BookingProcessor.Migrations
                             FlightID = 11,
                             AirlineID = 5,
                             ArrivalAirportID = 19,
-                            ArrivalDateTime = new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7700),
+                            ArrivalDateTime = new DateTime(2023, 12, 9, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7340),
                             BookedSeats = 70,
                             DepartureAirportID = 16,
-                            DepartureDateTime = new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7700),
+                            DepartureDateTime = new DateTime(2023, 12, 9, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7340),
                             FlightCost = 120,
                             MaxSeats = 90
                         },
@@ -1877,10 +1763,10 @@ namespace BookingProcessor.Migrations
                             FlightID = 12,
                             AirlineID = 5,
                             ArrivalAirportID = 20,
-                            ArrivalDateTime = new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7700),
+                            ArrivalDateTime = new DateTime(2023, 12, 9, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7340),
                             BookedSeats = 70,
                             DepartureAirportID = 16,
-                            DepartureDateTime = new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7700),
+                            DepartureDateTime = new DateTime(2023, 12, 9, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7340),
                             FlightCost = 120,
                             MaxSeats = 90
                         },
@@ -1889,10 +1775,10 @@ namespace BookingProcessor.Migrations
                             FlightID = 13,
                             AirlineID = 5,
                             ArrivalAirportID = 21,
-                            ArrivalDateTime = new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7700),
+                            ArrivalDateTime = new DateTime(2023, 12, 9, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7350),
                             BookedSeats = 70,
                             DepartureAirportID = 16,
-                            DepartureDateTime = new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7700),
+                            DepartureDateTime = new DateTime(2023, 12, 9, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7340),
                             FlightCost = 120,
                             MaxSeats = 90
                         },
@@ -1901,10 +1787,10 @@ namespace BookingProcessor.Migrations
                             FlightID = 14,
                             AirlineID = 5,
                             ArrivalAirportID = 22,
-                            ArrivalDateTime = new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7710),
+                            ArrivalDateTime = new DateTime(2023, 12, 9, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7350),
                             BookedSeats = 70,
                             DepartureAirportID = 16,
-                            DepartureDateTime = new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7710),
+                            DepartureDateTime = new DateTime(2023, 12, 9, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7350),
                             FlightCost = 120,
                             MaxSeats = 90
                         },
@@ -1913,10 +1799,10 @@ namespace BookingProcessor.Migrations
                             FlightID = 15,
                             AirlineID = 5,
                             ArrivalAirportID = 23,
-                            ArrivalDateTime = new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7710),
+                            ArrivalDateTime = new DateTime(2023, 12, 9, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7350),
                             BookedSeats = 70,
                             DepartureAirportID = 16,
-                            DepartureDateTime = new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7710),
+                            DepartureDateTime = new DateTime(2023, 12, 9, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7350),
                             FlightCost = 120,
                             MaxSeats = 90
                         },
@@ -1925,10 +1811,46 @@ namespace BookingProcessor.Migrations
                             FlightID = 16,
                             AirlineID = 5,
                             ArrivalAirportID = 24,
-                            ArrivalDateTime = new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7710),
+                            ArrivalDateTime = new DateTime(2023, 12, 9, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7350),
                             BookedSeats = 70,
                             DepartureAirportID = 16,
-                            DepartureDateTime = new DateTime(2023, 11, 30, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7710),
+                            DepartureDateTime = new DateTime(2023, 12, 9, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7350),
+                            FlightCost = 120,
+                            MaxSeats = 90
+                        },
+                        new
+                        {
+                            FlightID = 17,
+                            AirlineID = 5,
+                            ArrivalAirportID = 9,
+                            ArrivalDateTime = new DateTime(2023, 12, 9, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7360),
+                            BookedSeats = 70,
+                            DepartureAirportID = 5,
+                            DepartureDateTime = new DateTime(2023, 12, 9, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7360),
+                            FlightCost = 120,
+                            MaxSeats = 90
+                        },
+                        new
+                        {
+                            FlightID = 18,
+                            AirlineID = 5,
+                            ArrivalAirportID = 9,
+                            ArrivalDateTime = new DateTime(2023, 12, 9, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7360),
+                            BookedSeats = 70,
+                            DepartureAirportID = 5,
+                            DepartureDateTime = new DateTime(2023, 12, 10, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7360),
+                            FlightCost = 120,
+                            MaxSeats = 90
+                        },
+                        new
+                        {
+                            FlightID = 19,
+                            AirlineID = 5,
+                            ArrivalAirportID = 9,
+                            ArrivalDateTime = new DateTime(2023, 12, 9, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7360),
+                            BookedSeats = 70,
+                            DepartureAirportID = 5,
+                            DepartureDateTime = new DateTime(2023, 12, 11, 11, 55, 55, 260, DateTimeKind.Local).AddTicks(7360),
                             FlightCost = 120,
                             MaxSeats = 90
                         });
@@ -1979,7 +1901,7 @@ namespace BookingProcessor.Migrations
                             AddressLine2 = "Apt 45",
                             City = "Cityville",
                             CountryID = 826,
-                            HotelName = "Example Hotel 1",
+                            HotelName = "Premier Inn",
                             PhoneNumber = 5551234,
                             Postcode = "12345",
                             Rating = 4.0,
@@ -1992,7 +1914,7 @@ namespace BookingProcessor.Migrations
                             AddressLine2 = "Suite 22",
                             City = "Townsville",
                             CountryID = 826,
-                            HotelName = "Example Hotel 2",
+                            HotelName = "Marriott",
                             PhoneNumber = 5555678,
                             Postcode = "67890",
                             Rating = 3.5,
@@ -2005,7 +1927,7 @@ namespace BookingProcessor.Migrations
                             AddressLine2 = "Unit 33",
                             City = "Villagetown",
                             CountryID = 826,
-                            HotelName = "Example Hotel 3",
+                            HotelName = "Holiday Inn",
                             PhoneNumber = 5559999,
                             Postcode = "10111",
                             Rating = 4.2000000000000002,
@@ -2018,7 +1940,7 @@ namespace BookingProcessor.Migrations
                             AddressLine2 = "Apt 10",
                             City = "Mountainview",
                             CountryID = 826,
-                            HotelName = "Example Hotel 4",
+                            HotelName = "Hilton Hotel",
                             PhoneNumber = 5554321,
                             Postcode = "54321",
                             Rating = 3.7999999999999998,
@@ -2031,11 +1953,63 @@ namespace BookingProcessor.Migrations
                             AddressLine2 = "Suite 5",
                             City = "Laketown",
                             CountryID = 826,
-                            HotelName = "Example Hotel 5",
+                            HotelName = "IHG",
                             PhoneNumber = 5551111,
                             Postcode = "87654",
                             Rating = 4.5,
                             RoomCount = 55
+                        },
+                        new
+                        {
+                            HotelID = 6,
+                            AddressLine1 = "202 Birch St",
+                            AddressLine2 = "Suite 5",
+                            City = "Laketown",
+                            CountryID = 724,
+                            HotelName = "Premier Inn",
+                            PhoneNumber = 5551111,
+                            Postcode = "87654",
+                            Rating = 4.5,
+                            RoomCount = 55
+                        },
+                        new
+                        {
+                            HotelID = 7,
+                            AddressLine1 = "456 West St",
+                            AddressLine2 = "Suite 22",
+                            City = "Madrid",
+                            CountryID = 724,
+                            HotelName = "Marriott",
+                            PhoneNumber = 5555678,
+                            Postcode = "67890",
+                            Rating = 3.5,
+                            RoomCount = 40
+                        },
+                        new
+                        {
+                            HotelID = 8,
+                            AddressLine1 = "456 Oak St",
+                            AddressLine2 = "Suite 22",
+                            City = "Sevilla",
+                            CountryID = 724,
+                            HotelName = "Holiday Inn",
+                            PhoneNumber = 5555678,
+                            Postcode = "67890",
+                            Rating = 3.5,
+                            RoomCount = 40
+                        },
+                        new
+                        {
+                            HotelID = 9,
+                            AddressLine1 = "456 Oak St",
+                            AddressLine2 = "Suite 22",
+                            City = "Sevilla",
+                            CountryID = 724,
+                            HotelName = "Marriott",
+                            PhoneNumber = 5555678,
+                            Postcode = "67890",
+                            Rating = 3.5,
+                            RoomCount = 40
                         });
                 });
 
@@ -2044,6 +2018,10 @@ namespace BookingProcessor.Migrations
                     b.Property<int>("HotelBookingID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("BookingStatus")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CheckInDate")
                         .HasColumnType("TEXT");
@@ -2060,48 +2038,6 @@ namespace BookingProcessor.Migrations
                     b.HasKey("HotelBookingID");
 
                     b.ToTable("HotelBooking");
-
-                    b.HasData(
-                        new
-                        {
-                            HotelBookingID = 1,
-                            CheckInDate = new DateTime(2023, 12, 6, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7740),
-                            CheckOutDate = new DateTime(2023, 12, 13, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7740),
-                            HotelID = 1,
-                            RoomID = 1
-                        },
-                        new
-                        {
-                            HotelBookingID = 2,
-                            CheckInDate = new DateTime(2023, 12, 9, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7740),
-                            CheckOutDate = new DateTime(2023, 12, 16, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7740),
-                            HotelID = 2,
-                            RoomID = 2
-                        },
-                        new
-                        {
-                            HotelBookingID = 3,
-                            CheckInDate = new DateTime(2023, 12, 14, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7740),
-                            CheckOutDate = new DateTime(2023, 12, 21, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7750),
-                            HotelID = 3,
-                            RoomID = 3
-                        },
-                        new
-                        {
-                            HotelBookingID = 4,
-                            CheckInDate = new DateTime(2023, 12, 19, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7750),
-                            CheckOutDate = new DateTime(2023, 12, 26, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7750),
-                            HotelID = 4,
-                            RoomID = 4
-                        },
-                        new
-                        {
-                            HotelBookingID = 5,
-                            CheckInDate = new DateTime(2023, 12, 24, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7750),
-                            CheckOutDate = new DateTime(2023, 12, 31, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7750),
-                            HotelID = 5,
-                            RoomID = 5
-                        });
                 });
 
             modelBuilder.Entity("BookingProcessor.Models.Insurance", b =>
@@ -2150,6 +2086,18 @@ namespace BookingProcessor.Migrations
                             InsuranceID = 5,
                             InsuranceType = "Deluxe",
                             PricePerDay = 30.0
+                        },
+                        new
+                        {
+                            InsuranceID = 6,
+                            InsuranceType = "Presidential",
+                            PricePerDay = 30.0
+                        },
+                        new
+                        {
+                            InsuranceID = 7,
+                            InsuranceType = "Cheddar",
+                            PricePerDay = 30000.0
                         });
                 });
 
@@ -2158,6 +2106,10 @@ namespace BookingProcessor.Migrations
                     b.Property<int>("InsuranceBookingID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("BookingStatus")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("TEXT");
@@ -2171,43 +2123,6 @@ namespace BookingProcessor.Migrations
                     b.HasKey("InsuranceBookingID");
 
                     b.ToTable("InsuranceBooking");
-
-                    b.HasData(
-                        new
-                        {
-                            InsuranceBookingID = 1,
-                            EndDate = new DateTime(2023, 12, 13, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7770),
-                            InsuranceID = 1,
-                            StartDate = new DateTime(2023, 12, 6, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7770)
-                        },
-                        new
-                        {
-                            InsuranceBookingID = 2,
-                            EndDate = new DateTime(2023, 12, 16, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7780),
-                            InsuranceID = 2,
-                            StartDate = new DateTime(2023, 12, 9, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7780)
-                        },
-                        new
-                        {
-                            InsuranceBookingID = 3,
-                            EndDate = new DateTime(2023, 12, 21, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7780),
-                            InsuranceID = 3,
-                            StartDate = new DateTime(2023, 12, 14, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7780)
-                        },
-                        new
-                        {
-                            InsuranceBookingID = 4,
-                            EndDate = new DateTime(2023, 12, 26, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7780),
-                            InsuranceID = 4,
-                            StartDate = new DateTime(2023, 12, 19, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7780)
-                        },
-                        new
-                        {
-                            InsuranceBookingID = 5,
-                            EndDate = new DateTime(2023, 12, 31, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7780),
-                            InsuranceID = 5,
-                            StartDate = new DateTime(2023, 12, 24, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7780)
-                        });
                 });
 
             modelBuilder.Entity("BookingProcessor.Models.Room", b =>
@@ -2236,23 +2151,23 @@ namespace BookingProcessor.Migrations
                         new
                         {
                             RoomID = 1,
-                            HotelID = 1,
+                            HotelID = 6,
                             PricePerNight = 100m,
                             RoomNo = 101,
-                            RoomType = "Standard"
+                            RoomType = "Single"
                         },
                         new
                         {
                             RoomID = 2,
-                            HotelID = 2,
+                            HotelID = 7,
                             PricePerNight = 150m,
                             RoomNo = 201,
-                            RoomType = "Deluxe"
+                            RoomType = "Double"
                         },
                         new
                         {
                             RoomID = 3,
-                            HotelID = 3,
+                            HotelID = 8,
                             PricePerNight = 200m,
                             RoomNo = 301,
                             RoomType = "Suite"
@@ -2260,17 +2175,145 @@ namespace BookingProcessor.Migrations
                         new
                         {
                             RoomID = 4,
-                            HotelID = 4,
+                            HotelID = 9,
                             PricePerNight = 110m,
                             RoomNo = 102,
-                            RoomType = "Standard"
+                            RoomType = "Double"
                         },
                         new
                         {
                             RoomID = 5,
-                            HotelID = 5,
+                            HotelID = 9,
                             PricePerNight = 180m,
                             RoomNo = 202,
+                            RoomType = "Suite"
+                        },
+                        new
+                        {
+                            RoomID = 6,
+                            HotelID = 6,
+                            PricePerNight = 180m,
+                            RoomNo = 122,
+                            RoomType = "Single"
+                        },
+                        new
+                        {
+                            RoomID = 7,
+                            HotelID = 6,
+                            PricePerNight = 180m,
+                            RoomNo = 42,
+                            RoomType = "Double"
+                        },
+                        new
+                        {
+                            RoomID = 8,
+                            HotelID = 6,
+                            PricePerNight = 180m,
+                            RoomNo = 222,
+                            RoomType = "Double"
+                        },
+                        new
+                        {
+                            RoomID = 9,
+                            HotelID = 6,
+                            PricePerNight = 180m,
+                            RoomNo = 204,
+                            RoomType = "Double"
+                        },
+                        new
+                        {
+                            RoomID = 10,
+                            HotelID = 7,
+                            PricePerNight = 180m,
+                            RoomNo = 216,
+                            RoomType = "Double"
+                        },
+                        new
+                        {
+                            RoomID = 11,
+                            HotelID = 7,
+                            PricePerNight = 180m,
+                            RoomNo = 108,
+                            RoomType = "Double"
+                        },
+                        new
+                        {
+                            RoomID = 12,
+                            HotelID = 7,
+                            PricePerNight = 180m,
+                            RoomNo = 109,
+                            RoomType = "Suite"
+                        },
+                        new
+                        {
+                            RoomID = 13,
+                            HotelID = 7,
+                            PricePerNight = 180m,
+                            RoomNo = 110,
+                            RoomType = "Double"
+                        },
+                        new
+                        {
+                            RoomID = 14,
+                            HotelID = 8,
+                            PricePerNight = 180m,
+                            RoomNo = 134,
+                            RoomType = "Double"
+                        },
+                        new
+                        {
+                            RoomID = 15,
+                            HotelID = 8,
+                            PricePerNight = 180m,
+                            RoomNo = 142,
+                            RoomType = "Suite"
+                        },
+                        new
+                        {
+                            RoomID = 16,
+                            HotelID = 8,
+                            PricePerNight = 180m,
+                            RoomNo = 172,
+                            RoomType = "Single"
+                        },
+                        new
+                        {
+                            RoomID = 17,
+                            HotelID = 8,
+                            PricePerNight = 180m,
+                            RoomNo = 222,
+                            RoomType = "Single"
+                        },
+                        new
+                        {
+                            RoomID = 18,
+                            HotelID = 9,
+                            PricePerNight = 180m,
+                            RoomNo = 212,
+                            RoomType = "Suite"
+                        },
+                        new
+                        {
+                            RoomID = 19,
+                            HotelID = 9,
+                            PricePerNight = 180m,
+                            RoomNo = 112,
+                            RoomType = "Double"
+                        },
+                        new
+                        {
+                            RoomID = 20,
+                            HotelID = 9,
+                            PricePerNight = 180m,
+                            RoomNo = 104,
+                            RoomType = "Double"
+                        },
+                        new
+                        {
+                            RoomID = 21,
+                            HotelID = 9,
+                            PricePerNight = 180m,
+                            RoomNo = 120,
                             RoomType = "Suite"
                         });
                 });
@@ -2330,6 +2373,10 @@ namespace BookingProcessor.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("BookingStatus")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("DropOffDate")
                         .HasColumnType("TEXT");
 
@@ -2342,43 +2389,6 @@ namespace BookingProcessor.Migrations
                     b.HasKey("VehicleBookingID");
 
                     b.ToTable("VehicleBooking");
-
-                    b.HasData(
-                        new
-                        {
-                            VehicleBookingID = 1,
-                            DropOffDate = new DateTime(2023, 12, 13, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7820),
-                            PickUpDate = new DateTime(2023, 12, 6, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7820),
-                            VehicleID = 1
-                        },
-                        new
-                        {
-                            VehicleBookingID = 2,
-                            DropOffDate = new DateTime(2023, 12, 16, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7820),
-                            PickUpDate = new DateTime(2023, 12, 9, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7820),
-                            VehicleID = 2
-                        },
-                        new
-                        {
-                            VehicleBookingID = 3,
-                            DropOffDate = new DateTime(2023, 12, 21, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7830),
-                            PickUpDate = new DateTime(2023, 12, 14, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7830),
-                            VehicleID = 3
-                        },
-                        new
-                        {
-                            VehicleBookingID = 4,
-                            DropOffDate = new DateTime(2023, 12, 26, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7830),
-                            PickUpDate = new DateTime(2023, 12, 19, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7830),
-                            VehicleID = 4
-                        },
-                        new
-                        {
-                            VehicleBookingID = 5,
-                            DropOffDate = new DateTime(2023, 12, 31, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7830),
-                            PickUpDate = new DateTime(2023, 12, 24, 23, 29, 29, 569, DateTimeKind.Local).AddTicks(7830),
-                            VehicleID = 5
-                        });
                 });
 #pragma warning restore 612, 618
         }

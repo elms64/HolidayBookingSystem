@@ -56,6 +56,7 @@ public class SeedData
         new Airport { AirportID = 27, CountryID = 724, AirportName = "Palma De Mallorca Airport" } //SPAIN
         );
 
+        /*
         // @elms64
         // Booking Seed Data
         modelBuilder.Entity<Booking>().HasData(
@@ -103,9 +104,9 @@ public class SeedData
                 InsuranceBookingID = insuranceBookingID
             };
             return JsonSerializer.Serialize(bookingInfo);
-        }
+        } */
 
-        // @Kloakk
+        /*// @Kloakk
         // Client Seed Data
         modelBuilder.Entity<Client>().HasData(
             new Client { ClientID = 1, FirstName = "John", LastName = "Doe", BirthDate = new DateTime(1990, 1, 1), Email = "john.doe@example.com", PhoneNumber = "123-456-7890" },
@@ -113,7 +114,7 @@ public class SeedData
             new Client { ClientID = 3, FirstName = "Alice", LastName = "Johnson", BirthDate = new DateTime(1992, 8, 20), Email = "alice.johnson@example.com", PhoneNumber = "555-123-4567" },
             new Client { ClientID = 4, FirstName = "Bob", LastName = "Anderson", BirthDate = new DateTime(1980, 3, 10), Email = "bob.anderson@example.com", PhoneNumber = "333-777-8888" },
             new Client { ClientID = 5, FirstName = "Eva", LastName = "Williams", BirthDate = new DateTime(1988, 11, 5), Email = "eva.williams@example.com", PhoneNumber = "111-222-3333" }
-        );
+        ); */
 
         // @dlawlor2408
         // Flight Seed Data
@@ -474,7 +475,7 @@ public class SeedData
 
       );
 
-        // Hotel Booking Seed Data
+        /* Hotel Booking Seed Data
         modelBuilder.Entity<HotelBooking>().HasData(
            new HotelBooking { HotelBookingID = 1, HotelID = 1, RoomID = 1, CheckInDate = DateTime.Now.AddDays(7), CheckOutDate = DateTime.Now.AddDays(14) },
            new HotelBooking { HotelBookingID = 2, HotelID = 2, RoomID = 2, CheckInDate = DateTime.Now.AddDays(10), CheckOutDate = DateTime.Now.AddDays(17) },
@@ -498,8 +499,7 @@ public class SeedData
            new HotelBooking { HotelBookingID = 20, HotelID = 9, RoomID = 20, CheckInDate = DateTime.Now.AddDays(7), CheckOutDate = DateTime.Now.AddDays(14) },
            new HotelBooking { HotelBookingID = 21, HotelID = 9, RoomID = 21, CheckInDate = DateTime.Now.AddDays(7), CheckOutDate = DateTime.Now.AddDays(14) }
 
-       );
-
+       ); */
 
         // Insurance Seed Data
         modelBuilder.Entity<Insurance>().HasData(
@@ -512,7 +512,7 @@ public class SeedData
             new Insurance { InsuranceID = 7, InsuranceType = "Cheddar", PricePerDay = 30000.0 }
         );
 
-        // @gjepic
+        /*// @gjepic
         // Insurance Booking Seed Data
         modelBuilder.Entity<InsuranceBooking>().HasData(
             new InsuranceBooking { InsuranceBookingID = 1, InsuranceID = 1, StartDate = DateTime.Now.AddDays(7), EndDate = DateTime.Now.AddDays(14) },
@@ -520,7 +520,7 @@ public class SeedData
             new InsuranceBooking { InsuranceBookingID = 3, InsuranceID = 3, StartDate = DateTime.Now.AddDays(15), EndDate = DateTime.Now.AddDays(22) },
             new InsuranceBooking { InsuranceBookingID = 4, InsuranceID = 4, StartDate = DateTime.Now.AddDays(20), EndDate = DateTime.Now.AddDays(27) },
             new InsuranceBooking { InsuranceBookingID = 5, InsuranceID = 5, StartDate = DateTime.Now.AddDays(25), EndDate = DateTime.Now.AddDays(32) }
-        );
+        ); */
 
         // Room Seed Data
         modelBuilder.Entity<Room>().HasData(
@@ -558,14 +558,14 @@ public class SeedData
             new Vehicle { VehicleID = 5, VehicleType = "Motorcycle", PricePerDay = 30.0m }
         );
 
-        // Vehicle Booking Seed Data
+        /* Vehicle Booking Seed Data
         modelBuilder.Entity<VehicleBooking>().HasData(
             new VehicleBooking { VehicleBookingID = 1, VehicleID = 1, PickUpDate = DateTime.Now.AddDays(7), DropOffDate = DateTime.Now.AddDays(14) },
             new VehicleBooking { VehicleBookingID = 2, VehicleID = 2, PickUpDate = DateTime.Now.AddDays(10), DropOffDate = DateTime.Now.AddDays(17) },
             new VehicleBooking { VehicleBookingID = 3, VehicleID = 3, PickUpDate = DateTime.Now.AddDays(15), DropOffDate = DateTime.Now.AddDays(22) },
             new VehicleBooking { VehicleBookingID = 4, VehicleID = 4, PickUpDate = DateTime.Now.AddDays(20), DropOffDate = DateTime.Now.AddDays(27) },
             new VehicleBooking { VehicleBookingID = 5, VehicleID = 5, PickUpDate = DateTime.Now.AddDays(25), DropOffDate = DateTime.Now.AddDays(32) }
-        );
+        ); */
 
 
 

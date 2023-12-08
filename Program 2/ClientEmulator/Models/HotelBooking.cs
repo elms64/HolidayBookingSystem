@@ -25,6 +25,11 @@ namespace ClientEmulator.Models
 
 
         [DisplayName("CheckOutDate")]
-         public DateTime CheckOutDate { get; set; } 
+        public DateTime CheckOutDate { get; set; } 
+
+        [DisplayName("Booking Status")]
+        public string BookingStatus { get; set; }
+
+
     }
 }

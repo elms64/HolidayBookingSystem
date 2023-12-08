@@ -25,5 +25,8 @@ namespace BookingProcessor.Models
         [DisplayName("End Date")]
         public DateTime EndDate { get; set; }
 
+        [DisplayName("Booking Status")]
+        public string BookingStatus { get; set; }
+
     }
 }

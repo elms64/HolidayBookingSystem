@@ -268,6 +268,8 @@ namespace BookingProcessor
                         Console.WriteLine($"Matching Hotel JSON Response: {hotelJsonResponse}");
                         break;
 
+
+
                     // @gjepic
                     // Returns all Vehicles from Vehicle Table.
                     case "Vehicle":
@@ -277,15 +279,17 @@ namespace BookingProcessor
                         buffer = Encoding.UTF8.GetBytes(vehicleJsonResponse);
                         break;
 
+
+
                     // Returns all Insurance plans from Insurance Table.
                     case "Insurance":
-
                         var Insurance = await bookingContext.Insurance
                         .Select(i => new { InsuranceID = i.InsuranceID, InsuranceName = i.InsuranceType }).ToListAsync();
                         string insuranceJsonResponse = JsonSerializer.Serialize(Insurance);
                         buffer = Encoding.UTF8.GetBytes(insuranceJsonResponse);
                         Console.WriteLine(insuranceJsonResponse);
                         break;
+
 
                     /* List<string?> plans = await bookingContext.Insurance.Select(p => p.InsuranceType).ToListAsync();
                      string insuranceJsonResponse = JsonSerializer.Serialize(plans);
@@ -294,21 +298,25 @@ namespace BookingProcessor
 
 
                     case "Room":
-                        if (request.Headers.Get("room") != null && int.TryParse(request.Headers.Get("room"), out returnedRoomID))
+                        if (request.Headers.Get("room") != null && int.TryParse(request.Headers.Get("room"), out int selectedHotelID))
                         {
-                            Console.WriteLine($"room Header: {returnedRoomID}");
+                            Console.WriteLine($"room Header: {selectedHotelID}");
+
+                            var matchingRooms = bookingContext.Room
+                                .Where(r => r.HotelID == selectedHotelID)
+                                .Select(r => new { RoomID = r.RoomID, HotelID = r.HotelID, RoomType = r.RoomType, PricePerNight = r.PricePerNight })
+                                .ToList();
+
+                            // Serialize the result to JSON.
+                            string roomJsonResponse = JsonSerializer.Serialize(matchingRooms);
+                            buffer = Encoding.UTF8.GetBytes(roomJsonResponse);
+                            Console.WriteLine($"Matching Hotel JSON Response: {roomJsonResponse}");
                         }
-
-                        var matchingRooms = bookingContext.Room
-                           
-                            .Select(h => new { RoomID = h.RoomID, HotelID = h.HotelID, RoomType = h.RoomType, PricePerNight = h.PricePerNight })
-                            .ToList();
-
-                        // Serialize the result to JSON.
-                        string roomJsonResponse = JsonSerializer.Serialize(matchingRooms);
-                        buffer = Encoding.UTF8.GetBytes(roomJsonResponse);
-                        Console.WriteLine($"Matching Hotel JSON Response: {roomJsonResponse}");
-
+                        else
+                        {
+                            // Handle the case where the "room" header is not present or not a valid integer.
+                            Console.WriteLine("Invalid or missing 'room' header.");
+                        }
                         break;
 
                 }
@@ -333,6 +341,11 @@ namespace BookingProcessor
                 // The request type may be a standard booking or a batch process. 
                 switch (requestType)
                 {
+                    // Create a new client in the s
+                    case "Client":
+                        buffer = await ClientBooking(request, bookingContext);
+                        break;
+
                     // If a normal booking request comes in, upload it to the database and return an invoice.
                     case "Booking":
                         buffer = await CreateBooking(request, bookingContext);
@@ -344,6 +357,20 @@ namespace BookingProcessor
                         InitRecoveryMode();
                         break;
 
+                    // Creates a vehicle booking for the client. 
+                    case "VehicleBooking":
+                        buffer = await CreateVehicleBooking(request, bookingContext);
+                        break;
+
+                    case "InsuranceBooking":
+                        buffer = await CreateInsuranceBooking(request, bookingContext);
+                        break;
+
+                    // Creates a booking for a hotel for the client.
+                    case "HotelBooking":
+                        buffer = await CreateHotelBooking(request, bookingContext);
+                        break;
+
                     default:
                         buffer = Encoding.UTF8.GetBytes("Invalid request type");
                         break;
@@ -353,6 +380,235 @@ namespace BookingProcessor
                 response.ContentLength64 = buffer.Length;
                 response.OutputStream.Write(buffer, 0, buffer.Length);
                 response.Close();
+            }
+        }
+
+
+        private async Task<byte[]> ClientBooking(HttpListenerRequest request, BookingContext bookingContext)
+        {
+            try
+            {
+                // Receive client information from an HTTP PUT request
+                using (var reader = new StreamReader(request.InputStream, request.ContentEncoding))
+                {
+                    string requestBody = await reader.ReadToEndAsync();
+
+                    // Parse the JSON array
+                    using (JsonDocument jsonDocument = JsonDocument.Parse(requestBody))
+                    {
+                        if (jsonDocument.RootElement.EnumerateArray().Any())
+                        {
+                            // Extract values from the array
+                            string firstName = jsonDocument.RootElement.EnumerateArray().FirstOrDefault(e => e.GetProperty("Key").GetString() == "FirstName").GetProperty("Value").GetString();
+                            string lastName = jsonDocument.RootElement.EnumerateArray().FirstOrDefault(e => e.GetProperty("Key").GetString() == "LastName").GetProperty("Value").GetString();
+                            string birthDate = jsonDocument.RootElement.EnumerateArray().FirstOrDefault(e => e.GetProperty("Key").GetString() == "DoB").GetProperty("Value").GetString();
+                            string email = jsonDocument.RootElement.EnumerateArray().FirstOrDefault(e => e.GetProperty("Key").GetString() == "Email").GetProperty("Value").GetString();
+                            string phoneNumber = jsonDocument.RootElement.EnumerateArray().FirstOrDefault(e => e.GetProperty("Key").GetString() == "PhoneNumber").GetProperty("Value").GetString();
+
+                            // Create a new client record.
+                            Client client = new Client
+                            {
+                                ClientID = 0,
+                                FirstName = firstName,
+                                LastName = lastName,
+                                BirthDate = DateTime.Parse(birthDate), // You may need to adjust the conversion based on your data type
+                                Email = email,
+                                PhoneNumber = phoneNumber
+                            };
+
+                            bookingContext.Client.Add(client);
+                            await bookingContext.SaveChangesAsync();
+
+                            // Now, client has the ClientID assigned by the database
+                            int newClientID = client.ClientID;
+
+                            // Create a response object
+                            var responseObj = new
+                            {
+                                ClientID = newClientID,
+                                Message = "Client created successfully",
+                                Status = "Success"
+
+                            };
+
+                            // Respond to the client.
+                            string jsonResponse = JsonSerializer.Serialize(responseObj);
+                            Console.WriteLine(jsonResponse);
+                            return Encoding.UTF8.GetBytes(jsonResponse);
+                        }
+                    }
+
+                    return Encoding.UTF8.GetBytes("Invalid Client Data format");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}\n{ex.StackTrace}");
+                return Encoding.UTF8.GetBytes("Error creating client, please try again later.");
+            }
+        }
+
+        private async Task<byte[]> CreateHotelBooking(HttpListenerRequest request, BookingContext bookingContext)
+        {
+            try
+            {
+                // Receive hotel booking information from a HTTP PUT request
+                using (var reader = new StreamReader(request.InputStream, request.ContentEncoding))
+                {
+                    string requestBody = await reader.ReadToEndAsync();
+
+                    // Parse the JSON array
+                    using (JsonDocument jsonDocument = JsonDocument.Parse(requestBody))
+                    {
+                        if (jsonDocument.RootElement.EnumerateArray().Any())
+                        {
+                            // Extract values from the array
+                            string? hotelID = jsonDocument.RootElement.EnumerateArray().FirstOrDefault(e => e.GetProperty("Key").GetString() == "HotelID").GetProperty("Value").GetString();
+                            string? roomID = jsonDocument.RootElement.EnumerateArray().FirstOrDefault(e => e.GetProperty("Key").GetString() == "RoomID").GetProperty("Value").GetString();
+
+                            // Create a new HotelBooking record.
+                            HotelBooking hotelBooking = new HotelBooking
+                            {
+                                HotelBookingID = 0,
+                                HotelID = int.Parse(hotelID!),
+                                RoomID = int.Parse(roomID!),
+                                CheckInDate = DateTime.Now,
+                                CheckOutDate = DateTime.Now.AddDays(7),
+                                BookingStatus = "Pending"
+                            };
+
+                            bookingContext.HotelBooking.Add(hotelBooking);
+                            await bookingContext.SaveChangesAsync();
+
+                            // Now, hotelBooking has the BookingID assigned by the database
+                            int newHotelBookingID = hotelBooking.HotelBookingID;
+
+                            // Create a response object
+                            var responseObj = new
+                            {
+                                HotelBookingID = newHotelBookingID,
+                                Message = "Hotel booking created successfully",
+                                Status = "Success"
+                            };
+
+                            // Respond to the client.
+                            string jsonResponse = JsonSerializer.Serialize(responseObj);
+                            Console.WriteLine(jsonResponse);
+                            return Encoding.UTF8.GetBytes(jsonResponse);
+                        }
+                    }
+
+                    return Encoding.UTF8.GetBytes("Invalid HotelBooking Data format");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}\n{ex.StackTrace}");
+                return Encoding.UTF8.GetBytes("Error creating HotelBooking, please try again later.");
+            }
+        }
+
+        private async Task<byte[]> CreateVehicleBooking(HttpListenerRequest request, BookingContext bookingContext)
+        {
+            try
+            {
+                using (var reader = new StreamReader(request.InputStream, request.ContentEncoding))
+                {
+                    string requestBody = await reader.ReadToEndAsync();
+
+                    using (JsonDocument jsonDocument = JsonDocument.Parse(requestBody))
+                    {
+                        if (jsonDocument.RootElement.EnumerateArray().Any())
+                        {
+                            string? VehicleID = jsonDocument.RootElement.EnumerateArray().FirstOrDefault(e => e.GetProperty("Key").GetString() == "VehicleID").GetProperty("Value").GetString();
+
+                            VehicleBooking vehicleBooking = new VehicleBooking
+                            {
+                                VehicleBookingID = 0,
+                                VehicleID = int.Parse(VehicleID!),
+                                PickUpDate = DateTime.Now,
+                                DropOffDate = DateTime.Now.AddDays(7),
+                                BookingStatus = "Pending"
+                            };
+
+                            bookingContext.VehicleBooking.Add(vehicleBooking);
+                            await bookingContext.SaveChangesAsync();
+
+                            int newVehicleBookingID = vehicleBooking.VehicleBookingID;
+
+                            var responseObj = new
+                            {
+                                VehicleBookingID = newVehicleBookingID,
+                                Message = "VehicleBooking Created Successfully",
+                                Status = "Success"
+                            };
+
+                            string jsonResponse = JsonSerializer.Serialize(responseObj);
+                            Console.WriteLine(jsonResponse);
+                            return Encoding.UTF8.GetBytes(jsonResponse);
+
+
+
+                        }
+                    }
+                    return Encoding.UTF8.GetBytes("Invalid HotelBooking Data format");
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}\n{ex.StackTrace}");
+                return Encoding.UTF8.GetBytes("Error creating vehicle booking, please try again later.");
+            }
+        }
+
+        private async Task<byte[]> CreateInsuranceBooking(HttpListenerRequest request, BookingContext bookingContext)
+        {
+            try {
+                using (var reader = new StreamReader(request.InputStream, request.ContentEncoding)){
+                    
+                    string requestBody = await reader.ReadToEndAsync();
+                    
+                     using (JsonDocument jsonDocument = JsonDocument.Parse(requestBody)){
+                        if (jsonDocument.RootElement.EnumerateArray().Any()){
+                            string? InsuranceID = jsonDocument.RootElement.EnumerateArray().FirstOrDefault(e=>e.GetProperty("Key").GetString()=="InsuranceID").GetProperty("Value").GetString();
+
+
+                            InsuranceBooking insuranceBooking = new InsuranceBooking{
+                                InsuranceBookingID = 0,
+                                InsuranceID = int.Parse(InsuranceID!),
+                                StartDate = DateTime.Now,
+                                EndDate = DateTime.Now.AddDays(7),
+                                BookingStatus = "pending"
+                            };
+
+                            bookingContext.InsuranceBooking.Add(insuranceBooking);
+                            await bookingContext.SaveChangesAsync();
+
+                            int newInsuranceBookingID = insuranceBooking.InsuranceBookingID;
+
+                            var responseObj = new{
+                                InsuranceBookingId = newInsuranceBookingID,
+                                Message = "Hotel booking created successfully",
+                                Status = "Success"
+                            };
+
+                            string jsonResponse = JsonSerializer.Serialize(responseObj);
+                            Console.WriteLine(jsonResponse);
+                            return Encoding.UTF8.GetBytes(jsonResponse);
+
+                        }
+
+                        return Encoding.UTF8.GetBytes("Invalid HotelBooking Data format");
+
+
+                    }
+                }
+            }
+              catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}\n{ex.StackTrace}");
+                return Encoding.UTF8.GetBytes("Error creating InsruanceBooking, please try again later.");
             }
         }
 
@@ -407,8 +663,6 @@ namespace BookingProcessor
             var recoveryMode = new RecoveryMode(serviceProvider);
             recoveryMode.Run().GetAwaiter().GetResult();
         }
-
-        // -----------------------------------------------------------------------------------------------------------------------
 
     }
 }
