@@ -30,7 +30,7 @@ namespace ClientEmulator.Models
         public DateTime EndDate { get; set; }
 
         [DisplayName("Booking Status")]
-        public string BookingStatus { get; set; }
+        public string? BookingStatus { get; set; }
 
     }
 }

@@ -50,11 +50,11 @@ namespace ClientEmulator
 
             string serverURL = ConsoleAppUrl + "/Client";
             var clientData = new List<KeyValuePair<string, string>>();
-            clientData.Add(new KeyValuePair<string, string>("FirstName", firstName));
-            clientData.Add(new KeyValuePair<string, string>("LastName", lastName));
-            clientData.Add(new KeyValuePair<string, string>("BirthDate", birthDate));
-            clientData.Add(new KeyValuePair<string, string>("Email", email));
-            clientData.Add(new KeyValuePair<string, string>("PhoneNumber", phoneNumber));
+            clientData.Add(new KeyValuePair<string, string>("FirstName", firstName ?? ""));
+            clientData.Add(new KeyValuePair<string, string>("LastName", lastName ?? ""));
+            clientData.Add(new KeyValuePair<string, string>("BirthDate", birthDate ?? ""));
+            clientData.Add(new KeyValuePair<string, string>("Email", email ?? ""));
+            clientData.Add(new KeyValuePair<string, string>("PhoneNumber", phoneNumber ?? ""));
 
             string jsonPayload = JsonSerializer.Serialize(clientData);
             StringContent content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
@@ -69,7 +69,7 @@ namespace ClientEmulator
 
                 // Parse the JSON response to get the ClientID
                 var responseObject = JsonSerializer.Deserialize<Dictionary<string, object>>(responseContent);
-                if (responseObject.TryGetValue("ClientID", out object clientIDObj))
+                if (responseObject!.TryGetValue("ClientID", out object? clientIDObj))
                 {
                     if (clientIDObj is JsonElement clientIDElement && clientIDElement.TryGetInt32(out int clientID))
                     {
@@ -117,7 +117,7 @@ namespace ClientEmulator
         {
             // Add your email validation logic here.
             // Example: Check if the email matches a valid email pattern.
-            if (Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+            if (Regex.IsMatch(email!, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
             {
                 return true;
             }
@@ -135,7 +135,7 @@ namespace ClientEmulator
         {
             // Add your phone number validation logic here.
             // Example: Check if the phone number matches a valid pattern.
-            if (Regex.IsMatch(phoneNumber, @"^\d{11}$"))
+            if (Regex.IsMatch(phoneNumber!, @"^\d{11}$"))
             {
                 return true;
             }

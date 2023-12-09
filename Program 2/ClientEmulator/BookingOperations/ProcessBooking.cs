@@ -104,7 +104,7 @@ namespace ClientEmulator
                 string jsonPayload = JsonSerializer.Serialize(bookingData);
                 StringContent content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await httpClient.PutAsync(serverURL, content);
-
+                
                 // Check if the request was successful
                 if (response.IsSuccessStatusCode)
                 {
@@ -115,7 +115,8 @@ namespace ClientEmulator
                     string responseContent = await response.Content.ReadAsStringAsync();
 
                     var responseObject = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(responseContent);
-                    if (responseObject.TryGetValue("OrderNumber", out JsonElement orderNumberElement))
+                    
+                    if (responseObject!.TryGetValue("OrderNumber", out JsonElement orderNumberElement))
                     {
                         int OrderNumber = orderNumberElement.GetInt32();
                         Console.ForegroundColor = ConsoleColor.Green;

@@ -26,6 +26,6 @@ namespace BookingProcessor.Models
         public DateTime DropOffDate { get; set; }
 
         [DisplayName("Booking Status")]
-        public string BookingStatus { get; set; }
+        public string? BookingStatus { get; set; }
     }
 }

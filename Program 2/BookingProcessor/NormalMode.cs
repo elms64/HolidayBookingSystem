@@ -157,7 +157,6 @@ namespace BookingProcessor
 
                 int originID;
                 int destinationID = 0;
-                int returnedRoomID = 0;
 
                 // To process different types of requests, different cases are defined for every use case.
                 switch (requestType)
@@ -407,11 +406,11 @@ namespace BookingProcessor
                         if (jsonDocument.RootElement.EnumerateArray().Any())
                         {
                             // Extract values from the array
-                            string firstName = jsonDocument.RootElement.EnumerateArray().FirstOrDefault(e => e.GetProperty("Key").GetString() == "FirstName").GetProperty("Value").GetString();
-                            string lastName = jsonDocument.RootElement.EnumerateArray().FirstOrDefault(e => e.GetProperty("Key").GetString() == "LastName").GetProperty("Value").GetString();
-                            string birthDate = jsonDocument.RootElement.EnumerateArray().FirstOrDefault(e => e.GetProperty("Key").GetString() == "BirthDate").GetProperty("Value").GetString();
-                            string email = jsonDocument.RootElement.EnumerateArray().FirstOrDefault(e => e.GetProperty("Key").GetString() == "Email").GetProperty("Value").GetString();
-                            string phoneNumber = jsonDocument.RootElement.EnumerateArray().FirstOrDefault(e => e.GetProperty("Key").GetString() == "PhoneNumber").GetProperty("Value").GetString();
+                            string? firstName = jsonDocument.RootElement.EnumerateArray().FirstOrDefault(e => e.GetProperty("Key").GetString() == "FirstName").GetProperty("Value").GetString();
+                            string? lastName = jsonDocument.RootElement.EnumerateArray().FirstOrDefault(e => e.GetProperty("Key").GetString() == "LastName").GetProperty("Value").GetString();
+                            string? birthDate = jsonDocument.RootElement.EnumerateArray().FirstOrDefault(e => e.GetProperty("Key").GetString() == "BirthDate").GetProperty("Value").GetString();
+                            string? email = jsonDocument.RootElement.EnumerateArray().FirstOrDefault(e => e.GetProperty("Key").GetString() == "Email").GetProperty("Value").GetString();
+                            string? phoneNumber = jsonDocument.RootElement.EnumerateArray().FirstOrDefault(e => e.GetProperty("Key").GetString() == "PhoneNumber").GetProperty("Value").GetString();
 
                             // Create a new client record.
                             Client client = new Client
@@ -419,7 +418,7 @@ namespace BookingProcessor
                                 ClientID = 0,
                                 FirstName = firstName,
                                 LastName = lastName,
-                                BirthDate = DateTime.Parse(birthDate), // You may need to adjust the conversion based on your data type
+                                BirthDate = DateTime.Parse(birthDate!), // You may need to adjust the conversion based on your data type
                                 Email = email,
                                 PhoneNumber = phoneNumber
                             };
@@ -715,6 +714,7 @@ namespace BookingProcessor
                         {
                             Booking booking = new Booking
                             {
+                                OrderNumber = 0,
                                 TransactionGUID = string.IsNullOrEmpty(TransactionGUIDString) ? Guid.Empty : Guid.Parse(TransactionGUIDString),
                                 CheckSum = CheckSum,
                                 HotelBookingID = int.TryParse(HotelBookingID, out int hotelbookingId) ? hotelbookingId : 0,
@@ -728,19 +728,22 @@ namespace BookingProcessor
 
                             // Add the new booking to the context
                             bookingContext.Booking.Add(booking);
+                            await bookingContext.SaveChangesAsync();
 
-                            try
+                            int newOrderNumberID = booking.OrderNumber;
+
+                            var responseObj = new 
                             {
-                                // Save changes to the database
-                                await bookingContext.SaveChangesAsync();
-                                Console.WriteLine($"Booking created successfully. OrderNumber: {booking.OrderNumber}");
-                                return Encoding.UTF8.GetBytes($"Booking created successfully. OrderNumber: {booking.OrderNumber}");
-                            }
-                            catch (Exception saveException)
-                            {
-                                Console.WriteLine($"Error saving changes to the database: {saveException}");
-                                return Encoding.UTF8.GetBytes("Error creating booking, please try again later.");
-                            }
+                                OrderNumber = newOrderNumberID,
+                                Message = "Booking Created Successfully",
+                                Status = "Success"
+                            };
+
+                            string jsonResponse = JsonSerializer.Serialize(responseObj);
+                            Console.WriteLine(jsonResponse);
+                            return Encoding.UTF8.GetBytes(jsonResponse);
+
+                           
                         }
                     }
                 }

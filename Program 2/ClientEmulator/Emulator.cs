@@ -13,6 +13,7 @@ using ClientEmulator.Models;
 using System.Security.Cryptography;
 using System.Text;
 using SQLitePCL;
+using System.Net;
 
 namespace ClientEmulator
 {
@@ -27,11 +28,17 @@ namespace ClientEmulator
         /* Constructor */
         static async Task Main(string[] args)
         {
+
             // Check if there are any stored batch processes and send to server.
             await ShowLoadingBar();
+
+            SplashScreen();
+
+            await Task.Delay(1800);
             await SendBatches();
 
             // Initialize the booking process.
+            await Task.Delay(1000);
             await BookingInit();
 
             // Once operations are complete, press any key to exit the application.
@@ -41,25 +48,83 @@ namespace ClientEmulator
 
         private static async Task ShowLoadingBar()
         {
-            Console.Clear();
-            for (int i = 0; i < 60; i++)
-            {
-                Console.Write("*");
-                await Task.Delay(10);
-            }
 
-            Console.Clear(); // Clear the console
-            await Task.Delay(400);
-
-            for (int i = 0; i < 60; i++)
+            for (int i = 0; i < 50; i++)
             {
                 Console.Write("*");
                 await Task.Delay(1);
             }
 
 
-            await Task.Delay(800); // Pause for 0.4 seconds
+            await Task.Delay(200); // Pause for 0.4 seconds
+
+        }
+
+        private static async void SplashScreen()
+        {
+
+
+
             Console.WriteLine("");
+            await Task.Delay(10);
+            Console.WriteLine("*                                                *");
+            await Task.Delay(10);
+            Console.WriteLine("*    Booking Processor Utility                   *");
+            await Task.Delay(10);
+            Console.WriteLine("*                                                *");
+            await Task.Delay(10);
+            Console.WriteLine("*    Welcome, System Administrator!              *");
+            await Task.Delay(10);
+            Console.WriteLine("*                                                *");
+            await Task.Delay(10);
+            Console.WriteLine("*    This utility serves as a front              *");
+            await Task.Delay(10);
+            Console.WriteLine("*    end for the backend created. It             *");
+            await Task.Delay(10);
+            Console.WriteLine("*    is used to test data transfer.              *");
+            await Task.Delay(10);
+            Console.WriteLine("*                                                *");
+            await Task.Delay(10);
+            Console.WriteLine("*    Copyright © 2023 Booking Beyond             *");
+            await Task.Delay(10);
+            Console.WriteLine("*    Boundaries. All rights reserved.            *");
+            await Task.Delay(10);
+            Console.WriteLine("*                                                *");
+            await Task.Delay(10);
+            Console.WriteLine("*    GitHub Authors:                             *");
+            await Task.Delay(10);
+            Console.WriteLine("*    @elms64, @Kloakk                            *");
+            await Task.Delay(10);
+            Console.WriteLine("*                                                *");
+            await Task.Delay(10);
+            Console.WriteLine("*    For support and inquiries, please           *");
+            await Task.Delay(10);
+            Console.WriteLine("*    contact support@bookingbeyond.com.          *");
+            await Task.Delay(10);
+            Console.WriteLine("*                                                *");
+            await Task.Delay(10);
+            Console.WriteLine("*                                                *");
+            await Task.Delay(10);
+            Console.WriteLine("*    ----------------------------------------    *");
+            await Task.Delay(10);
+            Console.WriteLine("*                                                *");
+            await Task.Delay(10);
+            Console.WriteLine("*                                                *");
+            await Task.Delay(10);
+            Console.WriteLine("*    Thank you for choosing                      *");
+            await Task.Delay(10);
+            Console.WriteLine("*    Booking Beyond Boundaries!                  *");
+            await Task.Delay(10);
+            Console.WriteLine("*                                                *");
+            await Task.Delay(10);
+            for (int i = 0; i < 50; i++)
+            {
+                Console.Write("*");
+                await Task.Delay(1);
+            }
+            Console.WriteLine("");  
+            Console.WriteLine("");
+
         }
 
         public class AirportInfo
@@ -104,7 +169,7 @@ namespace ClientEmulator
                 /* Booking Stage 1: Flights */
                 /* ------------------------------------------------------------------------------------------ */
 
-                ReturnAirports rtnAir = new ReturnAirports(ConsoleAppUrl, origin, destination);
+                ReturnAirports rtnAir = new ReturnAirports(ConsoleAppUrl, origin!, destination!);
 
                 // Get origin airports
                 List<Airport> originAirports = await rtnAir.GetOriginAirportsAsync();
@@ -168,7 +233,7 @@ namespace ClientEmulator
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Flight booking ID: " + FlightBookingID + " set to pending.");
                     Console.ResetColor();
-                    
+
                 }
                 else
                 {

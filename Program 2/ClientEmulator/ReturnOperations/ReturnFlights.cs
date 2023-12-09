@@ -16,8 +16,8 @@ namespace ClientEmulator
     {
         /* Variables */
         private static readonly string ConsoleAppUrl = "http://localhost:8080";
-        private static string? origin;
-        private static string? destination;
+        
+       
         
 
         public async Task ReturnFlightsList(string departureAirport, string arrivalAirport)

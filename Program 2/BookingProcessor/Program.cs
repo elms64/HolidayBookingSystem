@@ -37,44 +37,95 @@ namespace BookingProcessor
 
             while (true)
             {
-                Console.WriteLine("**************************************************");
+                for (int i = 0; i < 50; i++)
+                {
+                    Console.Write("*");
+                    await Task.Delay(1);
+                }
+                await Task.Delay(200);
+
                 Console.WriteLine("*                                                *");
+                await Task.Delay(10);
                 Console.WriteLine("*    Booking Processor Utility                   *");
+                await Task.Delay(10);
                 Console.WriteLine("*                                                *");
+                await Task.Delay(10);
                 Console.WriteLine("*    Welcome, System Administrator!              *");
+                await Task.Delay(10);
                 Console.WriteLine("*                                                *");
+                await Task.Delay(10);
                 Console.WriteLine("*    This utility processes booking data         *");
+                await Task.Delay(10);
                 Console.WriteLine("*    and provides recovery and normal            *");
+                await Task.Delay(10);
                 Console.WriteLine("*    modes of operation.                         *");
+                await Task.Delay(10);
                 Console.WriteLine("*                                                *");
+                await Task.Delay(10);
                 Console.WriteLine("*    Copyright © 2023 Booking Beyond             *");
+                await Task.Delay(10);
                 Console.WriteLine("*    Boundaries. All rights reserved.            *");
+                await Task.Delay(10);
                 Console.WriteLine("*                                                *");
+                await Task.Delay(10);
                 Console.WriteLine("*    GitHub Authors:                             *");
+                await Task.Delay(10);
                 Console.WriteLine("*    @elms64, @Kloakk, @dlawlor2408 & @gjepic    *");
+                await Task.Delay(10);
                 Console.WriteLine("*                                                *");
+                await Task.Delay(10);
                 Console.WriteLine("*    For support and inquiries, please           *");
+                await Task.Delay(10);
                 Console.WriteLine("*    contact support@bookingbeyond.com.          *");
+                await Task.Delay(10);
                 Console.WriteLine("*                                                *");
+                await Task.Delay(10);
                 Console.WriteLine("*    Commands:                                   *");
+                await Task.Delay(10);
                 Console.WriteLine("*    Type 'Recover' to initiate recovery mode.   *");
+                await Task.Delay(10);
                 Console.WriteLine("*    Type 'Listen' to start normal mode.         *");
+                await Task.Delay(10);
                 Console.WriteLine("*    Type 'Exit' to exit the application.        *");
+                await Task.Delay(10);
                 Console.WriteLine("*    Press Enter to boot the automatic startup.  *");
+                await Task.Delay(10);
                 Console.WriteLine("*                                                *");
+                await Task.Delay(10);
                 Console.WriteLine("*    To boot recovery mode whilst listening,     *");
+                await Task.Delay(10);
                 Console.WriteLine("*    Press ESC to exit then restart the server   *");
+                await Task.Delay(10);
                 Console.WriteLine("*                                                *");
+                await Task.Delay(10);
                 Console.WriteLine("*    Note: This utility requires access          *");
+                await Task.Delay(10);
                 Console.WriteLine("*          to a SQL database (SQLite is          *");
+                await Task.Delay(10);
                 Console.WriteLine("*          Implemented as an example).           *");
+                await Task.Delay(10);
                 Console.WriteLine("*                                                *");
+                await Task.Delay(10);
                 Console.WriteLine("*    Thank you for choosing                      *");
+                await Task.Delay(10);
                 Console.WriteLine("*    Booking Beyond Boundaries!                  *");
+                await Task.Delay(10);
                 Console.WriteLine("*                                                *");
-                Console.WriteLine("**************************************************");
+                await Task.Delay(10);
+
+                for (int i = 0; i < 50; i++)
+                {
+                    Console.Write("*");
+                    await Task.Delay(1);
+                }
+                
                 Console.WriteLine("");
+                Console.WriteLine("");
+                await Task.Delay(10);
+                Console.WriteLine("");
+                await Task.Delay(10);
                 Console.WriteLine("Press Enter or type a command to continue:");
+
 
                 // Awaits user input.
                 string? userInput = Console.ReadLine(); //@
