@@ -56,10 +56,16 @@ namespace ClientEmulator
                 Console.Write("*");
                 await Task.Delay(1);
             }
-           
-            
+
+
             await Task.Delay(800); // Pause for 0.4 seconds
             Console.WriteLine("");
+        }
+
+        public class AirportInfo
+        {
+            public List<Airport>? OriginAirports { get; set; }
+            public List<Airport>? DestinationAirports { get; set; }
         }
 
         /* Methods */
@@ -114,20 +120,20 @@ namespace ClientEmulator
 
                         // Collect the departure airport and arrival airport from the user.
                         string flightAirportJsonResponse = await response.Content.ReadAsStringAsync();
-                        var airportInfo = JsonSerializer.Deserialize<List<Airport>>(flightAirportJsonResponse);
-                        foreach (var originAirport in airportInfo!)
+                        var airportInfo = JsonSerializer.Deserialize<AirportInfo>(flightAirportJsonResponse);
+                        foreach (var originAirport in airportInfo!.OriginAirports!)
                         {
-                            Console.WriteLine(originAirport.ToString());
+                            Console.WriteLine($"Airport ID: {originAirport.AirportID}, Name: {originAirport.AirportName}");
                         }
 
                         Console.WriteLine("Enter the ID of your desired departure airport:");
                         string departureAirport = Console.ReadLine()!;
                         Console.WriteLine("\n");
-
-                        foreach (var destinationAirport in airportInfo!)
+                        foreach (var destinationAirport in airportInfo!.DestinationAirports!)
                         {
-                            Console.WriteLine(destinationAirport.ToString());
+                            Console.WriteLine($"Airport ID: {destinationAirport.AirportID}, Name: {destinationAirport.AirportName}");
                         }
+
                         Console.WriteLine("Enter the ID of your desired arrival airport:");
                         string arrivalAirport = Console.ReadLine()!;
 
