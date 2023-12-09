@@ -44,18 +44,24 @@ namespace ClientEmulator
                 {
                     // Extract the value from JsonElement
                     int hotelBookingID = hotelBookingIDElement.GetInt32();
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine($"Hotel booking transaction sent successfully! HotelBookingID: {hotelBookingID}");
+                    Console.ResetColor();
                     return hotelBookingID;
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
                     Console.WriteLine("Error: Unable to parse HotelBookingID from the response.");
+                    Console.ResetColor();
                     return -1;
                 }
             }
             else
             {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                Console.ResetColor();
                 return -1;
             }
 

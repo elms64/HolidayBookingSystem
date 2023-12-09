@@ -79,15 +79,18 @@ namespace ClientEmulator
             // Also entering the ID as this is only a simulation of front end, and that's how it would process a selected country
             Console.WriteLine("What Country Are You Travelling From?");
             origin = Console.ReadLine();
+            Console.WriteLine("");
 
             // Get origin from user input
             // Enter 724 for Spain (due to SeedData availability)
             // Also entering the ID as this is only a simulation of front end, and that's how it would process a selected country
             Console.WriteLine("What Country Are You Travelling To?");
             destination = Console.ReadLine();
+            Console.WriteLine("");
 
             Console.WriteLine("Departure Date: " + DateTime.Now);
             Console.WriteLine("Return Date: " + DateTime.Now.AddDays(7));
+            Console.WriteLine("");
 
             // Initiate the flight process
             await Booking();
@@ -111,9 +114,10 @@ namespace ClientEmulator
                 }
 
                 // Collect the departure airport and arrival airport from the user.
+                Console.WriteLine("");
                 Console.WriteLine("Enter the ID of your desired departure airport:");
                 string departureAirport = Console.ReadLine()!;
-                Console.WriteLine("\n");
+                Console.WriteLine("");
 
                 // Get destination airports
                 List<Airport> destinationAirports = await rtnAir.GetDestinationAirportsAsync();
@@ -122,6 +126,7 @@ namespace ClientEmulator
                     Console.WriteLine($"Airport ID: {destinationAirport.AirportID}, Name: {destinationAirport.AirportName}");
                 }
 
+                Console.WriteLine("");
                 Console.WriteLine("Enter the ID of your desired arrival airport:");
                 string arrivalAirport = Console.ReadLine()!;
 
@@ -130,14 +135,17 @@ namespace ClientEmulator
                 await rtnflight.ReturnFlightsList(departureAirport, arrivalAirport);
 
                 // Choose and confirm flight.
+                Console.WriteLine("");
                 Console.WriteLine(" ✈  Please select the flight ID you wish to book: ✈ ");
                 string selectedFlightID = Console.ReadLine()!;
-
+                Console.WriteLine("");
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("You have selected Flight ID: " + selectedFlightID);
-                Console.WriteLine("\n");
+                Console.ResetColor();
+                Console.WriteLine("");
                 Console.WriteLine("Are you happy to proceed?");
 
-                string confirmFlight = Console.ReadLine();
+                string confirmFlight = GetUserConfirmation();
                 Console.WriteLine("");
                 int FlightBookingID = 0;
                 int clientID = 0;
@@ -151,17 +159,22 @@ namespace ClientEmulator
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("");
                     Console.WriteLine("Client details confirmed.");
+                    Console.WriteLine("");
+                    Console.ResetColor();
 
                     FlightBooking fltbk = new FlightBooking();
                     FlightBookingID = await fltbk.FlightBookingAsync(selectedFlightID, clientID);
 
-                    Console.WriteLine("Flight booking set to pending.");
-                    Console.WriteLine("");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Flight booking ID: " + FlightBookingID + " set to pending.");
                     Console.ResetColor();
+                    
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
                     Console.WriteLine("Cancelling transaction... exiting application...");
+                    Console.ResetColor();
                     Environment.Exit(0);
                 }
 
@@ -184,21 +197,29 @@ namespace ClientEmulator
                 // Choose hotel room and confirm hotel booking.
                 Console.WriteLine("Please enter the ID of the room you wish to book:");
                 string selectedRoom = Console.ReadLine()!;
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("");
                 Console.WriteLine("You have selected room ID: " + selectedRoom + " in the hotel ID: " + selectedHotelID);
                 Console.WriteLine("");
+                Console.ResetColor();
                 Console.WriteLine("Are you happy to proceed with your hotel booking?");
-
-                string confirmHotelBooking = Console.ReadLine();
+                string confirmHotelBooking = GetUserConfirmation();
+                Console.WriteLine("");
                 int HotelBookingID = 0;
                 if (confirmHotelBooking == "Yes")
                 {
                     HotelBooking htlbk = new HotelBooking();
                     HotelBookingID = await htlbk.HotelBookingAsync(selectedHotelID, selectedRoom, clientID);
-                    Console.WriteLine("Hotel booking set to pending.");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Hotel booking ID: " + HotelBookingID + " set to pending.");
+                    Console.ResetColor();
+                    Console.WriteLine("");
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
                     Console.WriteLine("Cancelling transaction... exiting application...");
+                    Console.ResetColor();
                     Environment.Exit(0);
                 }
 
@@ -209,10 +230,10 @@ namespace ClientEmulator
 
                 // Continue to booking insurance.
                 Console.WriteLine("Now you have created your hotel booking, would you like insurance?");
-                string insuranceInput = Console.ReadLine()!;
+                string insuranceInput = GetUserConfirmation();
                 string selectedInsurance = "";
                 int InsuranceBookingID = 0;
-                if (insuranceInput == "Y")
+                if (insuranceInput == "Yes")
                 {
                     // Return insurance plans to the user.
                     ReturnInsurancePlans rtnInsurance = new ReturnInsurancePlans();
@@ -222,21 +243,31 @@ namespace ClientEmulator
                     selectedInsurance = Console.ReadLine()!;
 
                     // Confirm insurance and create booking.
-                    Console.WriteLine("You have selected: " + selectedInsurance + " insurance.");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("");
+                    Console.WriteLine("You have selected Insurance ID: " + selectedInsurance);
+                    Console.WriteLine("");
+                    Console.ResetColor();
                     Console.WriteLine("Are you happy to proceed?");
-                    string confirmInsurance = Console.ReadLine();
+                    string confirmInsurance = GetUserConfirmation();
+                    Console.WriteLine("");
 
                     if (confirmInsurance == "Yes")
                     {
                         InsuranceBooking insbk = new InsuranceBooking();
                         InsuranceBookingID = await insbk.InsuranceBookingAsync(selectedInsurance, clientID);
-                        Console.WriteLine("Insurance booking set to pending.");
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("Insurance booking ID: " + selectedInsurance + " set to pending.");
+                        Console.ResetColor();
+                        Console.WriteLine("");
                     }
 
                     // Insurance is optional so continue booking if cancelled.
                     else
                     {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
                         Console.WriteLine("Insurance cancelled, continuing transaction...");
+                        Console.ResetColor();
                     }
                 }
                 /* ------------------------------------------------------------------------------------------ */
@@ -247,9 +278,9 @@ namespace ClientEmulator
                 // Continue to booking a car hire.
                 string selectedCar = "";
                 Console.WriteLine("Do you need to hire a car?");
-                string carInput = Console.ReadLine()!;
+                string carInput = GetUserConfirmation();
                 int VehicleBookingID = 0;
-                if (carInput == "Y")
+                if (carInput == "Yes")
                 {
                     // Return all available car types to the user.
                     ReturnVehicles rtnvhcl = new ReturnVehicles();
@@ -257,21 +288,33 @@ namespace ClientEmulator
 
                     Console.WriteLine("Please select the ID of the car you wish to hire:");
                     selectedCar = Console.ReadLine()!;
-                    Console.WriteLine("You have chosen the car ID: " + selectedCar);
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("");
+                    Console.WriteLine("You have selected the car ID: " + selectedCar);
+                    Console.WriteLine("");
+                    Console.ResetColor();
                     Console.WriteLine("Are you happy to proceed with the car hire booking?");
-                    string confirmVehicle = Console.ReadLine();
+                    string confirmVehicle = GetUserConfirmation();
+                    Console.WriteLine("");
 
                     if (confirmVehicle == "Yes")
                     {
                         VehicleBooking vclbkg = new VehicleBooking();
                         VehicleBookingID = await vclbkg.VehicleBookingAsync(selectedCar, clientID);
-                        Console.WriteLine("Vehicle booking " + VehicleBookingID + "status set to pending.");
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("Vehicle booking ID: " + VehicleBookingID + " status set to pending.");
+                        Console.WriteLine("");
+                        Console.WriteLine("");
+                        Console.ResetColor();
+
                     }
 
                     // Vehicles are optional so continue transaction if cancelled
                     else
                     {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
                         Console.WriteLine("Vehicle booking cancelled, continuing transaction...");
+                        Console.ResetColor();
                     }
                 }
                 /* ------------------------------------------------------------------------------------------ */
@@ -283,20 +326,25 @@ namespace ClientEmulator
 
                 // Print order information to user from stored variables
                 Console.WriteLine("You have now completed the booking enquiry. Please review your booking information:");
-                Console.WriteLine("order information here");
+                Console.WriteLine("-- order information here --");
 
                 // Allow user to confirm booking or cancel the transaction.
-                Console.WriteLine("Please type 'continue' if you are happy to proceed or 'cancel' to back out of the transaction:");
-                string userConfirmation = Console.ReadLine()!;
-                if (userConfirmation == "continue")
+                Console.WriteLine("Are you are happy to proceed? Type 'yes' to continue or 'cancel' to back out of the transaction:");
+                string userConfirmation = GetUserConfirmation();
+                Console.WriteLine("");
+                if (userConfirmation == "Yes")
                 {
                     ProcessBooking probk = new ProcessBooking();
                     await probk.ProcessBookingAsync(destination!, clientID, HotelBookingID, FlightBookingID, VehicleBookingID, InsuranceBookingID);
-
+                    Console.WriteLine("");
+                    Console.WriteLine("You have reached the end of the booking process. Please restart to create a new transaction.");
+                    Console.WriteLine("");
                 }
                 else if (userConfirmation == "cancel")
                 {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
                     Console.WriteLine("Booking cancelled, would you like to close the application?");
+                    Console.ResetColor();
                     // Could integrate option to either cancel and exit or restart, maintaining the booking info
                     // Change previous bookings to cancelled or perhaps delete them altogether
                 }
@@ -305,25 +353,54 @@ namespace ClientEmulator
             }
             catch (HttpRequestException ex)
             {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine($"HTTP Request Error: {ex.Message}");
+                Console.ResetColor();
             }
             catch (TaskCanceledException ex)
             {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine($"Task Canceled Error: {ex.Message}");
+                Console.ResetColor();
             }
             catch (Exception ex)
             {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine($"An error occurred: {ex.Message}");
+                Console.ResetColor();
             }
         }
 
+        // Allows user input to be more flexible. Case insentive and accepts Yes or Y etc. Catches errors in a loop.
+        private static string GetUserConfirmation()
+        {
+            while (true)
+            {
+                string? input = Console.ReadLine()?.Trim().ToLower();
 
+                if (input == "yes" || input == "y")
+                {
+                    return "Yes";
+                }
+                else if (input == "no" || input == "n")
+                {
+                    return "No";
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine("Invalid input. Please enter 'Yes' or 'No'.");
+                    Console.ResetColor();
+                    Console.WriteLine("");
+                    Console.WriteLine("Are you happy to proceed?");
+                }
+            }
+        }
 
         // Checks to see if there are any batch processes stored. If there are sends a PUT request to the server. 
         private static async Task SendBatches()
         {
             string folderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "BatchRequests");
-            string consoleAppUrl = "YourConsoleAppURL"; // Replace with your actual Console App URL
 
             if (Directory.Exists(folderPath))
             {
@@ -336,7 +413,7 @@ namespace ClientEmulator
                         foreach (string filePath in files)
                         {
                             string jsonContent = File.ReadAllText(filePath);
-                            string endpoint = $"{consoleAppUrl}/BatchProcess";
+                            string endpoint = $"{ConsoleAppUrl}/BatchProcess";
 
                             // Sending PUT request
                             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
@@ -344,23 +421,35 @@ namespace ClientEmulator
 
                             if (response.IsSuccessStatusCode)
                             {
+                                Console.ForegroundColor = ConsoleColor.DarkRed;
                                 Console.WriteLine($"File {Path.GetFileName(filePath)} sent successfully to {endpoint}");
+                                Console.WriteLine("");
+                                Console.ResetColor();
                             }
                             else
                             {
+                                Console.ForegroundColor = ConsoleColor.DarkRed;
                                 Console.WriteLine($"Failed to send file {Path.GetFileName(filePath)} to {endpoint}. Status code: {response.StatusCode}");
+                                Console.WriteLine();
+                                Console.ResetColor();
                             }
                         }
                     }
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
                     Console.WriteLine("No files found in the BatchRequests folder.");
+                    Console.WriteLine("");
+                    Console.ResetColor();
                 }
             }
             else
             {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine("BatchRequests folder not found in the project root.");
+                Console.WriteLine("");
+                Console.ResetColor();
             }
         }
 

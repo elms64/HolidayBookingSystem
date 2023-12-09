@@ -24,7 +24,12 @@ namespace ClientEmulator
                 string targetURL = ConsoleAppUrl + "/Vehicle";
                 using (HttpClient client = new HttpClient())
                 {
+                    Console.WriteLine("");
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine($"Sending request to: {targetURL}");
+                    Console.WriteLine($"Returning all vehicles");
+                    Console.WriteLine("");
+                    Console.ResetColor();
 
                     HttpResponseMessage response = await client.GetAsync(targetURL);
 
@@ -40,21 +45,29 @@ namespace ClientEmulator
                     }
                     else
                     {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
                         Console.WriteLine($"Error: {response.StatusCode}");
+                        Console.ResetColor();
                     }
                 }
             }
             catch (HttpRequestException ex)
             {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine($"HTTP Request Error: {ex.Message}");
+                Console.ResetColor();
             }
             catch (TaskCanceledException ex)
             {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine($"Task Canceled Error: {ex.Message}");
+                Console.ResetColor();
             }
             catch (Exception ex)
             {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine($"An error occurred: {ex.Message}");
+                Console.ResetColor();
             }
         }
     }

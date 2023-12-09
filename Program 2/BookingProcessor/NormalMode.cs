@@ -409,7 +409,7 @@ namespace BookingProcessor
                             // Extract values from the array
                             string firstName = jsonDocument.RootElement.EnumerateArray().FirstOrDefault(e => e.GetProperty("Key").GetString() == "FirstName").GetProperty("Value").GetString();
                             string lastName = jsonDocument.RootElement.EnumerateArray().FirstOrDefault(e => e.GetProperty("Key").GetString() == "LastName").GetProperty("Value").GetString();
-                            string birthDate = jsonDocument.RootElement.EnumerateArray().FirstOrDefault(e => e.GetProperty("Key").GetString() == "DoB").GetProperty("Value").GetString();
+                            string birthDate = jsonDocument.RootElement.EnumerateArray().FirstOrDefault(e => e.GetProperty("Key").GetString() == "BirthDate").GetProperty("Value").GetString();
                             string email = jsonDocument.RootElement.EnumerateArray().FirstOrDefault(e => e.GetProperty("Key").GetString() == "Email").GetProperty("Value").GetString();
                             string phoneNumber = jsonDocument.RootElement.EnumerateArray().FirstOrDefault(e => e.GetProperty("Key").GetString() == "PhoneNumber").GetProperty("Value").GetString();
 
@@ -653,7 +653,7 @@ namespace BookingProcessor
 
                             int newFlightBookingID = flightBooking.FlightBookingID;
 
-                            var responseObj = new 
+                            var responseObj = new
                             {
                                 FlightBookingID = newFlightBookingID,
                                 Message = "My brain has turned into sludge",
@@ -664,12 +664,11 @@ namespace BookingProcessor
                             Console.WriteLine(jsonResponse);
                             return Encoding.UTF8.GetBytes(jsonResponse);
                         }
-                         return Encoding.UTF8.GetBytes("INVALID FORMAT M8-y!");
+                        return Encoding.UTF8.GetBytes("INVALID FORMAT M8-y!");
 
                     }
                 }
 
-                
             }
             catch (Exception ex)
             {
@@ -752,11 +751,7 @@ namespace BookingProcessor
                 return Encoding.UTF8.GetBytes("Error creating booking, please try again later.");
             }
         }
-
-
-
-
-
+        
         // @elms64
         // Method to initiate recovery mode, used when an incoming process is a batch transaction.
         private void InitRecoveryMode()
@@ -764,6 +759,7 @@ namespace BookingProcessor
             var recoveryMode = new RecoveryMode(serviceProvider);
             recoveryMode.Run().GetAwaiter().GetResult();
         }
+
 
     }
 }

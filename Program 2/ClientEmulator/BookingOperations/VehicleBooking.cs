@@ -41,18 +41,24 @@ namespace ClientEmulator
                 if (responseObject!.TryGetValue("VehicleBookingID", out JsonElement vehicleBookingIDElement))
                 {
                     int VehicleBookingID = vehicleBookingIDElement.GetInt32();
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine($"Vehicle Booking transaction send successfully! VehicleBookingID: {VehicleBookingID}");
+                    Console.ResetColor();
                     return VehicleBookingID;
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
                     Console.WriteLine("Error : Unable to parse vehicleBookingID from the response.");
+                    Console.ResetColor();
                     return -1;
                 }
             }
             else
             {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                Console.ResetColor();
                 return -1;
             }
         }

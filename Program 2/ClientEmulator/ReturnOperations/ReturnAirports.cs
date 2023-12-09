@@ -45,8 +45,11 @@ namespace ClientEmulator
                 {
                     client.DefaultRequestHeaders.Add("OriginCountryID", origin);
                     client.DefaultRequestHeaders.Add("DestinationCountryID", destination);
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine($"Sending request to: {targetURL}");
-                    Console.WriteLine($"Headers: DestinationCountryID={destination}, OriginCountryID={origin}");
+                    Console.WriteLine($"Destination: {destination}, Origin: {origin}");
+                    Console.WriteLine("");
+                    Console.ResetColor();
                     HttpResponseMessage response = await client.GetAsync(targetURL);
 
                     if (response.IsSuccessStatusCode)
@@ -63,24 +66,32 @@ namespace ClientEmulator
                     }
                     else
                     {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
                         Console.WriteLine($"Error: {response.StatusCode}");
+                        Console.ResetColor();
                         return new List<Airport>();
                     }
                 }
             }
             catch (HttpRequestException ex)
             {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine($"HTTP Request Error: {ex.Message}");
+                Console.ResetColor();
                 return new List<Airport>();
             }
             catch (TaskCanceledException ex)
             {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine($"Task Canceled Error: {ex.Message}");
+                Console.ResetColor();
                 return new List<Airport>();
             }
             catch (Exception ex)
             {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine($"An error occurred: {ex.Message}");
+                Console.ResetColor();
                 return new List<Airport>();
             }
         }

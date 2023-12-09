@@ -14,7 +14,8 @@ using System.Security.Cryptography;
 
 namespace ClientEmulator
 {
-    public class ProcessBooking {
+    public class ProcessBooking
+    {
 
         /* Variables */
         private static readonly string ConsoleAppUrl = "http://localhost:8080";
@@ -22,8 +23,11 @@ namespace ClientEmulator
 
         public async Task ProcessBookingAsync(string destination, int ClientID, int HotelBookingID, int selectedFlightID, int VehiclebookingID, int InsuranceBookingID)
         {
-            Console.WriteLine("Sending Booking Data!");
-            Console.WriteLine($"Booking Data being sent : \n CountryID : {destination} \n HotelBookingID : {HotelBookingID} \n FlightID : {selectedFlightID}\n VehicleBookingID : {VehiclebookingID} \n InsuranceBookingID : {InsuranceBookingID}");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Sending Booking Data:");
+            //Console.WriteLine($"CountryID : {destination} \n HotelBookingID : {HotelBookingID} \n FlightID : {selectedFlightID}\n VehicleBookingID : {VehiclebookingID} \n InsuranceBookingID : {InsuranceBookingID}");
+            Console.WriteLine("");
+            Console.ResetColor();
             try
             {
                 // Create a list to store key-value pairs for booking data
@@ -47,10 +51,13 @@ namespace ClientEmulator
                 bookingData.Add(new KeyValuePair<string, string>("CheckSum", checksum));
 
                 // Print the data being sent in the response
-                Console.WriteLine("Data being sent in the response:");
+
+                // Console.WriteLine("Data being sent in the response:");
                 foreach (var kvp in bookingData)
                 {
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine($"{kvp.Key}: {kvp.Value}");
+                    Console.ResetColor();
                 }
 
                 // Call SendBookingTransaction with the populated bookingData
@@ -58,12 +65,14 @@ namespace ClientEmulator
             }
             catch (Exception ex)
             {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine($"An error occurred: {ex.Message}");
+                Console.ResetColor();
             }
         }
 
 
-         private static string CalculateChecksum(string data)
+        private static string CalculateChecksum(string data)
         {
             using (MD5 md5 = MD5.Create())
             {
@@ -77,7 +86,7 @@ namespace ClientEmulator
             }
         }
 
-        private static async Task SendBookingTransaction(List<KeyValuePair<string, string>> bookingData)
+        private static async Task<int> SendBookingTransaction(List<KeyValuePair<string, string>> bookingData)
         {
             try
             {
@@ -99,21 +108,52 @@ namespace ClientEmulator
                 // Check if the request was successful
                 if (response.IsSuccessStatusCode)
                 {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("");
                     Console.WriteLine("Booking transaction sent successfully!");
+
+                    string responseContent = await response.Content.ReadAsStringAsync();
+
+                    var responseObject = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(responseContent);
+                    if (responseObject.TryGetValue("OrderNumber", out JsonElement orderNumberElement))
+                    {
+                        int OrderNumber = orderNumberElement.GetInt32();
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine($"Booking created successfully! Order Number: {OrderNumber}");
+                        Console.ResetColor();
+                        return OrderNumber;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.WriteLine("Error: Unable to parse OrderNumber from the response.");
+                        Console.ResetColor();
+                        return -1;
+                    }
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
                     Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                    Console.ResetColor();
 
                     // If the request was unsuccessful, save it into batch transactions
                     SaveBatches svbtch = new SaveBatches();
                     await svbtch.SaveBatchProcess(jsonPayload, guid);
+
+                    return -1; // Or handle the error accordingly
                 }
             }
             catch (Exception ex)
             {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine($"Exception: {ex.Message}");
+                Console.ResetColor();
+
+                return -1; // Or handle the exception accordingly
             }
         }
+
+
     }
 }

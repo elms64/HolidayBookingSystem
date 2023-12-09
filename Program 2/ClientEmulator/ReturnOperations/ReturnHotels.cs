@@ -29,7 +29,7 @@ namespace ClientEmulator
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("");
                     Console.WriteLine($"Sending request to: {targetURL}");
-                    Console.WriteLine($"Headers: destination={destination}");
+                    Console.WriteLine($"Hotels for Country ID: {destination}");
                     Console.WriteLine("");
                     Console.ResetColor();
 
@@ -46,21 +46,29 @@ namespace ClientEmulator
                     }
                     else
                     {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
                         Console.WriteLine($"Error: {response.StatusCode}");
+                        Console.ResetColor();
                     }
                 }
             }
             catch (HttpRequestException ex)
             {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine($"HTTP Request Error: {ex.Message}");
+                Console.ResetColor();
             }
             catch (TaskCanceledException ex)
             {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine($"Task Canceled Error: {ex.Message}");
+                Console.ResetColor();
             }
             catch (Exception ex)
             {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine($"An error occurred: {ex.Message}");
+                Console.ResetColor();
             }
         }
     }

@@ -40,18 +40,24 @@ namespace ClientEmulator
                 {
                     // Extract the value from JsonElement
                     int flightBookingID = flightBookingIDElement.GetInt32();
+                    Console.ForegroundColor = ConsoleColor.Green;    
                     Console.WriteLine($"Flight booking transaction sent successfully! FlightBookingID: {flightBookingID}");
+                    Console.ResetColor();
                     return flightBookingID;
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
                     Console.WriteLine("Error: Unable to parse FlightBookingID from the response.");
+                    Console.ResetColor();
                     return -1;
                 }
             }
             else
             {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                Console.ResetColor();
                 return -1;
             }
         }

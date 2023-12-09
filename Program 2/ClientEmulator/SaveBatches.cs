@@ -34,16 +34,22 @@ namespace ClientEmulator
                     // Write the HTTP message to the JSON file asynchronously
                     await File.WriteAllTextAsync(filePath, message);
 
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine($"HTTP message saved to: {filePath}");
+                    Console.ResetColor();
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
                     Console.WriteLine($"File already exists: {filePath}");
+                    Console.ResetColor();
                 }
             }
             catch (Exception ex)
             {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine($"An error occurred while saving to JSON file: {ex.Message}");
+                Console.ResetColor();
             }
         }
     }
