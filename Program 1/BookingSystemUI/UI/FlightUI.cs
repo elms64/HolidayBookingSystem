@@ -14,17 +14,20 @@ using System.Windows.Forms;
 
 namespace BookingSystemUI.UI
 {
-    public partial class SelectFlightUI : Form
+    public partial class FlightUI : Form
     {
         private FlightServiceImpl flightService;
         private Booking booking;
+        private MainMenu mainForm;
 
-        public SelectFlightUI(Booking booking)
+
+        public FlightUI(Booking booking, MainMenu mainForm)
         {
             InitializeComponent();
             this.flightService = new FlightServiceImpl();
             this.Load += Flight_Load;
             this.booking = booking;
+            this.mainForm = mainForm;
 
 
 
@@ -63,7 +66,10 @@ namespace BookingSystemUI.UI
 
         private void nxtBtn_Click(object sender, EventArgs e)
         {
-            HotelUI hotelUI = new HotelUI();
+            HotelUI hotelUI = new HotelUI(booking);
+            
+            mainForm.ShowFormInMainPanel(hotelUI);
+            this.Close();
         }
     }
 }

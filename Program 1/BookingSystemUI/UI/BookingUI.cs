@@ -136,7 +136,7 @@ namespace BookingSystemUI
             booking.FlightDetails=flightDetails;
 
             // Create an instance of the Flight form and pass the values
-            SelectAirportUI flight = new SelectAirportUI(booking, mainForm);
+            AirportUI flight = new AirportUI(booking, mainForm);
 
             // Show the Flight form
             mainForm.ShowFormInMainPanel(flight);

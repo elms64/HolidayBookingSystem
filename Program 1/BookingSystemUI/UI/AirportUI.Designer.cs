@@ -1,6 +1,6 @@
 ﻿namespace BookingSystemUI
 {
-    partial class SelectAirportUI
+    partial class AirportUI
     {
         /// <summary>
         /// Required designer variable.

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using BookingSystemUI.Model;
+using BookingSystemUI.Service;
+using BookingSystemUI.UI.UIUtils;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -18,79 +21,80 @@ namespace BookingSystemUI
     {
         private const string ConsoleAppUrl = "http://localhost:8080";
 
-        private MainMenu mainForm;
+
 
         //Variables
-        private string selectedCountry;
-        private string selectedOrigin;
-        private int selectedOriginID;
-        private int selectedCountryID;
-        private DateTime selectedDepartureDate;
-        private string selectedReturnDate;
-        
+        private Booking booking;
+        private MainMenu mainForm;
+        private HotelService hotelService;
 
-        public HotelUI(string selectedCountry, string selectedOrigin, int selectedOriginID, int selectedCountryID, MainMenu mainForm, DateTime selectedDepartureDate, string selectedReturnDate)
+        public HotelUI(Booking booking)
         {
-           
-            InitializeComponent();
-            this.selectedCountry = selectedCountry;
-            this.selectedOrigin = selectedOrigin;
-            this.selectedOriginID = selectedOriginID;
-            this.selectedCountryID = selectedCountryID;
-            this.selectedDepartureDate = selectedDepartureDate;
-            this.selectedReturnDate = selectedReturnDate;
-            MessageBox.Show(selectedOrigin); // Check if this shows the correct value
-            this.mainForm = mainForm;  // Ensure that mainForm is assigned here.
 
+            InitializeComponent();
+
+            MessageBox.Show(booking.ToString()); // Check if this shows the correct value
+            this.mainForm = mainForm;  // Ensure that mainForm is assigned here.
+            this.hotelService = new HotelService();
+            this.Load += Hotel_Load;
+            this.booking = booking;
         }
 
         private async void Hotel_Load(object sender, EventArgs e)
         {
-            lblSelectedCountry.Text = selectedCountry;
+            if (booking != null)
+            {
+                Task<List<Hotel>> hotelTask = hotelService.GetHotels(booking.FlightDetails.ArrivalCountry);
+                await hotelTask;
+
+                List<Hotel> hotels = hotelTask.Result;
+
+                int yOffset = 8;
+                foreach (var hotel in hotels)
+                {
+                    String labelText = $"Hotel Name: {hotel.HotelName}," +
+                        $"City: {hotel.City}, " +
+                        $"Rating: {hotel.Rating}, " +
+                        $"Phone Number: {hotel.PhoneNumber}";
+                    Label label = Utils.createLabelWithLabelText(labelText);
+                    Panel panel = Utils.createPanel(yOffset, hotelPanel, label);
+                    yOffset += panel.Height;
+
+                    panel.Click += (sender, e) => Panel_Click(sender, e, hotel);
+                }
+            }
+            /* lblSelectedCountry.Text = selectedCountry;
             lblSelectedOrigin.Text = selectedOrigin;
             lblCountryID.Text = selectedCountryID.ToString();
             lblOriginID.Text = selectedOriginID.ToString();
             lblSelectedReturnDate.Text = selectedReturnDate;
             lblSelectedDepartureDate.Text = selectedDepartureDate.ToString();
+           */
 
             // Add code for GET request. No need to send CountryID or anything - has been remembered from flight form.
             // Populate hotel data.
-            
 
-        }
-        private void dateTimePicker2_ValueChanged(object sender, EventArgs e)
-        {
 
         }
 
-
-
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        public void Panel_Click(object sender, EventArgs e, Hotel hotel)
         {
-
-        }
-
-
-
-        private void HotelName_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void SearchHotel_Click(object sender, EventArgs e)
-        {
-            
+            booking.Hotel = hotel;
+            MessageBox.Show(hotel.ToString());
+            hotelPanel.Visible = false;
         }
 
         private void btnNext_Click(object sender, EventArgs e)
         {
-            CarRentalUI carRental = new CarRentalUI(selectedCountry, selectedOrigin, selectedOriginID, selectedCountryID, mainForm, selectedDepartureDate, selectedReturnDate);
+            /*
+            CarRentalUI carRental = new CarRentalUI(booking, mainForm);
 
             // Show the Flight form
             mainForm.ShowFormInMainPanel(carRental);
 
             // Close the BookingInit form if needed
             this.Close();
+            */
         }
     }
 }

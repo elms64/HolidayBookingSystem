@@ -1,6 +1,6 @@
 ﻿namespace BookingSystemUI.UI
 {
-    partial class SelectFlightUI
+    partial class FlightUI
     {
         /// <summary>
         /// Required designer variable.

@@ -260,7 +260,7 @@ namespace BookingProcessor
 
                         var matchingHotels = bookingContext.Hotel
                         .Where(h => h.CountryID == destinationID)
-                        .Select(h => new { HotelID = h.HotelID, HotelName = h.HotelName })
+                        .Select(h => h)
                         .ToList();
 
                         // Serialize the result to JSON.

@@ -10,13 +10,13 @@
     <Compile Update="UI\CarRentalUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="UI\SelectAirportUI.cs">
+    <Compile Update="UI\AirportUI.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="UI\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="UI\SelectFlightUI.cs">
+    <Compile Update="UI\FlightUI.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="UI\SplashScreen.cs">

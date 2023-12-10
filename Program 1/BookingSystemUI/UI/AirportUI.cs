@@ -12,7 +12,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static BookingSystemUI.SelectAirportUI;
+using static BookingSystemUI.AirportUI;
 using static BookingSystemUI.Form1;
 using BookingSystemUI.UI;
 using BookingSystemUI.UI.UIUtils;
@@ -20,7 +20,7 @@ using BookingSystemUI.UI.UIUtils;
 namespace BookingSystemUI
 {
 
-    public partial class SelectAirportUI : Form
+    public partial class AirportUI : Form
     {
         // Variables
         private MainMenu mainForm;
@@ -32,7 +32,7 @@ namespace BookingSystemUI
 
         // Constructor
         // This receives the data from BookingInit.
-        public SelectAirportUI(Booking booking, MainMenu mainForm)
+        public AirportUI(Booking booking, MainMenu mainForm)
         {
             InitializeComponent();
             this.mainForm = mainForm;
@@ -198,8 +198,8 @@ namespace BookingSystemUI
 
 
 
-            SelectFlightUI selectFlightUI = new SelectFlightUI(booking);
-            mainForm.ShowFormInMainPanel(selectFlightUI);
+            FlightUI flightUI = new FlightUI(booking, mainForm);
+            mainForm.ShowFormInMainPanel(flightUI);
 
 
 
