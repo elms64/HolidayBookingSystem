@@ -1,6 +1,6 @@
 ﻿namespace BookingSystemUI
 {
-    partial class Insurance
+    partial class InsuranceUI
     {
         /// <summary>
         /// Required designer variable.

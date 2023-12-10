@@ -1,66 +1,65 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Net.Http;
 using System.Text.Json;
 using System.Windows.Forms;
+using BookingSystemUI.Model;
+using BookingSystemUI.Service;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace BookingSystemUI
 {
-    public partial class BookingInit : Form
+    public partial class BookingUI : Form
     {
         private MainMenu mainForm;
-        private Hotel Hotel;
-        private const string ConsoleAppUrl = "http://localhost:8080";
-        private string selectedCountry;
-        private int selectedCountryID;
-        private string selectedOrigin;
-        private int selectedOriginID;
+        private HotelUI Hotel;
+        private IBookingService bookingService;
 
-        public class Country
-        {
-            public int CountryID { get; set; }
-            public string CountryName { get; set; }
-        }
 
-        public BookingInit(MainMenu mainForm)
+        public BookingUI(MainMenu mainForm)
         {
             InitializeComponent();
             dateTimePickerStart.ValueChanged += dateTimePickerStart_ValueChanged;
             txtBoxHowLong.TextChanged += txtBoxHowLong_TextChanged;
             this.mainForm = mainForm;
+            bookingService = new BookingServiceImpl();
         }
 
         private async void BookingInit_Load(object sender, EventArgs e)
         {
-            // Load countries into where to and where from combo boxes
-            try
-            {
+            // Get a list of countries from the booking service
+            Task<List<Country>> countriesTask = Task.Run(bookingService.GetCountries);
+            await countriesTask;
+            List<Country> countries = countriesTask.Result;
 
-                string targetURL = ConsoleAppUrl + "/Country";
-                using (HttpClient client = new HttpClient())
-                {
-                    HttpResponseMessage response = await client.GetAsync(targetURL);
-                    if (response.IsSuccessStatusCode)
-                    {
-                        string responseData = await response.Content.ReadAsStringAsync();
-                        var countries = JsonSerializer.Deserialize<List<Country>>(responseData);
-                        foreach (var country in countries)
-                        {
-                            comboBoxCountry.Items.Add($"{country.CountryID}: {country.CountryName}");
-                            comboBoxOrigin.Items.Add($"{country.CountryID}: {country.CountryName}");
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Error: {response.StatusCode}");
-                    }
-                }
-            }
-            catch (Exception ex)
+            if (countries == null)
             {
-                Console.WriteLine($"Exception: {ex.Message}");
+                MessageBox.Show("countires is null");
             }
+
+            comboBoxCountry.DataSource = countries.Where(country => country.Name.Equals("United Kingdom of Great Britain and Northern Ireland")).ToList();
+            comboBoxCountry.DisplayMember = "Name";
+
+
+            // Get a list of countries from the booking service
+            Task<List<Country>> countriesTask2 = Task.Run(bookingService.GetCountries);
+            await countriesTask2;
+            List<Country> countries2 = countriesTask2.Result;
+
+            if (countries2 == null)
+            {
+                MessageBox.Show("countires is null");
+            }
+
+
+            comboBoxOrigin.DataSource = countries2.Where(country => country.Name.Equals("Spain")).ToList();
+            comboBoxOrigin.DisplayMember = "Name";
+
+
         }
+          
 
         private void dateTimePickerStart_ValueChanged(object sender, EventArgs e)
         {
@@ -100,25 +99,44 @@ namespace BookingSystemUI
 
         private void btnNext_Click(object sender, EventArgs e)
         {
-            // Retrieve both the selected country and origin
-            string selectedCountryItem = comboBoxCountry.SelectedItem as string;
-            ParseCountry(selectedCountryItem, out selectedCountryID, out selectedCountry);
 
-            string selectedOriginItem = comboBoxOrigin.SelectedItem as string;
-            ParseCountry(selectedOriginItem, out selectedOriginID, out selectedOrigin);
+            if (comboBoxCountry.SelectedItem == null)
+            {
+                MessageBox.Show("Please select a country to travel from");
+            }
+            // Retrieve both the selected country and origin
+            Country selectedToCountry = (Country) comboBoxCountry.SelectedItem;
+            Country selectedOriginCountry = (Country) comboBoxOrigin.SelectedItem;
+
+            if (comboBoxOrigin.SelectedItem == null)
+            {
+                MessageBox.Show("Please select a country to travel to");
+            }
+
+            Country selectedFromCountry = comboBoxOrigin.SelectedItem as Country;
+         
 
             DateTime selectedDepartureDate = dateTimePickerStart.Value;
             string selectedReturnDate = lblReturnDateUpdate.Text;
 
-            MessageBox.Show($"Selected Country ID: {selectedCountryID}\n" +
-                          $"Selected Country: {selectedCountry}\n" +
-                          $"Selected Origin ID: {selectedOriginID}\n" +
+            MessageBox.Show($"Selected Country ID: {selectedToCountry.ID}\n" +
+                          $"Selected Country: {selectedToCountry.Name}\n" +
+                          $"Selected Origin ID: {selectedOriginCountry.ID}\n" +
                           $"Selected Return Date: {selectedReturnDate}\n" +
-                          $"Selected Origin: {selectedOrigin}\n" +
+                          $"Selected Origin: {selectedOriginCountry.Name}\n" +
                           $"Selected Departure Date: {selectedDepartureDate.ToShortDateString()}");
 
+
+            Booking booking = new Booking();
+            FlightDetails flightDetails = new FlightDetails();
+            flightDetails.DepartureDateTime = selectedDepartureDate;
+            flightDetails.DepartureCountry=selectedFromCountry;
+            flightDetails.ArrivalCountry=selectedToCountry;
+
+            booking.FlightDetails=flightDetails;
+
             // Create an instance of the Flight form and pass the values
-            Flight flight = new Flight(selectedCountry, selectedDepartureDate, selectedReturnDate, selectedOrigin, selectedOriginID, selectedCountryID, mainForm);
+            SelectAirportUI flight = new SelectAirportUI(booking, mainForm);
 
             // Show the Flight form
             mainForm.ShowFormInMainPanel(flight);

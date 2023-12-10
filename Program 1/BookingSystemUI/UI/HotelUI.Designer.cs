@@ -1,6 +1,6 @@
 ﻿namespace BookingSystemUI
 {
-    partial class Hotel
+    partial class HotelUI
     {
         /// <summary>
         /// Required designer variable.

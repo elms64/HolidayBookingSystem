@@ -1,6 +1,6 @@
 ﻿namespace BookingSystemUI
 {
-    partial class BookingInit
+    partial class BookingUI
     {
         /// <summary>
         /// Required designer variable.

@@ -1,6 +1,6 @@
 ﻿namespace BookingSystemUI
 {
-    partial class CarRental
+    partial class CarRentalUI
     {
         /// <summary>
         /// Required designer variable.

@@ -10,13 +10,11 @@ using System.Windows.Forms;
 
 namespace BookingSystemUI
 {
-    
-
-
-    public partial class CarRental : Form
+    public partial class InsuranceUI : Form
     {
         private const string ConsoleAppUrl = "http://localhost:8080";
-        
+
+
         private MainMenu mainForm;
         private string selectedCountry;
         private string selectedOrigin;
@@ -25,7 +23,7 @@ namespace BookingSystemUI
         private DateTime selectedDepartureDate;
         private string selectedReturnDate;
 
-        public CarRental(string selectedCountry, string selectedOrigin, int selectedOriginID, int selectedCountryID, MainMenu mainForm, DateTime selectedDepartureDate, string selectedReturnDate)
+        public InsuranceUI(string selectedCountry, string selectedOrigin, int selectedOriginID, int selectedCountryID, MainMenu mainForm, DateTime selectedDepartureDate, string selectedReturnDate)
         {
             InitializeComponent();
             this.mainForm = mainForm;
@@ -39,26 +37,20 @@ namespace BookingSystemUI
             this.selectedReturnDate = selectedReturnDate;
 
             MessageBox.Show($"btnNext_Click:\nselectedCountry: {selectedCountry}\nselectedOrigin: {selectedOrigin}\nselectedOriginID: {selectedOriginID}\nselectedCountryID: {selectedCountryID}");
-
-
         }
-
-        private async void CarRental_Load(object sender, EventArgs e)
+        private async void Insurance_Load(object sender, EventArgs e)
         {
-
-
             try
             {
-                await Send_Vehicles("SEND_VEHICLE_DATA");
+                await Send_Insurance("SEND_INSURANCE");
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"An error occurred: {ex.Message}");
             }
-
         }
 
-        private async Task Send_Vehicles(string messageType)
+        private async Task Send_Insurance(string messageType)
         {
             //pass the message and the selectedCountry/OriginID
             string message = messageType;
@@ -120,23 +112,12 @@ namespace BookingSystemUI
             }
         }
 
-
-        private void SearchCar_Click(object sender, EventArgs e)
+        private void SeearchInsurance_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void CarType_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void PickUpDate_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void DropOffDate_ValueChanged(object sender, EventArgs e)
+        private void InsuranceType_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
@@ -147,11 +128,15 @@ namespace BookingSystemUI
         {
 
             try
-            {
-                //Change this variable when the selected vehicle ID can be detected.
 
-                int selectedVehicleID = 45;
-                await Send_Selected("VEHICLE_SELECTED_ID", selectedVehicleID);
+            {   //This wont work because the insurance hasnt been selected yet. Will have to test
+                //what has been selected, like how it does in form1.cs.
+
+                int selectedInsuranceID = 69;
+
+                // Actually this is just here so it can be tested. Remove this int when you have a proper
+                // system to detect what has been chosen.
+                await Send_Selected_Insurance("Insurance_SELECTED_ID", selectedInsuranceID);
             }
             catch (Exception ex)
             {
@@ -159,18 +144,17 @@ namespace BookingSystemUI
             }
 
 
-            Insurance insurance = new Insurance(selectedCountry, selectedOrigin, selectedOriginID, selectedCountryID, mainForm, selectedDepartureDate, selectedReturnDate);
+
+            Basket basket = new Basket(selectedCountry, selectedOrigin, selectedOriginID, selectedCountryID, mainForm, selectedDepartureDate, selectedReturnDate);
 
             // Show the Flight form
-            mainForm.ShowFormInMainPanel(insurance);
+            mainForm.ShowFormInMainPanel(basket);
 
             // Close the BookingInit form if needed
             this.Close();
         }
 
-        // Also just here for testing. Remove when you hvae the selectediD
-        private int selectedVehicleID = 1341243123;
-        private async Task Send_Selected(string messageType, int value)
+        private async Task Send_Selected_Insurance(string messageType, int value)
         {
             //pass the message and the selectedCountry/OriginID
             string message = $"{messageType}:{value}";
@@ -181,7 +165,7 @@ namespace BookingSystemUI
                 using (HttpClient client = new HttpClient())
                 {
                     // Add headers to the client, not 100% necessary, but for a polished finish they should probably be present in all of them
-                    client.DefaultRequestHeaders.Add("VehicleID", selectedVehicleID.ToString());
+                    client.DefaultRequestHeaders.Add("CountryID", selectedCountryID.ToString());
 
                     // Data variable has the message passed in.
                     var data = new StringContent(message, Encoding.UTF8, "application/json");

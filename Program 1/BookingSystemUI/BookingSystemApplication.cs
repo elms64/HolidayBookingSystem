@@ -1,6 +1,8 @@
+using BookingSystemUI.Service;
+
 namespace BookingSystemUI
 {
-    internal static class Program
+    internal static class BookingSystemApplication
     {
         /// <summary>
         ///  The main entry point for the application.

@@ -14,13 +14,13 @@ using static BookingSystemUI.Form1;
 namespace BookingSystemUI
 {
 
-    public partial class Hotel : Form
+    public partial class HotelUI : Form
     {
         private const string ConsoleAppUrl = "http://localhost:8080";
 
         private MainMenu mainForm;
 
-
+        //Variables
         private string selectedCountry;
         private string selectedOrigin;
         private int selectedOriginID;
@@ -29,7 +29,7 @@ namespace BookingSystemUI
         private string selectedReturnDate;
         
 
-        public Hotel(string selectedCountry, string selectedOrigin, int selectedOriginID, int selectedCountryID, MainMenu mainForm, DateTime selectedDepartureDate, string selectedReturnDate)
+        public HotelUI(string selectedCountry, string selectedOrigin, int selectedOriginID, int selectedCountryID, MainMenu mainForm, DateTime selectedDepartureDate, string selectedReturnDate)
         {
            
             InitializeComponent();
@@ -56,8 +56,6 @@ namespace BookingSystemUI
             // Add code for GET request. No need to send CountryID or anything - has been remembered from flight form.
             // Populate hotel data.
             
-
-           
 
         }
         private void dateTimePicker2_ValueChanged(object sender, EventArgs e)
@@ -86,7 +84,7 @@ namespace BookingSystemUI
 
         private void btnNext_Click(object sender, EventArgs e)
         {
-            CarRental carRental = new CarRental(selectedCountry, selectedOrigin, selectedOriginID, selectedCountryID, mainForm, selectedDepartureDate, selectedReturnDate);
+            CarRentalUI carRental = new CarRentalUI(selectedCountry, selectedOrigin, selectedOriginID, selectedCountryID, mainForm, selectedDepartureDate, selectedReturnDate);
 
             // Show the Flight form
             mainForm.ShowFormInMainPanel(carRental);
