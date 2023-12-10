@@ -28,26 +28,37 @@
         /// </summary>
         private void InitializeComponent()
         {
-            panel1 = new Panel();
+            flightPanel = new Panel();
             label2 = new Label();
+            nxtBtn = new Button();
             SuspendLayout();
             // 
-            // panel1
+            // flightPanel
             // 
-            panel1.Location = new Point(95, 244);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(898, 302);
-            panel1.TabIndex = 0;
+            flightPanel.Location = new Point(95, 244);
+            flightPanel.Name = "flightPanel";
+            flightPanel.Size = new Size(898, 302);
+            flightPanel.TabIndex = 0;
             // 
             // label2
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
-            label2.Location = new Point(416, 105);
+            label2.Location = new Point(436, 119);
             label2.Name = "label2";
-            label2.Size = new Size(158, 30);
+            label2.Size = new Size(143, 30);
             label2.TabIndex = 3;
-            label2.Text = "Select Airports";
+            label2.Text = "Select Flights";
+            // 
+            // nxtBtn
+            // 
+            nxtBtn.Location = new Point(484, 565);
+            nxtBtn.Name = "nxtBtn";
+            nxtBtn.Size = new Size(75, 23);
+            nxtBtn.TabIndex = 4;
+            nxtBtn.Text = "Next";
+            nxtBtn.UseVisualStyleBackColor = true;
+            nxtBtn.Click += nxtBtn_Click;
             // 
             // SelectFlightUI
             // 
@@ -55,8 +66,9 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(1034, 611);
+            Controls.Add(nxtBtn);
             Controls.Add(label2);
-            Controls.Add(panel1);
+            Controls.Add(flightPanel);
             FormBorderStyle = FormBorderStyle.None;
             Name = "SelectFlightUI";
             Text = "SelectFlightUI";
@@ -66,7 +78,8 @@
 
         #endregion
 
-        private Panel panel1;
+        private Panel flightPanel;
         private Label label2;
+        private Button nxtBtn;
     }
 }

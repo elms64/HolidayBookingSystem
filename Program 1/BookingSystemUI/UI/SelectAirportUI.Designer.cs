@@ -50,9 +50,9 @@
             label2.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
             label2.Location = new Point(390, 72);
             label2.Name = "label2";
-            label2.Size = new Size(214, 30);
+            label2.Size = new Size(232, 30);
             label2.TabIndex = 2;
-            label2.Text = "Searching for flights";
+            label2.Text = "Searching for Airports";
             // 
             // label3
             // 
@@ -171,7 +171,7 @@
             arrivalAirportsPanel.Size = new Size(898, 302);
             arrivalAirportsPanel.TabIndex = 25;
             // 
-            // FlightUI
+            // SelectAirportUI
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -192,9 +192,9 @@
             Controls.Add(label3);
             Controls.Add(label2);
             FormBorderStyle = FormBorderStyle.None;
-            Name = "FlightUI";
+            Name = "SelectAirportUI";
             Text = "Flight";
-            Load += Flight_Load;
+            Load += Airport_Load;
             ResumeLayout(false);
             PerformLayout();
         }

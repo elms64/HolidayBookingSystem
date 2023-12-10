@@ -10,7 +10,7 @@ namespace BookingSystemUI.Service
 {
     public interface IFlightService
     {
-        Task<Flight>? GetFlight(FlightDetails flightDetails);
+        Task<List<Flight>>? GetFlight(FlightDetails flightDetails);
     }
 
     public class FlightServiceImpl : IFlightService
@@ -18,7 +18,7 @@ namespace BookingSystemUI.Service
         //TODO move this to a congif file instead of hard coding it
         private const string ConsoleAppUrl = "http://localhost:8080";
 
-        public async Task<Flight>? GetFlight(FlightDetails flightDetails)
+        public async Task<List<Flight>>? GetFlight(FlightDetails flightDetails)
         {
             try
             {
@@ -28,7 +28,7 @@ namespace BookingSystemUI.Service
                 {
                     // Add headers to the client
                     client.DefaultRequestHeaders.Add("selectedDepartureAirportID", flightDetails.DepartureAirportID.ToString());
-                    client.DefaultRequestHeaders.Add("selectedDepartureAirportID", flightDetails.ArrivalAirportID.ToString());
+                    client.DefaultRequestHeaders.Add("selectedArrivalAirportID", flightDetails.ArrivalAirportID.ToString());
 
                     // Log the headers before sending the request
                     Console.WriteLine($"Sending request to: {targetURL}");
@@ -47,7 +47,7 @@ namespace BookingSystemUI.Service
                     Console.WriteLine($"Received response data: {flightJsonResponse}");
 
                     // Deserialize the JSON response
-                    var flight = JsonSerializer.Deserialize<Flight>(flightJsonResponse);
+                    var flight = JsonSerializer.Deserialize<List<Flight>>(flightJsonResponse);
 
                     if (flight == null)
                     {

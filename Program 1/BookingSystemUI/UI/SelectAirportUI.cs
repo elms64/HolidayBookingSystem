@@ -15,6 +15,7 @@ using System.Windows.Forms;
 using static BookingSystemUI.SelectAirportUI;
 using static BookingSystemUI.Form1;
 using BookingSystemUI.UI;
+using BookingSystemUI.UI.UIUtils;
 
 namespace BookingSystemUI
 {
@@ -22,7 +23,7 @@ namespace BookingSystemUI
     public partial class SelectAirportUI : Form
     {
         // Variables
-        private MainMenu mainForm; 
+        private MainMenu mainForm;
         private DateTime selectedDepartureDate;
         private IAirportService airportService;
         private Booking booking;
@@ -49,7 +50,7 @@ namespace BookingSystemUI
         }
 
 
-        private async void Flight_Load(object sender, EventArgs e)
+        private async void Airport_Load(object sender, EventArgs e)
         {
 
             if (booking != null)
@@ -75,13 +76,21 @@ namespace BookingSystemUI
         private void LoadPanelForDepartureAirport(AirportInfo airportInfo) //First Airport, Current loaction
         {
             int yOffset = 0;
+
             try
             {
                 // Create a new panel for each origin airport
                 foreach (var originAirport in airportInfo.DepartureAirports)
                 {
+                    // Create label 
+                    String labelText = $"AirportID: {originAirport.ID}, CountryID: {originAirport.CountryID}, AirportName: {originAirport.Name}";
+                    Label label = Utils.createLabelWithLabelText(labelText);
                     // Create a new panel
-                    Panel panel = createPanel(originAirport, "departure", yOffset, departureAirportsPanel);
+                    Panel panel = Utils.createPanel(yOffset, departureAirportsPanel, label);
+                    // associate airport with panel using tag property
+                    panel.Tag = originAirport;
+                    // Attach the click event to the panel
+                    panel.Click += (sender, e) => Panel_Click(sender, e, "departure");
                     // Increment the y-coordinate for the next panel
                     yOffset += panel.Height;
                     arrivalAirportsPanel.Visible = false;
@@ -103,8 +112,15 @@ namespace BookingSystemUI
                 // Create a new panel for each destination airport
                 foreach (var destinationAirport in airportInfo.ArrivalAirports)
                 {
+                    // Create label 
+                    String labelText = $"AirportID: {destinationAirport.ID}, CountryID: {destinationAirport.CountryID}, AirportName: {destinationAirport.Name}";
+                    Label label = Utils.createLabelWithLabelText(labelText);
                     // Create a new panel
-                    Panel panel = createPanel(destinationAirport, "arrival", yOffset, arrivalAirportsPanel);
+                    Panel panel = Utils.createPanel(yOffset, arrivalAirportsPanel, label);
+                    // associate airport with panel using tag property
+                    panel.Tag = destinationAirport;
+                    // Attach the click event to the panel
+                    panel.Click += (sender, e) => Panel_Click(sender, e, "arrival");
                     // Increment the y-coordinate for the next panel
                     yOffset += panel.Height;
                 }
@@ -113,43 +129,6 @@ namespace BookingSystemUI
             {
                 Console.WriteLine($"An error occurred while loading arrival airports: {ex.Message}");
             }
-        }
-
-
-        private Panel createPanel(Airport airport, String arrivalOrDeparture, int yOffset, Panel outerPanel)
-        {
-
-            Panel panel = new Panel();
-            panel.BorderStyle = BorderStyle.FixedSingle;
-            panel.Size = new Size(850, 100);
-            panel.BackColor = Color.White; // Sajan Test
-            panel.Enabled = true; // Sajan Test
-
-            // Create a label to display airport information
-            Label label = new Label();
-
-            label.Text = $"AirportID: {airport.ID}, CountryID: {airport.CountryID}, AirportName: {airport.Name}";
-            label.AutoSize = true;
-
-            // associate airport with panel using tag property
-            panel.Tag = airport;
-
-            // Set the location of the panel
-            panel.Location = new Point(0, yOffset);
-
-            // Add the label to the panel
-            panel.Controls.Add(label);
-
-            // Attach the click event to the panel
-            panel.Click += (sender, e) => Panel_Click(sender, e, arrivalOrDeparture);
-
-            // Add the panel to outerPanel
-            outerPanel.Controls.Add(panel);
-
-            // Make outerPanel scrollable
-            outerPanel.AutoScroll = true;
-
-            return panel;
         }
 
         //This will make the panel clickable.
@@ -222,7 +201,7 @@ namespace BookingSystemUI
             SelectFlightUI selectFlightUI = new SelectFlightUI(booking);
             mainForm.ShowFormInMainPanel(selectFlightUI);
 
-            
+
 
             // Close the BookingInit form if needed
             this.Close();

@@ -10,6 +10,7 @@ namespace BookingSystemUI.Model
         public int OrderNumber { get; set; }
 
         public FlightDetails FlightDetails { get; set; }
+        public Flight Flight { get; set; }
 
         public override string ToString()
         {

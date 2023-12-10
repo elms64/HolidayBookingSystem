@@ -232,13 +232,14 @@ namespace BookingProcessor
                         }*/
 
                         // Select flights based on selected Airports for departure and arrival.
+                        Console.WriteLine(bookingContext.Flight);
                         var matchingFlights = bookingContext.Flight
                             .Where(f =>
                                 f.DepartureAirportID == selectedDepartureAirportID &&
                                 f.ArrivalAirportID == selectedArrivalAirportID)
                             //f.DepartureDateTime == selectedDepartureDate &&
                             //f.ArrivalDateTime == selectedArrivalDate)
-                            .Select(f => f.FlightID)
+                            .Select(f => f)
                             .ToList();
 
                         // Serialize the matching Flight information to JSON, sends and logs the response.
