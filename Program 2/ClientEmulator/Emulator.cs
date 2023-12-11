@@ -342,7 +342,7 @@ namespace ClientEmulator
 
                 // Continue to booking a car hire.
                 string selectedCar = "";
-                Console.WriteLine("Do you need to hire a car?");
+                Console.WriteLine("Do you need to hire a car? Type Yes / Nox");
                 string carInput = GetUserConfirmation();
                 int VehicleBookingID = 0;
                 if (carInput == "Yes")
@@ -358,7 +358,7 @@ namespace ClientEmulator
                     Console.WriteLine("You have selected the car ID: " + selectedCar);
                     Console.WriteLine("");
                     Console.ResetColor();
-                    Console.WriteLine("Are you happy to proceed with the car hire booking?");
+                    Console.WriteLine("Are you happy to proceed with the car hire booking?  Type Yes / No " );
                     string confirmVehicle = GetUserConfirmation();
                     Console.WriteLine("");
 
