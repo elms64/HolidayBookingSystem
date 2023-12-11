@@ -6,7 +6,6 @@
 *  For example, to provide airport information ensure GET requests include OriginCountryID and DestinationCountryID in the header. 
 *  Please see the software documentation for further information.  */
 
-// System Libraries and Packages
 using System.Net;
 using System.Text;
 using System.Text.Json;
@@ -155,13 +154,11 @@ namespace BookingProcessor
             }
         }
 
-
         // Gets the request type based on the last part of the target URL.
         private string ExtractRequestType(Uri url)
         {
             return url.Segments.Last().TrimEnd('/');
         }
-
 
         // How to handle incoming GET requests.
         private async Task HandleGetRequest(HttpListenerRequest request, HttpListenerResponse response, string requestType)
@@ -284,7 +281,7 @@ namespace BookingProcessor
                         Console.WriteLine($"Matching Hotel JSON Response: {hotelJsonResponse}");
                         break;
 
-                    // @gjepic
+                    // @Kloakk
                     // Returns all Vehicles from Vehicle Table.
                     case "Vehicle":
                         var vehicle = await bookingContext.Vehicle
@@ -334,8 +331,7 @@ namespace BookingProcessor
             }
         }
 
-
-        // @elms64
+        // @elms64, @Kloakk
         // Handles incoming PUT requests and uploads bookings to the database.
         public async Task HandlePutRequest(HttpListenerRequest request, HttpListenerResponse response, string requestType)
         {
@@ -428,7 +424,6 @@ namespace BookingProcessor
             }
         }
 
-
         // @elms64
         // Method to initiate recovery mode, used when an incoming process is a batch transaction.
         private void InitRecoveryMode(string jsonData)
@@ -436,7 +431,6 @@ namespace BookingProcessor
             var recoveryMode = new RecoveryMode(serviceProvider);
             recoveryMode.Run(jsonData).GetAwaiter().GetResult();
         }
-
 
     }
 }

@@ -1,4 +1,9 @@
-﻿using System;
+﻿// GitHub Authors: @elms64 & @Kloakk
+
+// Interacts with the database to upload a booking record from an incoming PUT request.
+
+/* System Libraries */
+using System;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -74,28 +79,28 @@ namespace BookingProcessor
 
                             using (var context = new BookingContext())
                             {
-                                int hotelBookingIDValue = int.Parse(HotelBookingID);
+                                int.TryParse(HotelBookingID, out int hotelBookingIDValue);
                                 // Assuming HotelBookingID is a variable available in your class
                                 var status = context.HotelBooking.FirstOrDefault(b => b.HotelBookingID == hotelBookingIDValue);
                                 if (status != null)
                                 {
-                                    status.BookingStatus = "confirmed";
+                                    status.BookingStatus = "Confirmed";
                                     context.SaveChanges();
                                 }
 
-                                int VehicleBookingIDValue = int.Parse(VehicleBookingID);
+                                int.TryParse(VehicleBookingID, out int VehicleBookingIDValue);
                                 var status2 = context.VehicleBooking.FirstOrDefault(b => b.VehicleBookingID == VehicleBookingIDValue);
                                 if (status2 != null)
                                 {
-                                    status2.BookingStatus = "confirmed";
+                                    status2.BookingStatus = "Confirmed";
                                     context.SaveChanges();
                                 }
 
-                                int InsuranceBookingIDValue = int.Parse(InsuranceBookingID);
+                                int.TryParse(InsuranceBookingID, out int InsuranceBookingIDValue);
                                 var status3 = context.InsuranceBooking.FirstOrDefault(b => b.InsuranceBookingID == InsuranceBookingIDValue);
                                 if (status3 != null)
                                 {
-                                    status3.BookingStatus = "confirmed";
+                                    status3.BookingStatus = "Confirmed";
                                     context.SaveChanges();
                                 }
 

@@ -1,4 +1,9 @@
-// System Libraries and Packages
+// GitHub Authors: @elms64 & @Kloakk
+
+// Interacts with the database to upload a client record from an incoming PUT request.
+
+/* System Libraries */
+using System;
 using System;
 using System.Net;
 using System.Text;

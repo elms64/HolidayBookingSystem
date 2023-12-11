@@ -1,4 +1,9 @@
-﻿using System;
+﻿// GitHub Authors: @elms64 & @Kloakk
+
+// Interacts with the database to upload a flight booking record from an incoming PUT request.
+
+/* System Libraries */
+using System;
 using BookingProcessor.Models;
 using ClientEmulator.Models;
 using System.Net;

@@ -1,4 +1,5 @@
-// GitHub Authors: @gjepic
+// GitHub Authors: @elms64, @Kloakk
+
 
 /* Model for all expected datatypes relating to Hotels.
    Setup with Entity Framework Core to interact with the database programmatically */
@@ -9,35 +10,35 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ClientEmulator.Models
 {
-public class Hotel
-{
-    [Key]
-    [DisplayName("Hotel ID")]
-    public int HotelID { get; set; }
+    public class Hotel
+    {
+        [Key]
+        [DisplayName("Hotel ID")]
+        public int HotelID { get; set; }
 
-    [ForeignKey("Country")]
-    [DisplayName("CountryID")]
-    public int CountryID { get; set; }
+        [ForeignKey("Country")]
+        [DisplayName("CountryID")]
+        public int CountryID { get; set; }
 
 
-    [DisplayName("Hotel")]
-    public string? HotelName { get; set; }
+        [DisplayName("Hotel")]
+        public string? HotelName { get; set; }
 
-    [DisplayName("Address Line 1")]
-    public string? AddressLine1 { get; set; }
+        [DisplayName("Address Line 1")]
+        public string? AddressLine1 { get; set; }
 
-    [DisplayName("Address Line 2")]
-    public string? AddressLine2 { get; set; }
+        [DisplayName("Address Line 2")]
+        public string? AddressLine2 { get; set; }
 
-    public string? City { get; set; }
+        public string? City { get; set; }
 
-    public string? Postcode { get; set; }
+        public string? Postcode { get; set; }
 
-    public int PhoneNumber {get; set; }
+        public int PhoneNumber {get; set; }
 
-    public double Rating {get ; set; }
+        public double Rating {get ; set; }
 
-    public int RoomCount { get; set; }
+        public int RoomCount { get; set; }
 
-}
+    }
 }

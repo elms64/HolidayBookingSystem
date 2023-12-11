@@ -2,28 +2,21 @@
 
 // Creates a vehicle booking PUT request and sends it over HTTP to the server
 
-/* System Libraries */
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
-using ClientEmulator.Models;
+
 
 namespace ClientEmulator
 {
     public class VehicleBooking
     {
-        /* Variables */
         private static readonly string ConsoleAppUrl = "http://localhost:8080";
         private static readonly HttpClient httpClient = new HttpClient();
-
         public async Task<int> VehicleBookingAsync(string selectedCar, int ClientID)
         {
             string serverURL = ConsoleAppUrl + "/VehicleBooking";
+            
             // Convert the booking transaction to JSON and send a PUT request
-
             var VehicleBooking = new List<KeyValuePair<string, string>>();
             VehicleBooking.Add(new KeyValuePair<string, string>("VehicleID", selectedCar));
 

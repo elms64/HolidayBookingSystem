@@ -1,5 +1,4 @@
-// GitHub Authors: @gjepic
-
+// GitHub Authors: @elms64, @Kloakk
 /* Model for all expected datatypes relating to Airports.
    Setup with Entity Framework Core to interact with the database programmatically */
 
@@ -9,17 +8,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookingProcessor.Models
 {
-public class Airport 
-{
-    [Key]
-    [DisplayName("Airport ID")]
-    public int AirportID { get; set; }
-    
-    [ForeignKey("Country")]
-    [DisplayName("Country ID")]
-    public int CountryID { get; set; }
-    
-    [DisplayName("Airport Name")]
-    public string? AirportName { get; set; }
-}
+    public class Airport
+    {
+        [Key]
+        [DisplayName("Airport ID")]
+        public int AirportID { get; set; }
+
+        [ForeignKey("Country")]
+        [DisplayName("Country ID")]
+        public int CountryID { get; set; }
+
+        [DisplayName("Airport Name")]
+        public string? AirportName { get; set; }
+    }
 }

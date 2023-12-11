@@ -1,11 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
+// GitHub Authors: @elms64 & @Kloakk
+
+// Signs up a new client to the system. 
+
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using ClientEmulator.Models;
 
 namespace ClientEmulator
 {

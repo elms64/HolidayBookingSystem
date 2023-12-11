@@ -2,17 +2,9 @@
 
 // Client Emulator for front end interaction testing with backend server 
 
-/* System Libraries */
-using System;
 using System.Data;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text.Json;
-using System.Threading.Tasks;
 using ClientEmulator.Models;
-using System.Security.Cryptography;
 using System.Text;
-using SQLitePCL;
 using System.Net;
 
 namespace ClientEmulator
@@ -52,6 +44,7 @@ namespace ClientEmulator
             await Task.Delay(Timeout.Infinite); // Keep the main thread alive
         }
 
+        /* Methods */
         private static async Task ShowLoadingBar()
         {
 
@@ -243,8 +236,6 @@ namespace ClientEmulator
                 Console.WriteLine($"An error occurred while deleting batches: {ex.Message}");
             }
         }
-
-        /* Methods */
 
         // Initialises the booking process based on a chosen destination, country of origin and dates which
         // are based on the current time for a 7 day holiday for testing purposes. 
@@ -572,6 +563,7 @@ namespace ClientEmulator
             }
         }
 
+        // Gets any batch files stored that need to be processed. 
         private static List<string> RetrieveBatchData()
         {
             string folderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "BatchRequests");
@@ -595,6 +587,7 @@ namespace ClientEmulator
             return batchData;
         }
 
+        // Defines the expected format for JSON data.
         public class JsonDataItem
         {
             public string? Key { get; set; }
@@ -602,6 +595,7 @@ namespace ClientEmulator
             public Guid TransactionGUID { get; set; }
         }
 
+        // Sends batches as a POST request to the server. 
         private static async Task SendBatches()
         {
             try
@@ -661,9 +655,5 @@ namespace ClientEmulator
                 Console.ResetColor();
             }
         }
-
-
-
-
     }
 }

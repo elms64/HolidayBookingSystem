@@ -1,4 +1,5 @@
-// GitHub Authors: @gjepic
+// GitHub Authors: @elms64, @Kloakk
+
 
 /* Model for all expected datatypes relating to Airports.
    Setup with Entity Framework Core to interact with the database programmatically */

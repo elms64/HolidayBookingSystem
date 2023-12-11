@@ -7,7 +7,6 @@
  * Once recovery mode has completed, it will automatically trigger normal mode. There are various exceptions that may occur such as 
    communication errors, in the event of a failure normal mode will be triggered and recovery will need to run again later. */
 
-// System Libraries and Packages
 using System.Text;
 using System.Text.Json;
 using BookingProcessor.Models;
@@ -18,11 +17,10 @@ namespace BookingProcessor
 {
     public class RecoveryMode
     {
-        // Variables
-        // Sends a broadcast message to all hosts on a local network to check for batch transactions.
+        // IP can be configured to send a broadcast message to all hosts on a local network to check for batch transactions.
+        // For example: http://192.168.1.255:8081/batchrecovery could be used to send a request to all hosts on a given subnet. 
         private readonly string batchURL = "http://localhost:8081/batchrecovery";
         private readonly IServiceProvider serviceProvider;
-
         public RecoveryMode(IServiceProvider serviceProvider)
         {
             this.serviceProvider = serviceProvider;
@@ -35,12 +33,12 @@ namespace BookingProcessor
             {
                 if (string.IsNullOrEmpty(jsonData))
                 {
-                    // Scenario a: Server initiates recovery mode using GET request.
+                    // Recovery scenario where the server retrieves the batches from a client(s)
                     await RetrieveAndProcessBatch();
                 }
                 else
                 {
-                    // Scenario b: Server initiates recovery mode using jsonData passed from POST request.
+                    // Recovery scenario where a batch is sent via POST to the server.
                     await ProcessBatch(jsonData);
                     Console.ForegroundColor = ConsoleColor.DarkGreen;
                     ConsoleUtils.PrintWithDotsAsync("Batch transactions complete, switching to normal mode", 3, 300).Wait();
@@ -74,11 +72,7 @@ namespace BookingProcessor
                     if (!string.IsNullOrEmpty(batchProcessData))
                     {
                         ConsoleUtils.PrintWithDotsAsync("Retrieved the following backed up transactions:", 3, 300).Wait();
-
-                        // Ensure the JSON data is wrapped in an outer list to match the format expected by ProcessBatch
                         batchProcessData = $"[{batchProcessData}]";
-
-                        // Processes batch requests without jsonData.
                         await ProcessBatch(batchProcessData);
                         Console.ForegroundColor = ConsoleColor.DarkGreen;
                         ConsoleUtils.PrintWithDotsAsync("Batch transactions complete, switching to normal mode", 3, 300).Wait();
@@ -105,8 +99,7 @@ namespace BookingProcessor
             }
         }
 
-
-        // Update JsonDataItem class to match the structure of received JSON data
+        // Defines the JSON data structure
         public class JsonDataItem
         {
             public string? Key { get; set; }
@@ -114,7 +107,7 @@ namespace BookingProcessor
             public Guid TransactionGUID { get; set; }
         }
 
-
+        // Processes batch requests and uploads them to the database. 
         private async Task ProcessBatch(string jsonData)
         {
             try
@@ -125,12 +118,10 @@ namespace BookingProcessor
                     Console.WriteLine("");
                     Console.WriteLine($"Received JSON Data: {jsonData}");
 
-                    // Deserialize the JSON data to a list of List<JsonDataItem>
                     var jsonDataItems = JsonSerializer.Deserialize<List<List<JsonDataItem>>>(jsonData);
 
                     foreach (var batchItems in jsonDataItems!)
                     {
-                        // Map properties from JSON data to Booking class
                         var newBooking = new Booking
                         {
                             OrderNumber = Convert.ToInt32(batchItems.FirstOrDefault(item => item.Key == "OrderNumber")?.Value ?? "0"),
@@ -145,7 +136,6 @@ namespace BookingProcessor
                             VehicleBookingID = Convert.ToInt32(batchItems.FirstOrDefault(item => item.Key == "VehicleBookingID")?.Value ?? "0"),
                             ClientID = Convert.ToInt32(batchItems.FirstOrDefault(item => item.Key == "ClientID")?.Value ?? "0"),
                             InsuranceBookingID = Convert.ToInt32(batchItems.FirstOrDefault(item => item.Key == "InsuranceBookingID")?.Value ?? "0"),
-                            // Add other properties as needed
                         };
 
                         // Check if any batches with the same GUID exist.
@@ -181,15 +171,17 @@ namespace BookingProcessor
             }
         }
 
-
+        // Send a notification to the client that their batch has been succesfully processed. 
         private async Task NotifyClient(Guid transactionGuid)
         {
             using (HttpClient client = new HttpClient())
             {
                 // Add the TransactionGUID to the request headers
                 client.DefaultRequestHeaders.Add("TransactionGUID", transactionGuid.ToString());
-
                 var content = new StringContent("Batch processed successfully", Encoding.UTF8, "application/json");
+
+                /* Could add logic to fetch the IP of the correct host in a scenario where there are multiple hosts
+                   Currently set up to send a message directly to this given IP, but would need to catch the right IP if there are multiple hosts. */
                 var response = await client.PostAsync("http://localhost:8081/servernotifications", content);
 
                 if (response.IsSuccessStatusCode)

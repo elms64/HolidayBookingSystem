@@ -2,19 +2,13 @@
 
 // Returns a list of hotels based on a given destination.
 
-/* System Libraries */
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
 using System.Text.Json;
-using System.Threading.Tasks;
 using ClientEmulator.Models;
 
 namespace ClientEmulator
 {
     public class ReturnHotels
     {
-        /* Variables */
         private static readonly string ConsoleAppUrl = "http://localhost:8080";
 
         public async Task ReturnHotelsList(string destination)

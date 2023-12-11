@@ -2,22 +2,14 @@
 
 // Creates a booking PUT request and sends it over HTTP to the server
 
-/* System Libraries */
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
-using ClientEmulator.Models;
 using System.Security.Cryptography;
 
 namespace ClientEmulator
 {
     public class ProcessBooking
     {
-
-        /* Variables */
         private static readonly string ConsoleAppUrl = "http://localhost:8080";
         private static readonly HttpClient httpClient = new HttpClient();
 
@@ -26,7 +18,6 @@ namespace ClientEmulator
             Guid TransactionGuid = Guid.NewGuid();
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Sending Booking Data:");
-            //Console.WriteLine($"CountryID : {destination} \n HotelBookingID : {HotelBookingID} \n FlightID : {selectedFlightID}\n VehicleBookingID : {VehiclebookingID} \n InsuranceBookingID : {InsuranceBookingID}");
             Console.WriteLine("");
             Console.ResetColor();
             try
@@ -44,27 +35,34 @@ namespace ClientEmulator
                 bookingData.Add(new KeyValuePair<string, string>("VehicleBookingID", VehiclebookingID.ToString()));
                 bookingData.Add(new KeyValuePair<string, string>("InsuranceBookingID", InsuranceBookingID.ToString()));
 
-                // Calculate checksum for the booking data
-                string checksum = CalculateChecksum(JsonSerializer.Serialize(bookingData));
-
-                // Add checksum to the booking data
-                bookingData.Add(new KeyValuePair<string, string>("CheckSum", checksum));
-
-                // Add GUID after checksum so it is not included in the calculation.
-                bookingData.Add(new KeyValuePair<string, string>("TransactionGUID", TransactionGuid.ToString()));
-
-                // Print the data being sent in the response
-
-                // Console.WriteLine("Data being sent in the response:");
-                foreach (var kvp in bookingData)
+                if (bookingData.All(pair => pair.Value != null))
                 {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine($"{kvp.Key}: {kvp.Value}");
+                    // Calculate checksum for the booking data
+                    string checksum = CalculateChecksum(JsonSerializer.Serialize(bookingData));
+
+                    // Add checksum to the booking data
+                    bookingData.Add(new KeyValuePair<string, string>("CheckSum", checksum));
+
+                    // Add GUID after checksum so it is not included in the calculation.
+                    bookingData.Add(new KeyValuePair<string, string>("TransactionGUID", TransactionGuid.ToString()));
+
+                    // Print the data being sent in the response
+                    foreach (var kvp in bookingData)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine($"{kvp.Key}: {kvp.Value}");
+                        Console.ResetColor();
+                    }
+
+                    // Call SendBookingTransaction with the populated bookingData
+                    await SendBookingTransaction(bookingData, TransactionGuid);
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine("Error: One or more values are null.");
                     Console.ResetColor();
                 }
-
-                // Call SendBookingTransaction with the populated bookingData
-                await SendBookingTransaction(bookingData, TransactionGuid);
             }
             catch (Exception ex)
             {
@@ -74,7 +72,7 @@ namespace ClientEmulator
             }
         }
 
-
+        // Calculates a checksum on the booking content using the MD5 one way hashing algorithm.
         private static string CalculateChecksum(string data)
         {
             using (MD5 md5 = MD5.Create())
@@ -97,7 +95,7 @@ namespace ClientEmulator
             public Guid TransactionGUID { get; set; }
         }
 
-
+        // Sends a booking transaction as a PUT request to the server.
         private static async Task<int> SendBookingTransaction(List<KeyValuePair<string, string>> bookingData, Guid transactionGuid)
         {
             try
@@ -134,7 +132,7 @@ namespace ClientEmulator
                         && responseObject.TryGetValue("Message", out JsonElement messageElement))
                     {
                         int OrderNumber = orderNumberElement.GetInt32();
-                        string message = messageElement.GetString();
+                        string? message = messageElement.GetString();
 
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("");
@@ -166,10 +164,5 @@ namespace ClientEmulator
                 return -1;
             }
         }
-
-
-
-
-
     }
 }
