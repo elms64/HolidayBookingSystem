@@ -26,35 +26,90 @@ public class SeedData
 
         // @dlawlor2408
         // Airport Seed Data
-        modelBuilder.Entity<Airport>().HasData(
-        new Airport { AirportID = 1, CountryID = 840, AirportName = "Denver International Airport" }, //USA
-        new Airport { AirportID = 2, CountryID = 784, AirportName = "Dubai International Airport" },  //Dubai
-        new Airport { AirportID = 3, CountryID = 156, AirportName = "Beijing Internation Airport" },  //China
-        new Airport { AirportID = 4, CountryID = 792, AirportName = "Istanbul International Airport" }, //Turkey
-        new Airport { AirportID = 5, CountryID = 826, AirportName = "Heathrow Airport" }, //UK
-        new Airport { AirportID = 6, CountryID = 356, AirportName = "Indira Gandhi International Airport" }, //India
-        new Airport { AirportID = 7, CountryID = 250, AirportName = "Charles de Gaulle Airport" }, //France
-        new Airport { AirportID = 8, CountryID = 528, AirportName = "Amsterdam Airport Schiphol" }, //Amsterdam
-        new Airport { AirportID = 9, CountryID = 724, AirportName = "Adolfo Suárez Madrid-Barajas Airport" },//Spain
-        new Airport { AirportID = 10, CountryID = 392, AirportName = "Tokyo Haneda Airport" }, //Jpn
-        new Airport { AirportID = 11, CountryID = 276, AirportName = "Frankfurt Airport" }, //Germany
-        new Airport { AirportID = 12, CountryID = 484, AirportName = "Mexico City International Airport" }, //Mexico
-        new Airport { AirportID = 13, CountryID = 360, AirportName = "Soekarno-Hatta International Airport" }, //Indonesia
-        new Airport { AirportID = 14, CountryID = 124, AirportName = "Toronto Pearson International Airport" }, //Canada
-        new Airport { AirportID = 15, CountryID = 76, AirportName = "São Paulo/Guarulhos International Airport" }, //Brazil
-        new Airport { AirportID = 16, CountryID = 826, AirportName = "Gatwick Airport" }, //UK
-        new Airport { AirportID = 17, CountryID = 826, AirportName = "London Stansted" }, //UK
-        new Airport { AirportID = 18, CountryID = 826, AirportName = "Luton Airport" }, //UK
-        new Airport { AirportID = 19, CountryID = 826, AirportName = "Manchester Airport" }, //UK
-        new Airport { AirportID = 20, CountryID = 826, AirportName = "London City Airport" }, //UK
-        new Airport { AirportID = 21, CountryID = 826, AirportName = "Birmingham Airport" }, //UK
-        new Airport { AirportID = 22, CountryID = 250, AirportName = "Lille Airport" }, //FRANCE
-        new Airport { AirportID = 23, CountryID = 250, AirportName = "Bordeaux Airport" }, //FRANCE
-        new Airport { AirportID = 24, CountryID = 250, AirportName = "Marseille Airport" }, //FRANCE
-        new Airport { AirportID = 25, CountryID = 724, AirportName = "Barcelona International Airport" }, //SPAIN
-        new Airport { AirportID = 26, CountryID = 724, AirportName = "Málaga Airport" }, //SPAIN
-        new Airport { AirportID = 27, CountryID = 724, AirportName = "Palma De Mallorca Airport" } //SPAIN
-        );
+   
+         // @dlawlor2408
+// Airport Seed Data
+modelBuilder.Entity<Airport>().HasData(
+    new Airport { AirportID = 1, CountryID = 840, AirportName = "Denver International Airport" }, //USA
+    new Airport { AirportID = 2, CountryID = 784, AirportName = "Dubai International Airport" },  //Dubai
+    new Airport { AirportID = 3, CountryID = 156, AirportName = "Beijing Internation Airport" },  //China
+    new Airport { AirportID = 4, CountryID = 792, AirportName = "Istanbul International Airport" }, //Turkey
+    new Airport { AirportID = 5, CountryID = 826, AirportName = "Heathrow Airport" }, //UK
+    new Airport { AirportID = 6, CountryID = 356, AirportName = "Indira Gandhi International Airport" }, //India
+    new Airport { AirportID = 7, CountryID = 250, AirportName = "Charles de Gaulle Airport" }, //France
+    new Airport { AirportID = 8, CountryID = 528, AirportName = "Amsterdam Airport Schiphol" }, //Amsterdam
+    new Airport { AirportID = 9, CountryID = 724, AirportName = "Adolfo Suárez Madrid-Barajas Airport" },//Spain
+    new Airport { AirportID = 10, CountryID = 392, AirportName = "Tokyo Haneda Airport" }, //Jpn
+    new Airport { AirportID = 11, CountryID = 276, AirportName = "Frankfurt Airport" }, //Germany
+    new Airport { AirportID = 12, CountryID = 484, AirportName = "Mexico City International Airport" }, //Mexico
+    new Airport { AirportID = 13, CountryID = 360, AirportName = "Soekarno-Hatta International Airport" }, //Indonesia
+    new Airport { AirportID = 14, CountryID = 124, AirportName = "Toronto Pearson International Airport" }, //Canada
+    new Airport { AirportID = 15, CountryID = 76, AirportName = "São Paulo/Guarulhos International Airport" }, //Brazil
+    new Airport { AirportID = 16, CountryID = 826, AirportName = "Gatwick Airport" }, //UK
+    new Airport { AirportID = 17, CountryID = 826, AirportName = "London Stansted" }, //UK
+    new Airport { AirportID = 18, CountryID = 826, AirportName = "Luton Airport" }, //UK
+    new Airport { AirportID = 19, CountryID = 826, AirportName = "Manchester Airport" }, //UK
+    new Airport { AirportID = 20, CountryID = 826, AirportName = "London City Airport" }, //UK
+    new Airport { AirportID = 21, CountryID = 826, AirportName = "Birmingham Airport" }, //UK
+    new Airport { AirportID = 22, CountryID = 250, AirportName = "Lille Airport" }, //FRANCE
+    new Airport { AirportID = 23, CountryID = 250, AirportName = "Bordeaux Airport" }, //FRANCE
+    new Airport { AirportID = 24, CountryID = 250, AirportName = "Marseille Airport" }, //FRANCE
+    new Airport { AirportID = 25, CountryID = 724, AirportName = "Barcelona International Airport" }, //SPAIN
+    new Airport { AirportID = 26, CountryID = 724, AirportName = "Málaga Airport" }, //SPAIN
+    new Airport { AirportID = 27, CountryID = 724, AirportName = "Palma De Mallorca Airport" }, //SPAIN
+    new Airport { AirportID = 28, CountryID = 724, AirportName = "Ibiza Airport" }, // Spain
+    new Airport { AirportID = 29, CountryID = 724, AirportName = "Las Palmas Airport" }, // Spain
+    new Airport { AirportID = 30, CountryID = 300, AirportName = "Athens International Airport" }, // Greece
+    new Airport { AirportID = 31, CountryID = 300, AirportName = "Thessaloniki Airport" }, // Greece
+    new Airport { AirportID = 32, CountryID = 300, AirportName = "Heraklion International Airport" }, // Greece
+    new Airport { AirportID = 33, CountryID = 300, AirportName = "Rhodes International Airport" }, // Greece
+    new Airport { AirportID = 34, CountryID = 300, AirportName = "Santorini International Airport" }, // Greece
+    new Airport { AirportID = 35, CountryID = 380, AirportName = "Rome Fiumicino Airport" }, // Italy
+    new Airport { AirportID = 36, CountryID = 380, AirportName = "Milan Malpensa Airport" }, // Italy
+    new Airport { AirportID = 37, CountryID = 380, AirportName = "Venice Marco Polo Airport" }, // Italy
+    new Airport { AirportID = 38, CountryID = 380, AirportName = "Naples International Airport" }, // Italy
+    new Airport { AirportID = 39, CountryID = 380, AirportName = "Florence Airport" }, // Italy
+    new Airport { AirportID = 40, CountryID = 208, AirportName = "Stockholm Arlanda Airport" }, // Sweden
+    new Airport { AirportID = 41, CountryID = 208, AirportName = "Copenhagen Airport" }, // Denmark
+    new Airport { AirportID = 42, CountryID = 208, AirportName = "Oslo Gardermoen Airport" }, // Norway
+    new Airport { AirportID = 43, CountryID = 208, AirportName = "Helsinki-Vantaa Airport" }, // Finland
+    new Airport { AirportID = 44, CountryID = 276, AirportName = "Berlin Brandenburg Airport" }, // Germany
+    new Airport { AirportID = 45, CountryID = 276, AirportName = "Munich Airport" }, // Germany
+    new Airport { AirportID = 46, CountryID = 276, AirportName = "Hamburg Airport" }, // Germany
+    new Airport { AirportID = 47, CountryID = 276, AirportName = "Düsseldorf Airport" }, // Germany
+    new Airport { AirportID = 48, CountryID = 826, AirportName = "Belfast International Airport" }, // UK (Northern Ireland)
+    new Airport { AirportID = 49, CountryID = 372, AirportName = "Dublin Airport" }, // Ireland
+    new Airport { AirportID = 50, CountryID = 372, AirportName = "Cork Airport" }, // Ireland
+    new Airport { AirportID = 51, CountryID = 276, AirportName = "Cologne Bonn Airport" }, //Germany
+    new Airport { AirportID = 60, CountryID = 276, AirportName = "Berlin Brandenburg Airport" },  //Germany
+    new Airport { AirportID = 52, CountryID = 203, AirportName = "Prague Václav Havel Airport" },  //Czekh republic
+    new Airport { AirportID = 61, CountryID = 203, AirportName = "Brno-Turany Airport" },  //Czekh republic
+    new Airport { AirportID = 53, CountryID = 348, AirportName = "Budapest Ferenc Liszt International Airport" }, //Hungary
+    new Airport { AirportID = 62, CountryID = 348, AirportName = "Debrecen International Airport" },  //Hungary
+    new Airport { AirportID = 54, CountryID = 40, AirportName = "Vienna International Airport" },  //Austria
+    new Airport { AirportID = 63, CountryID = 40, AirportName = "Salzburg Airport" }, //Austria
+    new Airport { AirportID = 55, CountryID = 642, AirportName = "Bucharest Henri Coandă International Airport" },
+    new Airport { AirportID = 64, CountryID = 642, AirportName = "Cluj-Napoca International Airport" }, //South Africa
+    new Airport { AirportID = 56, CountryID = 710, AirportName = "Cape Town International Airport" },  //South Africa
+    new Airport { AirportID = 58, CountryID = 710, AirportName = "OR Tambo International Airport" },  //South Africa
+    new Airport { AirportID = 59, CountryID = 710, AirportName = "King Shaka International Airport" }, //South Africa
+    new Airport { AirportID = 65, CountryID = 710, AirportName = "Johannesburg Lanseria International Airport" },  //South Africa
+    new Airport { AirportID = 72, CountryID = 710, AirportName = "Port Elizabeth International Airport" },
+    new Airport { AirportID = 73, CountryID = 710, AirportName = "George Airport" },  //Bulgaria
+    new Airport { AirportID = 57, CountryID = 100, AirportName = "Sofia Airport" },  //Bulgaria
+    new Airport { AirportID = 66, CountryID = 100, AirportName = "Varna Airport" },  //Bulgaria
+    new Airport { AirportID = 74, CountryID = 100, AirportName = "Burgas Airport" },  //Bulgaria
+    new Airport { AirportID = 75, CountryID = 100, AirportName = "Plovdiv Airport" },  //Bulgaria
+    new Airport { AirportID = 76, CountryID = 100, AirportName = "Sofia West Airport" }, //Bulgaria
+    new Airport { AirportID = 77, CountryID = 826, AirportName = "Edinburgh Airport" },  // UK
+    new Airport { AirportID = 78, CountryID = 826, AirportName = "Cardiff Airport" },    // UK
+    new Airport { AirportID = 79, CountryID = 372, AirportName = "Shannon Airport" }    // Ireland
+   
+);
+
+
+
+     // @dlawlor2
 
         /*
         // @elms64
