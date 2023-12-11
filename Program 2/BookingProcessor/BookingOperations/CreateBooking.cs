@@ -72,20 +72,55 @@ namespace BookingProcessor
                             bookingContext.Booking.Add(booking);
                             await bookingContext.SaveChangesAsync();
 
+                            using (var context = new BookingContext())
+                            {
+                                int hotelBookingIDValue = int.Parse(HotelBookingID);
+                                // Assuming HotelBookingID is a variable available in your class
+                                var status = context.HotelBooking.FirstOrDefault(b => b.HotelBookingID == hotelBookingIDValue);
+                                if (status != null)
+                                {
+                                    status.BookingStatus = "confirmed";
+                                    context.SaveChanges();
+                                }
+
+                                int VehicleBookingIDValue = int.Parse(VehicleBookingID);
+                                var status2 = context.VehicleBooking.FirstOrDefault(b => b.VehicleBookingID == VehicleBookingIDValue);
+                                if (status2 != null)
+                                {
+                                    status2.BookingStatus = "confirmed";
+                                    context.SaveChanges();
+                                }
+
+                                int InsuranceBookingIDValue = int.Parse(InsuranceBookingID);
+                                var status3 = context.InsuranceBooking.FirstOrDefault(b => b.InsuranceBookingID == InsuranceBookingIDValue);
+                                if (status3 != null)
+                                {
+                                    status3.BookingStatus = "confirmed";
+                                    context.SaveChanges();
+                                }
+
+                            }
+
+
                             int newOrderNumberID = booking.OrderNumber;
 
-                            var responseObj = new 
+                            var responseObj = new
                             {
                                 OrderNumber = newOrderNumberID,
                                 Message = "Booking Created Successfully",
                                 Status = "Success"
                             };
 
+
+
+
                             string jsonResponse = JsonSerializer.Serialize(responseObj);
                             Console.WriteLine(jsonResponse);
                             return Encoding.UTF8.GetBytes(jsonResponse);
 
-                           
+
+
+
                         }
                     }
                 }
@@ -97,7 +132,7 @@ namespace BookingProcessor
             }
         }
 
-        
+
 
     }
 }
