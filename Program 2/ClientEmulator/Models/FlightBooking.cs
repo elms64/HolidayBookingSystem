@@ -1,4 +1,4 @@
-// GitHub Authors: @gjepic
+// GitHub Authors: @elms64, @Kloakk
 
 /* Model for all expected datatypes relating to flight booking information.
    Setup with Entity Framework Core to interact with the database programmatically */
@@ -22,6 +22,8 @@ namespace ClientEmulator.Models
         [ForeignKey("Client")]
         [DisplayName("Client ID")]
         public int ClientID { get; set; }
+
+        public string? BookingStatus { get; set; }
 
     }
 }

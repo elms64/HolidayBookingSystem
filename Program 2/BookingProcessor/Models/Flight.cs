@@ -1,5 +1,4 @@
-// GitHub Authors: @gjepic
-
+// GitHub Authors: @elms64, @Kloakk
 /* Model for all expected datatypes relating to Flights.
    Setup with Entity Framework Core to interact with the database programmatically */
 
@@ -30,7 +29,6 @@ namespace BookingProcessor.Models
         [DisplayName("Booked Seats")]
         public int BookedSeats { get; set; }
         
-
         [DisplayName("Max Seats")]
         public int MaxSeats { get; set; }
         

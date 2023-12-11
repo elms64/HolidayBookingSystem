@@ -1,11 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
+// GitHub Authors: @elms64 & @Kloakk
+
+// Signs up a new client to the system. 
+
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using ClientEmulator.Models;
 
 namespace ClientEmulator
 {
@@ -60,21 +59,25 @@ namespace ClientEmulator
             StringContent content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
             HttpResponseMessage response = await httpClient.PutAsync(serverURL, content);
 
+            // Read and print the response message
+            string responseContent = await response.Content.ReadAsStringAsync();
+            var responseObject = JsonSerializer.Deserialize<Dictionary<string, object>>(responseContent);
 
-            // Check if the request was successful
-            if (response.IsSuccessStatusCode)
+            if (responseObject != null && responseObject.TryGetValue("Message", out object? messageObj))
             {
-                // Read the response content
-                string responseContent = await response.Content.ReadAsStringAsync();
+                string? message = messageObj.ToString();
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Console.WriteLine($"Response from server: {message}");
+                Console.WriteLine("");
+                Console.ResetColor();
 
-                // Parse the JSON response to get the ClientID
-                var responseObject = JsonSerializer.Deserialize<Dictionary<string, object>>(responseContent);
-                if (responseObject!.TryGetValue("ClientID", out object? clientIDObj))
+                // Check if the request was successful
+                if (response.IsSuccessStatusCode && responseObject.TryGetValue("ClientID", out object? clientIDObj))
                 {
                     if (clientIDObj is JsonElement clientIDElement && clientIDElement.TryGetInt32(out int clientID))
                     {
                         Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine($"Client data sent successfully! ClientID: {clientID}");
+                        Console.WriteLine($"Client ID resolved successfully: {clientID}");
                         Console.ResetColor();
                         return clientID;
                     }
@@ -94,7 +97,14 @@ namespace ClientEmulator
                     return -1;
                 }
             }
-            return -1;
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("Error: Unable to parse the response message.");
+                Console.WriteLine("");
+                Console.ResetColor();
+                return -1;
+            }
         }
 
         private bool ValidateDate(string? date)

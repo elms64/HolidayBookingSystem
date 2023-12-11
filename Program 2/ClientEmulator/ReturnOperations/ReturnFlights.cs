@@ -2,24 +2,14 @@
 
 // Returns a list of flights based on a given departure airport and arrival airport. 
 
-/* System Libraries */
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
 using System.Text.Json;
-using System.Threading.Tasks;
-using ClientEmulator.Models;
 
 namespace ClientEmulator
 {
     public class ReturnFlights
     {
-        /* Variables */
         private static readonly string ConsoleAppUrl = "http://localhost:8080";
         
-       
-        
-
         public async Task ReturnFlightsList(string departureAirport, string arrivalAirport)
         {
             try

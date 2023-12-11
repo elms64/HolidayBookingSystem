@@ -7,11 +7,8 @@
  * Once recovery mode has completed, it will automatically trigger normal mode. There are various exceptions that may occur such as 
    communication errors, in the event of a failure normal mode will be triggered and recovery will need to run again later. */
 
-// System Libraries and Packages
-using System;
-using System.Net.Http;
+using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using BookingProcessor.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,9 +17,9 @@ namespace BookingProcessor
 {
     public class RecoveryMode
     {
-        // Variables
-        // Sends a broadcast message to all hosts on a local network to check for batch transactions.
-        private readonly string batchURL = "http://localhost:8080/batch-processes";
+        // IP can be configured to send a broadcast message to all hosts on a local network to check for batch transactions.
+        // For example: http://192.168.1.255:8081/batchrecovery could be used to send a request to all hosts on a given subnet. 
+        private readonly string batchURL = "http://localhost:8081/batchrecovery";
         private readonly IServiceProvider serviceProvider;
         public RecoveryMode(IServiceProvider serviceProvider)
         {
@@ -30,100 +27,178 @@ namespace BookingProcessor
         }
 
         // Main method of operation for Recovery Mode.
-        public async Task Run()
+        public async Task Run(string? jsonData)
         {
             try
             {
-                // As long as there are batch processes, this method will retrieve and process them.
-                while (await HasBatchProcesses())
+                if (string.IsNullOrEmpty(jsonData))
                 {
-                    // Retrieve batch processes.
-                    using (HttpClient client = new HttpClient())
-                    {
-                        HttpResponseMessage response = await client.GetAsync(batchURL);
-                        if (response.IsSuccessStatusCode)
-                        {
-                            string batchProcessData = await response.Content.ReadAsStringAsync();
-                            ConsoleUtils.PrintWithDotsAsync("Retrieved the following backed up transactions:", 3, 300).Wait();
-
-                            // Processes batch requests.
-                            await ProcessBatch(batchProcessData);
-                            ConsoleUtils.PrintWithDotsAsync("Batch transactions complete, switching to normal mode...", 3, 300).Wait();
-                        }
-                        else
-                        {
-                            Console.WriteLine($"Error retrieving batch processes. Status code: {response.StatusCode}");
-                            ConsoleUtils.PrintWithDotsAsync("Switching to normal mode...", 3, 500).Wait();
-                        }
-                    }
+                    // Recovery scenario where the server retrieves the batches from a client(s)
+                    await RetrieveAndProcessBatch();
+                }
+                else
+                {
+                    // Recovery scenario where a batch is sent via POST to the server.
+                    await ProcessBatch(jsonData);
+                    Console.ForegroundColor = ConsoleColor.DarkGreen;
+                    ConsoleUtils.PrintWithDotsAsync("Batch transactions complete, switching to normal mode", 3, 300).Wait();
+                    Console.WriteLine("");
+                    Console.ResetColor();
                 }
 
-                // Switches back to Normal Mode after processing all batch processes.
+                // Switches back to Normal Mode after processing batch processes.
                 SwitchToNormalMode();
             }
             catch (Exception ex)
             {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine($"An error occurred in Recovery Mode: {ex.Message}");
+                Console.ResetColor();
+                Console.WriteLine("");
                 ConsoleUtils.PrintWithDotsAsync("Switching to normal mode", 3, 300).Wait();
             }
         }
 
-        // Checks if there are any batch processes stored on any hosts in the LAN.
-        private async Task<bool> HasBatchProcesses()
+        private async Task RetrieveAndProcessBatch()
         {
+            // Retrieve batch processes without jsonData.
             using (HttpClient client = new HttpClient())
             {
-                HttpResponseMessage response = await client.GetAsync(batchURL + "/check");
+                HttpResponseMessage response = await client.GetAsync(batchURL);
                 if (response.IsSuccessStatusCode)
                 {
-                    string result = await response.Content.ReadAsStringAsync();
-                    return bool.Parse(result);
+                    string batchProcessData = await response.Content.ReadAsStringAsync();
+
+                    if (!string.IsNullOrEmpty(batchProcessData))
+                    {
+                        ConsoleUtils.PrintWithDotsAsync("Retrieved the following backed up transactions:", 3, 300).Wait();
+                        batchProcessData = $"[{batchProcessData}]";
+                        await ProcessBatch(batchProcessData);
+                        Console.ForegroundColor = ConsoleColor.DarkGreen;
+                        ConsoleUtils.PrintWithDotsAsync("Batch transactions complete, switching to normal mode", 3, 300).Wait();
+                        Console.WriteLine("");
+                        Console.ResetColor();
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.WriteLine("No batch processes found.");
+                        Console.ResetColor();
+                        Console.WriteLine("");
+                        ConsoleUtils.PrintWithDotsAsync("Switching to normal mode", 3, 500).Wait();
+                    }
                 }
                 else
                 {
-                    Console.WriteLine($"Error checking for batch processes. Status code: {response.StatusCode}");
-                    return false;
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine($"Error retrieving batch processes. Status code: {response.StatusCode}");
+                    Console.ResetColor();
+                    Console.WriteLine("");
+                    ConsoleUtils.PrintWithDotsAsync("Switching to normal mode", 3, 500).Wait();
                 }
             }
         }
 
-        // Deals with incoming batch transactions.
-        private async Task ProcessBatch(string batchProcessData)
+        // Defines the JSON data structure
+        public class JsonDataItem
+        {
+            public string? Key { get; set; }
+            public string? Value { get; set; }
+            public Guid TransactionGUID { get; set; }
+        }
+
+        // Processes batch requests and uploads them to the database. 
+        private async Task ProcessBatch(string jsonData)
         {
             try
             {
                 using (var scope = serviceProvider.CreateScope())
                 {
                     var bookingContext = scope.ServiceProvider.GetRequiredService<BookingContext>();
-                    Booking? newBooking = JsonSerializer.Deserialize<Booking>(batchProcessData);
+                    Console.WriteLine("");
+                    Console.WriteLine($"Received JSON Data: {jsonData}");
 
-                    // Check if any batches with the same GUID exist.
-                    bool guidExists = await bookingContext.Booking.AnyAsync(b => b.TransactionGUID == newBooking!.TransactionGUID);
+                    var jsonDataItems = JsonSerializer.Deserialize<List<List<JsonDataItem>>>(jsonData);
 
-                    // Check if any batches with the same checksum exist.
-                    bool checksumExists = await bookingContext.Booking.AnyAsync(b =>
-                        b.CheckSum == CalcMD5.CalculateMd5(batchProcessData));
-
-                    /* If either the GUID or checksum has been processed before then don't process the request.
-                       This ensures that the distributed system does not suffer mistaken or duplicate records.
-                       A new GUID could be generated on the same order so the checksum ensures the content has not been previously
-                       uploaded under a different GUID. */
-
-                    if (guidExists || checksumExists)
+                    foreach (var batchItems in jsonDataItems!)
                     {
-                        Console.WriteLine("This batch process already exists, please do not retry.");
-                    }
-                    else
-                    {
-                        newBooking!.OrderNumber = 0;
-                        bookingContext.Booking.Add(newBooking);
-                        await bookingContext.SaveChangesAsync();
+                        var newBooking = new Booking
+                        {
+                            OrderNumber = Convert.ToInt32(batchItems.FirstOrDefault(item => item.Key == "OrderNumber")?.Value ?? "0"),
+                            TransactionGUID = Guid.Parse(batchItems.FirstOrDefault(item => item.Key == "TransactionGUID")?.Value ?? Guid.Empty.ToString()),
+                            CheckSum = batchItems.FirstOrDefault(item => item.Key == "CheckSum")?.Value,
+                            HotelBookingID = Convert.ToInt32(batchItems.FirstOrDefault(item => item.Key == "HotelBookingID")?.Value ?? "0"),
+                            CountryID = Convert.ToInt32(batchItems.FirstOrDefault(item => item.Key == "CountryID")?.Value ?? "0"),
+                            FlightID = Convert.ToInt32(batchItems.FirstOrDefault(item => item.Key == "FlightID")?.Value ?? "0"),
+                            PurchaseDate = DateTime.TryParse(batchItems.FirstOrDefault(item => item.Key == "PurchaseDate")?.Value, out var purchaseDate)
+                                ? purchaseDate
+                                : DateTime.MinValue,
+                            VehicleBookingID = Convert.ToInt32(batchItems.FirstOrDefault(item => item.Key == "VehicleBookingID")?.Value ?? "0"),
+                            ClientID = Convert.ToInt32(batchItems.FirstOrDefault(item => item.Key == "ClientID")?.Value ?? "0"),
+                            InsuranceBookingID = Convert.ToInt32(batchItems.FirstOrDefault(item => item.Key == "InsuranceBookingID")?.Value ?? "0"),
+                        };
+
+                        // Check if any batches with the same GUID exist.
+                        bool guidExists = await bookingContext.Booking
+                            .AnyAsync(b => b.TransactionGUID == newBooking.TransactionGUID);
+
+                        // Check if any batches with the same checksum exist.
+                        bool checksumExists = await bookingContext.Booking
+                            .AnyAsync(b => b.CheckSum == CalcMD5.CalculateMd5(jsonData));
+
+                        if (guidExists || checksumExists)
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
+                            Console.WriteLine("This batch process already exists, please do not retry.");
+                            Console.ResetColor();
+                            Console.WriteLine("");
+                        }
+                        else
+                        {
+                            bookingContext.Booking.Add(newBooking);
+                            await bookingContext.SaveChangesAsync();
+                            await NotifyClient(newBooking.TransactionGUID);
+                        }
                     }
                 }
             }
             catch (Exception ex)
             {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine($"An error occurred creating scope or obtaining BookingContext: {ex.Message}");
+                Console.ResetColor();
+                Console.WriteLine("");
+            }
+        }
+
+        // Send a notification to the client that their batch has been succesfully processed. 
+        private async Task NotifyClient(Guid transactionGuid)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                // Add the TransactionGUID to the request headers
+                client.DefaultRequestHeaders.Add("TransactionGUID", transactionGuid.ToString());
+                var content = new StringContent("Batch processed successfully", Encoding.UTF8, "application/json");
+
+                /* Could add logic to fetch the IP of the correct host in a scenario where there are multiple hosts
+                   Currently set up to send a message directly to this given IP, but would need to catch the right IP if there are multiple hosts. */
+                var response = await client.PostAsync("http://localhost:8081/servernotifications", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("");
+                    Console.WriteLine($"Notification sent to client (TransactionGUID: {transactionGuid}): Batch processed successfully.");
+                    Console.ResetColor();
+                    Console.WriteLine("");
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine($"Error sending notification to client. Status code: {response.StatusCode}");
+                    Console.ResetColor();
+                    Console.WriteLine("");
+                }
             }
         }
 

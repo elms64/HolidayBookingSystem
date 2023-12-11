@@ -43,7 +43,6 @@ namespace BookingProcessor
                     await Task.Delay(1);
                 }
                 await Task.Delay(200);
-
                 Console.WriteLine("*                                                *");
                 await Task.Delay(10);
                 Console.WriteLine("*    Booking Processor Utility                   *");
@@ -118,7 +117,7 @@ namespace BookingProcessor
                     Console.Write("*");
                     await Task.Delay(1);
                 }
-                
+
                 Console.WriteLine("");
                 Console.WriteLine("");
                 await Task.Delay(10);
@@ -126,14 +125,13 @@ namespace BookingProcessor
                 await Task.Delay(10);
                 Console.WriteLine("Press Enter or type a command to continue:");
 
-
                 // Awaits user input.
                 string? userInput = Console.ReadLine(); //@
 
                 // Starts automatic mode of operation, running recovery mode first. 
                 if (string.IsNullOrWhiteSpace(userInput))
                 {
-                    await recoveryMode.Run();
+                    await recoveryMode.Run("");
                 }
 
                 // Starts the program depending on the user input.
@@ -142,7 +140,7 @@ namespace BookingProcessor
                     switch (userInput.ToLower())
                     {
                         case "recover":
-                            await recoveryMode.Run();
+                            await recoveryMode.Run("");
                             break;
 
                         case "listen":
@@ -161,6 +159,7 @@ namespace BookingProcessor
 
                 // After recovery mode finishes, initiate normal mode automatically.
                 await normalMode.Run();
+                
             }
         }
     }

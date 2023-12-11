@@ -2,19 +2,13 @@
 
 // Creates a flight booking PUT request and sends it over HTTP to the server
 
-/* System Libraries */
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
-using ClientEmulator.Models;
+
 namespace ClientEmulator
 {
     public class FlightBooking
     {
-        /* Variables */
         private static readonly string ConsoleAppUrl = "http://localhost:8080";
         private static readonly HttpClient httpClient = new HttpClient();
 

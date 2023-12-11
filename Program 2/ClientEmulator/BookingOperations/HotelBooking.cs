@@ -2,23 +2,16 @@
 
 // Creates a hotel booking PUT request and sends it over HTTP to the server
 
-/* System Libraries */
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
-using ClientEmulator.Models;
 
 namespace ClientEmulator
 {
     public class HotelBooking
     {
-        /* Variables */
         private static readonly string ConsoleAppUrl = "http://localhost:8080";
         private static readonly HttpClient httpClient = new HttpClient();
-
+        
         public async Task<int> HotelBookingAsync(string HotelID, string RoomID, int ClientID)
         {
             string serverURL = ConsoleAppUrl + "/HotelBooking";
@@ -64,7 +57,6 @@ namespace ClientEmulator
                 Console.ResetColor();
                 return -1;
             }
-
         }
     }
 }

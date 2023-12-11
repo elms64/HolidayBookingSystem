@@ -2,17 +2,9 @@
 
 // Client Emulator for front end interaction testing with backend server 
 
-/* System Libraries */
-using System;
 using System.Data;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text.Json;
-using System.Threading.Tasks;
 using ClientEmulator.Models;
-using System.Security.Cryptography;
 using System.Text;
-using SQLitePCL;
 using System.Net;
 
 namespace ClientEmulator
@@ -28,6 +20,8 @@ namespace ClientEmulator
         /* Constructor */
         static async Task Main(string[] args)
         {
+            // Start the HTTP listener on a separate thread
+            _ = Task.Run(StartHttpListener);
 
             // Check if there are any stored batch processes and send to server.
             await ShowLoadingBar();
@@ -43,9 +37,14 @@ namespace ClientEmulator
 
             // Once operations are complete, press any key to exit the application.
             Console.WriteLine("Press any key to exit...");
+            Console.WriteLine("");
             Console.ReadKey();
+            Environment.Exit(0);
+
+            await Task.Delay(Timeout.Infinite); // Keep the main thread alive
         }
 
+        /* Methods */
         private static async Task ShowLoadingBar()
         {
 
@@ -62,9 +61,6 @@ namespace ClientEmulator
 
         private static async void SplashScreen()
         {
-
-
-
             Console.WriteLine("");
             await Task.Delay(10);
             Console.WriteLine("*                                                *");
@@ -122,7 +118,7 @@ namespace ClientEmulator
                 Console.Write("*");
                 await Task.Delay(1);
             }
-            Console.WriteLine("");  
+            Console.WriteLine("");
             Console.WriteLine("");
 
         }
@@ -133,7 +129,113 @@ namespace ClientEmulator
             public List<Airport>? DestinationAirports { get; set; }
         }
 
-        /* Methods */
+        private static async Task StartHttpListener()
+        {
+            string url = "http://localhost:8081/"; // Choose the desired URL and port
+            HttpListener listener = new HttpListener();
+            listener.Prefixes.Add(url);
+            listener.Start();
+
+            try
+            {
+                while (true)
+                {
+                    // Wait for an incoming request
+                    HttpListenerContext context = await listener.GetContextAsync();
+
+                    // Process the request
+                    if (context.Request.HttpMethod == "GET" && context.Request.Url!.PathAndQuery == "/batchrecovery")
+                    {
+                        // Handle incoming GET request here
+                        List<string> batchResponse = RetrieveBatchData();
+
+                        // Send a response to the client with batch data
+                        context.Response.StatusCode = (int)HttpStatusCode.OK;
+                        using (StreamWriter writer = new StreamWriter(context.Response.OutputStream))
+                        {
+                            foreach (string jsonData in batchResponse)
+                            {
+                                await writer.WriteAsync(jsonData);
+                                await writer.WriteAsync(Environment.NewLine); // Add newline between JSON files
+                            }
+                        }
+                    }
+                    if (context.Request.HttpMethod == "POST" && context.Request.Url!.PathAndQuery == "/servernotifications")
+                    {
+                        // Handle incoming POST request indicating batch processed
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine("Notification received: Batch processed successfully.");
+                        Console.ResetColor();
+
+                        // Retrieve the TransactionGUID from the request headers
+                        string? transactionGuidHeader = context.Request.Headers.Get("TransactionGUID");
+                        if (Guid.TryParse(transactionGuidHeader, out Guid transactionGuid))
+                        {
+                            // Trigger a method to delete batches with a filename equal to the given GUID
+                            DeleteBatchByGuid(transactionGuid);
+
+                            // Notify the client somehow that this has happened
+                            Console.WriteLine("");
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("Deleted batches with TransactionGUID: " + transactionGuid);
+                            Console.ResetColor();
+                            Console.WriteLine("");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid TransactionGUID in the notification.");
+                        }
+
+                        // Send a response to the server acknowledging the notification
+                        context.Response.StatusCode = (int)HttpStatusCode.OK;
+                        using (StreamWriter writer = new StreamWriter(context.Response.OutputStream))
+                        {
+                            await writer.WriteAsync("Notification received");
+                        }
+                    }
+
+                    // Close the response stream
+                    context.Response.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
+            finally
+            {
+                // Stop the listener when finished
+                listener.Stop();
+            }
+        }
+
+        private static void DeleteBatchByGuid(Guid transactionGuid)
+        {
+            try
+            {
+                // Assuming the batches are stored in a folder named "BatchRequests"
+                string folderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "BatchRequests");
+
+                if (Directory.Exists(folderPath))
+                {
+                    // Get all files in the directory
+                    string[] files = Directory.GetFiles(folderPath);
+
+                    // Filter files by TransactionGUID
+                    var matchingFiles = files.Where(file => Path.GetFileNameWithoutExtension(file) == transactionGuid.ToString());
+
+                    // Delete matching files
+                    foreach (var file in matchingFiles)
+                    {
+                        File.Delete(file);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while deleting batches: {ex.Message}");
+            }
+        }
 
         // Initialises the booking process based on a chosen destination, country of origin and dates which
         // are based on the current time for a 7 day holiday for testing purposes. 
@@ -222,7 +324,6 @@ namespace ClientEmulator
                     clientID = await sgnclt.SignUpClientAsync();
 
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("");
                     Console.WriteLine("Client details confirmed.");
                     Console.WriteLine("");
                     Console.ResetColor();
@@ -462,10 +563,11 @@ namespace ClientEmulator
             }
         }
 
-        // Checks to see if there are any batch processes stored. If there are sends a PUT request to the server. 
-        private static async Task SendBatches()
+        // Gets any batch files stored that need to be processed. 
+        private static List<string> RetrieveBatchData()
         {
             string folderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "BatchRequests");
+            List<string> batchData = new List<string>();
 
             if (Directory.Exists(folderPath))
             {
@@ -473,50 +575,85 @@ namespace ClientEmulator
 
                 if (files.Any())
                 {
+                    foreach (string filePath in files)
+                    {
+                        string jsonContent = File.ReadAllText(filePath);
+
+                        batchData.Add(jsonContent);
+                    }
+                }
+            }
+
+            return batchData;
+        }
+
+        // Defines the expected format for JSON data.
+        public class JsonDataItem
+        {
+            public string? Key { get; set; }
+            public string? Value { get; set; }
+            public Guid TransactionGUID { get; set; }
+        }
+
+        // Sends batches as a POST request to the server. 
+        private static async Task SendBatches()
+        {
+            try
+            {
+                List<string> batchData = RetrieveBatchData();
+
+                if (batchData.Any())
+                {
                     using (HttpClient client = new HttpClient())
                     {
-                        foreach (string filePath in files)
+                        string endpoint = $"{ConsoleAppUrl}/BatchProcess";
+
+                        // Combine the batch data into a JSON array string
+                        string jsonArray = "[" + string.Join(",", batchData) + "]";
+
+                        var content = new StringContent(jsonArray, Encoding.UTF8, "application/json");
+
+                        var response = await client.PostAsync(endpoint, content);
+
+                        if (response.IsSuccessStatusCode)
                         {
-                            string jsonContent = File.ReadAllText(filePath);
-                            string endpoint = $"{ConsoleAppUrl}/BatchProcess";
-
-                            // Sending PUT request
-                            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-                            var response = await client.PutAsync(endpoint, content);
-
-                            if (response.IsSuccessStatusCode)
-                            {
-                                Console.ForegroundColor = ConsoleColor.DarkRed;
-                                Console.WriteLine($"File {Path.GetFileName(filePath)} sent successfully to {endpoint}");
-                                Console.WriteLine("");
-                                Console.ResetColor();
-                            }
-                            else
-                            {
-                                Console.ForegroundColor = ConsoleColor.DarkRed;
-                                Console.WriteLine($"Failed to send file {Path.GetFileName(filePath)} to {endpoint}. Status code: {response.StatusCode}");
-                                Console.WriteLine();
-                                Console.ResetColor();
-                            }
+                            Console.ForegroundColor = ConsoleColor.DarkGreen;
+                            Console.WriteLine($"Batch data sent successfully to {endpoint}");
+                            Console.WriteLine();
+                            Console.ResetColor();
+                        }
+                        else
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
+                            Console.WriteLine($"Failed to send batch data to {endpoint}. Status code: {response.StatusCode}");
+                            Console.WriteLine();
+                            Console.ResetColor();
                         }
                     }
                 }
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.WriteLine("No files found in the BatchRequests folder.");
-                    Console.WriteLine("");
+                    Console.WriteLine("No batch data found in the BatchRequests folder.");
+                    Console.WriteLine();
                     Console.ResetColor();
                 }
             }
-            else
+            catch (HttpRequestException ex)
             {
                 Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine("BatchRequests folder not found in the project root.");
-                Console.WriteLine("");
+                Console.WriteLine($"HTTP Request Error: {ex.Message}");
+                Console.WriteLine("Attempted to send batches but the server is unavailable. Try again later.");
+                Console.WriteLine();
+                Console.ResetColor();
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                Console.WriteLine();
                 Console.ResetColor();
             }
         }
-
     }
 }

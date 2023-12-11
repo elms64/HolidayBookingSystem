@@ -2,19 +2,13 @@
 
 // Returns a list of rooms based on a given hotel
 
-/* System Libraries */
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
 using System.Text.Json;
-using System.Threading.Tasks;
 using ClientEmulator.Models;
 
 namespace ClientEmulator
 {
     public class ReturnRooms
     {
-        /* Variables */
         private static readonly string ConsoleAppUrl = "http://localhost:8080";
 
         public async Task ReturnRoomsList(string selectedHotelID)

@@ -2,18 +2,13 @@
 
 // Saves a booking transaction as a JSON file to a batch process folder
 
-/* System Libraries */
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace ClientEmulator
 {
     public class SaveBatches
     {
-        public async Task SaveBatchProcess(string message, Guid guid)
+        public static async Task SaveBatchProcess(List<KeyValuePair<string, string>> bookingData, Guid guid)
         {
             try
             {
@@ -28,22 +23,16 @@ namespace ClientEmulator
                 // Combine the folder path and filename to get the full file path
                 string filePath = Path.Combine(folderPath, fileName);
 
-                // Check if the file already exists (unlikely due to unique filename)
-                if (!File.Exists(filePath))
-                {
-                    // Write the HTTP message to the JSON file asynchronously
-                    await File.WriteAllTextAsync(filePath, message);
+                // Serialize the bookingData to JSON
+                string jsonData = JsonSerializer.Serialize(bookingData);
 
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine($"HTTP message saved to: {filePath}");
-                    Console.ResetColor();
-                }
-                else
-                {
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.WriteLine($"File already exists: {filePath}");
-                    Console.ResetColor();
-                }
+                // Write the JSON data to the file asynchronously
+                await File.WriteAllTextAsync(filePath, jsonData);
+
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine($"Transaction has been saved as a batch process at: {filePath}");
+                Console.ResetColor();
+                Console.WriteLine("");
             }
             catch (Exception ex)
             {

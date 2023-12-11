@@ -1,4 +1,4 @@
-// GitHub Authors: @gjepic
+// GitHub Authors: @elms64, @Kloakk
 
 /* Model for all expected datatypes relating to Airlines.
    Setup with Entity Framework Core to interact with the database programmatically */
@@ -8,13 +8,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BookingProcessor.Models
 {
-public class Airline 
-{
+    public class Airline
+    {
         [Key]
         [DisplayName("Airline ID")]
         public int AirlineID { get; set; }
-
-       
         [DisplayName("Airline Name")]
         public string? AirlineName { get; set; }
 
@@ -26,6 +24,5 @@ public class Airline
 
         [DisplayName("HeadQuarters")]
         public string? HQ { get; set; }
-        
-}
+     }
 }

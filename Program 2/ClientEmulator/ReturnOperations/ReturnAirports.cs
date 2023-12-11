@@ -2,19 +2,13 @@
 
 // Returns a list of airports based on a given country of origin and destination.
 
-/* System Libraries */
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
 using System.Text.Json;
-using System.Threading.Tasks;
 using ClientEmulator.Models;
 
 namespace ClientEmulator
 {
     public class ReturnAirports
     {
-        /* Variables */
         private readonly string ConsoleAppUrl;
         private readonly string origin;
         private readonly string destination;

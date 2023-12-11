@@ -35,6 +35,7 @@ namespace BookingProcessor.Models
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite("Data Source=Data/booking_data.db");
+            optionsBuilder.EnableSensitiveDataLogging();
         }
 
         public BookingContext(DbContextOptions<BookingContext> options) : base(options)
