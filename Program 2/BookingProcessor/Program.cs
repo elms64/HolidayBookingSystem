@@ -118,7 +118,7 @@ namespace BookingProcessor
                     Console.Write("*");
                     await Task.Delay(1);
                 }
-                
+
                 Console.WriteLine("");
                 Console.WriteLine("");
                 await Task.Delay(10);
@@ -133,7 +133,7 @@ namespace BookingProcessor
                 // Starts automatic mode of operation, running recovery mode first. 
                 if (string.IsNullOrWhiteSpace(userInput))
                 {
-                    await recoveryMode.Run();
+                    await recoveryMode.Run("");
                 }
 
                 // Starts the program depending on the user input.
@@ -142,7 +142,7 @@ namespace BookingProcessor
                     switch (userInput.ToLower())
                     {
                         case "recover":
-                            await recoveryMode.Run();
+                            await recoveryMode.Run("");
                             break;
 
                         case "listen":

@@ -23,5 +23,7 @@ namespace ClientEmulator.Models
         [DisplayName("Client ID")]
         public int ClientID { get; set; }
 
+        public string? BookingStatus { get; set; }
+
     }
 }
