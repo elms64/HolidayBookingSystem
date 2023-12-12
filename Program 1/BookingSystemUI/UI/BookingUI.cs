@@ -59,7 +59,7 @@ namespace BookingSystemUI
 
 
         }
-          
+
 
         private void dateTimePickerStart_ValueChanged(object sender, EventArgs e)
         {
@@ -105,8 +105,8 @@ namespace BookingSystemUI
                 MessageBox.Show("Please select a country to travel from");
             }
             // Retrieve both the selected country and origin
-            Country selectedToCountry = (Country) comboBoxCountry.SelectedItem;
-            Country selectedOriginCountry = (Country) comboBoxOrigin.SelectedItem;
+            Country selectedToCountry = (Country)comboBoxCountry.SelectedItem;
+            Country selectedOriginCountry = (Country)comboBoxOrigin.SelectedItem;
 
             if (comboBoxOrigin.SelectedItem == null)
             {
@@ -114,12 +114,13 @@ namespace BookingSystemUI
             }
 
             Country selectedFromCountry = comboBoxOrigin.SelectedItem as Country;
-         
+
 
             DateTime selectedDepartureDate = dateTimePickerStart.Value;
             string selectedReturnDate = lblReturnDateUpdate.Text;
 
-            MessageBox.Show($"Selected Country ID: {selectedToCountry.ID}\n" +
+            MessageBox.Show("Your Selected Details\n" +
+                          $"Selected Country ID: {selectedToCountry.ID}\n" +
                           $"Selected Country: {selectedToCountry.Name}\n" +
                           $"Selected Origin ID: {selectedOriginCountry.ID}\n" +
                           $"Selected Return Date: {selectedReturnDate}\n" +
@@ -130,10 +131,10 @@ namespace BookingSystemUI
             Booking booking = new Booking();
             FlightDetails flightDetails = new FlightDetails();
             flightDetails.DepartureDateTime = selectedDepartureDate;
-            flightDetails.DepartureCountry=selectedFromCountry;
-            flightDetails.ArrivalCountry=selectedToCountry;
+            flightDetails.DepartureCountry = selectedFromCountry;
+            flightDetails.ArrivalCountry = selectedToCountry;
 
-            booking.FlightDetails=flightDetails;
+            booking.FlightDetails = flightDetails;
 
             // Create an instance of the Flight form and pass the values
             AirportUI flight = new AirportUI(booking, mainForm);
@@ -160,11 +161,6 @@ namespace BookingSystemUI
             }
         }
 
-        private void btnSajan_Click(object sender, EventArgs e)
-        {
-            Form1 form1 = new Form1();
-            form1.Show();
-            this.Hide();
-        }
+
     }
 }

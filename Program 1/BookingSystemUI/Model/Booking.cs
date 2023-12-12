@@ -15,6 +15,7 @@ namespace BookingSystemUI.Model
         public Vehicle Vehicle { get; set; }
 
         public Insurance Insurance { get; set; }
+        public Basket Basket { get; set; }
 
         public override string ToString()
         {

@@ -1,5 +1,6 @@
 ﻿using BookingSystemUI.Model;
 using BookingSystemUI.Service;
+using BookingSystemUI.UI.UIUtils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,7 +31,7 @@ namespace BookingSystemUI
         private string selectedReturnDate;
         */
 
-        public InsuranceUI(Booking booking)
+        public InsuranceUI(Booking booking, MainMenu mainForm)
         {
             InitializeComponent();
             this.mainForm = mainForm;
@@ -54,16 +55,39 @@ namespace BookingSystemUI
 
         private async void InsuranceUI_Load(object? sender, EventArgs e)
         {
-            try
+            //MessageBox.Show("Insurance Load"); //Testing
             {
-                await Send_Insurance("SEND_INSURANCE");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error occurred: {ex.Message}");
+                if (booking != null)
+                {
+                    Task<List<Insurance>> insuranceTask = insuranceService.GetInsurance();
+                    await insuranceTask;
+
+                    List<Insurance> insurances = insuranceTask.Result;
+
+                    int yOffset = 8;
+                    foreach (var insurance in insurances)
+                    {
+                        String labelText = $"Insurance ID: {insurance.InsuranceID}," +
+                            $"Insurance Type: {insurance.InsuranceType}, " +
+                            $"Price Per Day: {insurance.PricePerDay}, ";
+                        Label label = Utils.createLabelWithLabelText(labelText);
+                        Panel panel = Utils.createPanel(yOffset, insurancePanel, label);
+                        yOffset += panel.Height;
+
+                        panel.Click += (sender, e) => Panel_Click(sender, e, insurance);
+                    }
+                }
+
             }
         }
 
+        public void Panel_Click(object sender, EventArgs e, Insurance insurance)
+        {
+            booking.Insurance = insurance;
+            MessageBox.Show(insurance.ToString());
+            insurancePanel.Visible = false;
+
+        }
         private async Task Send_Insurance(string messageType)
         {
             //pass the message and the selectedCountry/OriginID
@@ -159,10 +183,10 @@ namespace BookingSystemUI
 
 
 
-           // Basket basket = new Basket(selectedCountry, selectedOrigin, selectedOriginID, selectedCountryID, mainForm, selectedDepartureDate, selectedReturnDate);
+            // Basket basket = new Basket(selectedCountry, selectedOrigin, selectedOriginID, selectedCountryID, mainForm, selectedDepartureDate, selectedReturnDate);
 
             // Show the Flight form
-           // mainForm.ShowFormInMainPanel(basket);
+            // mainForm.ShowFormInMainPanel(basket);
 
             // Close the BookingInit form if needed
             this.Close();

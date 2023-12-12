@@ -81,7 +81,7 @@ namespace BookingSystemUI
             booking.Hotel = hotel;
             MessageBox.Show(hotel.ToString());
             hotelPanel.Visible = false;
-            
+
         }
 
         private void btnNext_Click(object sender, EventArgs e)

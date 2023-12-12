@@ -27,6 +27,7 @@ namespace BookingSystemUI
         private DateTime selectedDepartureDate;
         private IAirportService airportService;
         private Booking booking;
+        private DateTime selectedReturnDate;
 
 
 
@@ -46,7 +47,7 @@ namespace BookingSystemUI
             lblSelectedCountryUpdate.Text = booking.FlightDetails.ArrivalCountry.Name;
             lblOriginCountryUpdate.Text = booking.FlightDetails.DepartureCountry.Name;
             lblSelectedDepartureDateUpdate.Text = selectedDepartureDate.ToShortDateString();
-            lblOriginIdDEBUG.Text = booking.FlightDetails.ArrivalCountry.ID.ToString();
+            lblSelectedReturnDateUpdate.Text = selectedReturnDate.ToShortDateString();
         }
 
 
@@ -143,12 +144,12 @@ namespace BookingSystemUI
                 // Perform other actions with the airportInfo and selectedAirportInfo if needed
                 if (airportInfo != null)
                 {
-                    MessageBox.Show($"Panel clicked!\n{airportInfo}\nSelected {airportType}");
+                    MessageBox.Show($"Airport Selected ");
 
                     // You can use airportInfo and selectedAirportInfo as needed, such as storing them in variables
                     if (airportType == "departure")
                     {
-                        lbshowdeparture.Text = airportInfo.Name;
+                        departureBox.Text = airportInfo.Name;
                         booking.FlightDetails.DepartureAirportID = airportInfo.ID;
                         departureAirportsPanel.Visible = false;
                         arrivalAirportsPanel.Visible = true;
@@ -156,7 +157,7 @@ namespace BookingSystemUI
                     else if (airportType == "arrival")
                     {
                         booking.FlightDetails.ArrivalAirportID = airportInfo.ID;
-                        lbshowarrival.Text = airportInfo.Name;
+                        arrivalBox.Text = airportInfo.Name;
                         departureAirportsPanel.Visible = false;
                         arrivalAirportsPanel.Visible = false;
                     }
@@ -194,7 +195,7 @@ namespace BookingSystemUI
         private void btnNext_Click(object sender, EventArgs e)
         {
 
-           // MessageBox.Show(booking.ToString());
+            // MessageBox.Show(booking.ToString());
 
 
 
@@ -205,6 +206,11 @@ namespace BookingSystemUI
 
             // Close the BookingInit form if needed
             this.Close();
+        }
+
+        private void departureBox_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

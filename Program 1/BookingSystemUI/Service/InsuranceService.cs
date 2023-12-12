@@ -10,14 +10,14 @@ namespace BookingSystemUI.Service
 {
     public interface IInsuranceService
     {
-        Task<List<Insurance>> GetInsurance(Insurance insuranceID);
+        Task<List<Insurance>> GetInsurance();
 
     }
     public class InsuranceService : IInsuranceService
     {
         private const string ConsoleAppUrl = "http://localhost:8080";
 
-        public async Task<List<Insurance>> GetInsurance(Insurance insuranceID)
+        public async Task<List<Insurance>> GetInsurance()
         {
             try
             {
@@ -26,7 +26,6 @@ namespace BookingSystemUI.Service
                 using (HttpClient client = new HttpClient())
 
                 {
-                    client.DefaultRequestHeaders.Add("insurance", insuranceID.ToString());
                     HttpResponseMessage response = await client.GetAsync(targetURL);
                     if (response.IsSuccessStatusCode)
                     {

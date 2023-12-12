@@ -28,27 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            label3 = new Label();
             hotelPanel = new Panel();
             btnNext = new Button();
             label2 = new Label();
-            lblSelectedCountry = new Label();
-            lblSelectedOrigin = new Label();
-            lblSelectedDepartureDate = new Label();
-            lblSelectedReturnDate = new Label();
-            lblCountryID = new Label();
-            lblOriginID = new Label();
+            textBox1 = new TextBox();
             SuspendLayout();
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
-            label3.Location = new Point(12, 39);
-            label3.Name = "label3";
-            label3.Size = new Size(976, 17);
-            label3.TabIndex = 9;
-            label3.Text = "Book a hotel here by searching for the neccessary information, however be sure to fill out all the boxes, since the program will not continue without all the information";
             // 
             // hotelPanel
             // 
@@ -77,59 +61,13 @@
             label2.TabIndex = 8;
             label2.Text = "Searching for hotel";
             // 
-            // lblSelectedCountry
+            // textBox1
             // 
-            lblSelectedCountry.AutoSize = true;
-            lblSelectedCountry.Location = new Point(12, 86);
-            lblSelectedCountry.Name = "lblSelectedCountry";
-            lblSelectedCountry.Size = new Size(107, 15);
-            lblSelectedCountry.TabIndex = 20;
-            lblSelectedCountry.Text = "lblSelectedCountry";
-            // 
-            // lblSelectedOrigin
-            // 
-            lblSelectedOrigin.AutoSize = true;
-            lblSelectedOrigin.Location = new Point(12, 101);
-            lblSelectedOrigin.Name = "lblSelectedOrigin";
-            lblSelectedOrigin.Size = new Size(97, 15);
-            lblSelectedOrigin.TabIndex = 21;
-            lblSelectedOrigin.Text = "lblSelectedOrigin";
-            // 
-            // lblSelectedDepartureDate
-            // 
-            lblSelectedDepartureDate.AutoSize = true;
-            lblSelectedDepartureDate.Location = new Point(10, 116);
-            lblSelectedDepartureDate.Name = "lblSelectedDepartureDate";
-            lblSelectedDepartureDate.Size = new Size(140, 15);
-            lblSelectedDepartureDate.TabIndex = 22;
-            lblSelectedDepartureDate.Text = "lblSelectedDepartureDate";
-            // 
-            // lblSelectedReturnDate
-            // 
-            lblSelectedReturnDate.AutoSize = true;
-            lblSelectedReturnDate.Location = new Point(10, 131);
-            lblSelectedReturnDate.Name = "lblSelectedReturnDate";
-            lblSelectedReturnDate.Size = new Size(123, 15);
-            lblSelectedReturnDate.TabIndex = 23;
-            lblSelectedReturnDate.Text = "lblSelectedReturnDate";
-            // 
-            // lblCountryID
-            // 
-            lblCountryID.AutoSize = true;
-            lblCountryID.Location = new Point(192, 86);
-            lblCountryID.Name = "lblCountryID";
-            lblCountryID.Size = new Size(74, 15);
-            lblCountryID.TabIndex = 24;
-            lblCountryID.Text = "lblCountryID";
-            // 
-            // lblOriginID
-            // 
-            lblOriginID.AutoSize = true;
-            lblOriginID.Location = new Point(192, 101);
-            lblOriginID.Name = "lblOriginID";
-            lblOriginID.Size = new Size(64, 15);
-            lblOriginID.TabIndex = 25;
-            lblOriginID.Text = "lblOriginID";
+            textBox1.Location = new Point(12, 201);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(850, 23);
+            textBox1.TabIndex = 26;
+            textBox1.Text = "Select a hotel to be purchased by the customer and press next to continue";
             // 
             // HotelUI
             // 
@@ -137,15 +75,9 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(1034, 611);
-            Controls.Add(lblOriginID);
-            Controls.Add(lblCountryID);
-            Controls.Add(lblSelectedReturnDate);
-            Controls.Add(lblSelectedDepartureDate);
-            Controls.Add(lblSelectedOrigin);
-            Controls.Add(lblSelectedCountry);
+            Controls.Add(textBox1);
             Controls.Add(btnNext);
             Controls.Add(hotelPanel);
-            Controls.Add(label3);
             Controls.Add(label2);
             FormBorderStyle = FormBorderStyle.None;
             Name = "HotelUI";
@@ -156,15 +88,9 @@
         }
 
         #endregion
-        private Label label3;
         private Panel hotelPanel;
         private Button btnNext;
         private Label label2;
-        private Label lblSelectedCountry;
-        private Label lblSelectedOrigin;
-        private Label lblSelectedDepartureDate;
-        private Label lblSelectedReturnDate;
-        private Label lblCountryID;
-        private Label lblOriginID;
+        private TextBox textBox1;
     }
 }

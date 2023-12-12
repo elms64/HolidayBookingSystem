@@ -41,7 +41,6 @@
             comboBoxOrigin = new ComboBox();
             label2 = new Label();
             label3 = new Label();
-            btnSajan = new Button();
             SuspendLayout();
             // 
             // dateTimePickerStart
@@ -55,11 +54,11 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(454, 153);
+            label1.Location = new Point(395, 151);
             label1.Name = "label1";
-            label1.Size = new Size(77, 15);
+            label1.Size = new Size(35, 15);
             label1.TabIndex = 2;
-            label1.Text = "WHEN LEAVE";
+            label1.Text = "From";
             // 
             // comboBoxCountry
             // 
@@ -72,11 +71,11 @@
             // lblCountry
             // 
             lblCountry.AutoSize = true;
-            lblCountry.Location = new Point(97, 153);
+            lblCountry.Location = new Point(76, 151);
             lblCountry.Name = "lblCountry";
-            lblCountry.Size = new Size(77, 15);
+            lblCountry.Size = new Size(105, 15);
             lblCountry.TabIndex = 4;
-            lblCountry.Text = "WHERE U GO";
+            lblCountry.Text = "Departure Country";
             // 
             // txtBoxHowLong
             // 
@@ -91,14 +90,14 @@
             lblDuration.AutoSize = true;
             lblDuration.Location = new Point(651, 153);
             lblDuration.Name = "lblDuration";
-            lblDuration.Size = new Size(83, 15);
+            lblDuration.Size = new Size(65, 15);
             lblDuration.TabIndex = 6;
-            lblDuration.Text = "WHEN BACK?!";
+            lblDuration.Text = "No of Days";
             // 
             // lblReturnDate
             // 
             lblReturnDate.AutoSize = true;
-            lblReturnDate.Location = new Point(847, 153);
+            lblReturnDate.Location = new Point(810, 151);
             lblReturnDate.Name = "lblReturnDate";
             lblReturnDate.Size = new Size(71, 15);
             lblReturnDate.TabIndex = 7;
@@ -106,12 +105,12 @@
             // 
             // lblReturnDateUpdate
             // 
-            lblReturnDateUpdate.AutoSize = true;
-            lblReturnDateUpdate.Location = new Point(810, 177);
+            lblReturnDateUpdate.BackColor = SystemColors.Window;
+            lblReturnDateUpdate.BorderStyle = BorderStyle.Fixed3D;
+            lblReturnDateUpdate.Location = new Point(810, 169);
             lblReturnDateUpdate.Name = "lblReturnDateUpdate";
-            lblReturnDateUpdate.Size = new Size(145, 15);
+            lblReturnDateUpdate.Size = new Size(100, 23);
             lblReturnDateUpdate.TabIndex = 8;
-            lblReturnDateUpdate.Text = "Updated Return Date Here";
             // 
             // btnNext
             // 
@@ -126,11 +125,11 @@
             // lblOrigin
             // 
             lblOrigin.AutoSize = true;
-            lblOrigin.Location = new Point(258, 153);
+            lblOrigin.Location = new Point(237, 151);
             lblOrigin.Name = "lblOrigin";
-            lblOrigin.Size = new Size(85, 15);
+            lblOrigin.Size = new Size(113, 15);
             lblOrigin.TabIndex = 11;
-            lblOrigin.Text = "WHERE FROM!";
+            lblOrigin.Text = "Destination Country";
             // 
             // comboBoxOrigin
             // 
@@ -158,23 +157,12 @@
             label3.TabIndex = 13;
             label3.Text = "just pass the variables onto the next form";
             // 
-            // btnSajan
-            // 
-            btnSajan.Location = new Point(46, 512);
-            btnSajan.Name = "btnSajan";
-            btnSajan.Size = new Size(75, 23);
-            btnSajan.TabIndex = 14;
-            btnSajan.Text = "Sajan";
-            btnSajan.UseVisualStyleBackColor = true;
-            btnSajan.Click += btnSajan_Click;
-            // 
-            // BookingInit
+            // BookingUI
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(1018, 572);
-            Controls.Add(btnSajan);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(lblOrigin);
@@ -189,7 +177,7 @@
             Controls.Add(label1);
             Controls.Add(dateTimePickerStart);
             FormBorderStyle = FormBorderStyle.None;
-            Name = "BookingInit";
+            Name = "BookingUI";
             Text = "BookingInit";
             Load += BookingInit_Load;
             ResumeLayout(false);
@@ -211,6 +199,5 @@
         private ComboBox comboBoxOrigin;
         private Label label2;
         private Label label3;
-        private Button btnSajan;
     }
 }

@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Net.Http;
 using System.Text.Json;
 using System.Security.Cryptography;
+using BookingSystemUI.Model;
 
 namespace BookingSystemUI
 {
@@ -17,6 +18,8 @@ namespace BookingSystemUI
     {
 
         private MainMenu mainForm;
+        private Booking booking;
+
         private string selectedCountry;
         private string selectedOrigin;
         private int selectedOriginID;

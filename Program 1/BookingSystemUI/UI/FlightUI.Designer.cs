@@ -31,6 +31,7 @@
             flightPanel = new Panel();
             label2 = new Label();
             nxtBtn = new Button();
+            textBox1 = new TextBox();
             SuspendLayout();
             // 
             // flightPanel
@@ -61,12 +62,21 @@
             nxtBtn.UseVisualStyleBackColor = true;
             nxtBtn.Click += nxtBtn_Click;
             // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(95, 199);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(850, 23);
+            textBox1.TabIndex = 14;
+            textBox1.Text = "Select a flight to be purchased by the customer and press next to continue";
+            // 
             // FlightUI
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(1034, 611);
+            Controls.Add(textBox1);
             Controls.Add(nxtBtn);
             Controls.Add(label2);
             Controls.Add(flightPanel);
@@ -82,5 +92,6 @@
         private Panel flightPanel;
         private Label label2;
         private Button nxtBtn;
+        private TextBox textBox1;
     }
 }
