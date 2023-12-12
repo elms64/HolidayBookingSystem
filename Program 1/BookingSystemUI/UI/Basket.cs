@@ -11,6 +11,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Security.Cryptography;
 using BookingSystemUI.Model;
+using BookingSystemUI.UI.UIUtils;
 
 namespace BookingSystemUI
 {
@@ -28,11 +29,46 @@ namespace BookingSystemUI
         private string selectedReturnDate;
 
 
-        public Basket(string selectedCountry, string selectedOrigin, int selectedOriginID, int selectedCountryID, MainMenu mainForm, DateTime selectedDepartureDate, string selectedReturnDate)
+        public Basket(Booking booking, MainMenu mainForm)
         {
             InitializeComponent();
             this.mainForm = mainForm;
+            this.booking = booking;
 
+            //MessageBox.Show("Test"); //Testbox
+
+
+            String labelText = $"Flight ID: {booking.Flight.FlightID}, \n" +
+                $"From Country: {booking.FlightDetails.ArrivalCountry.Name},\n" +
+                $"To Country: {booking.FlightDetails.DepartureCountry.Name},\n";
+            Label label = Utils.createLabelWithLabelText(labelText);
+            Panel panel = Utils.createPanel(0, flightPanelInfo, label);
+
+            String labelText1 = $"Hotel ID: {booking.Hotel.HotelID}, " +
+              $"Name: {booking.Hotel.HotelName},\n " +
+              $"Address: {booking.Hotel.AddressLine1},\n" +
+              $" City: {booking.Hotel.City},\n" +
+              $" Postcode: {booking.Hotel.Postcode},\n" +
+              $" Phone No:{booking.Hotel.PhoneNumber}";
+
+            Label label1 = Utils.createLabelWithLabelText(labelText1);
+            Panel panel1 = Utils.createPanel(0, hotelPanelInfo, label1);
+
+            String labelText2 = $"Vehicle ID: {booking.Vehicle.VehicleID},\n " +
+              $"Vehicle Type: {booking.Vehicle.VehicleType},\n " +
+              $"Price Per Day: {booking.Vehicle.PricePerDay},\n";
+            Label label2 = Utils.createLabelWithLabelText(labelText2);
+            Panel panel2 = Utils.createPanel(0, vehiclePanelInfo, label2);
+
+            String labelText3 = $"Insurance ID: {booking.Insurance.InsuranceID},\n " +
+              $"Insurance Type: {booking.Insurance.InsuranceType},\n " +
+              $"Pay Per Day: {booking.Insurance.PricePerDay},\n";
+            Label label3 = Utils.createLabelWithLabelText(labelText3);
+            Panel panel3 = Utils.createPanel(0, insurancePanelInfo, label3);
+
+
+
+            /*
             // Assign the values to the class members
             this.selectedCountry = selectedCountry;
             this.selectedOrigin = selectedOrigin;
@@ -42,11 +78,12 @@ namespace BookingSystemUI
             this.selectedReturnDate = selectedReturnDate;
 
             MessageBox.Show($"btnNext_Click:\nselectedCountry: {selectedCountry}\nselectedOrigin: {selectedOrigin}\nselectedOriginID: {selectedOriginID}\nselectedCountryID: {selectedCountryID}");
+            */
         }
 
         private void MainBasket_Click(object sender, EventArgs e)
         {
-           
+
         }
 
         private void Basket_Load(object sender, EventArgs e)
@@ -62,7 +99,7 @@ namespace BookingSystemUI
 
         // Initiate HTTP Client
         private static readonly HttpClient httpClient = new HttpClient();
-        
+
         // Allow storage of an array of key value pairs into bookingData variable
         private Dictionary<string, string> bookingData = new Dictionary<string, string>();
 

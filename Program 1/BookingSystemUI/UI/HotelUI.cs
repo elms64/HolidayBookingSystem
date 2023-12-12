@@ -90,17 +90,7 @@ namespace BookingSystemUI
 
             mainForm.ShowFormInMainPanel(vehicleUI);
             this.Close();
-
-
-            /*
-            CarRentalUI carRental = new CarRentalUI(booking, mainForm);
-
-            // Show the Flight form
-            mainForm.ShowFormInMainPanel(carRental);
-
-            // Close the BookingInit form if needed
-            this.Close();
-            */
+           
         }
     }
 }

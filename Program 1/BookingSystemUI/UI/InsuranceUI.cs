@@ -68,7 +68,7 @@ namespace BookingSystemUI
                     foreach (var insurance in insurances)
                     {
                         String labelText = $"Insurance ID: {insurance.InsuranceID}," +
-                            $"Insurance Type: {insurance.InsuranceType}, " +
+                            $"Insurance Type: {insurance.InsuranceType}," +
                             $"Price Per Day: {insurance.PricePerDay}, ";
                         Label label = Utils.createLabelWithLabelText(labelText);
                         Panel panel = Utils.createPanel(yOffset, insurancePanel, label);
@@ -164,7 +164,7 @@ namespace BookingSystemUI
 
         private async void btnNext_Click(object sender, EventArgs e)
         {
-
+            /*
             try
 
             {   //This wont work because the insurance hasnt been selected yet. Will have to test
@@ -180,7 +180,7 @@ namespace BookingSystemUI
             {
                 Console.WriteLine($"An error occurred: {ex.Message}");
             }
-
+            */
 
 
             // Basket basket = new Basket(selectedCountry, selectedOrigin, selectedOriginID, selectedCountryID, mainForm, selectedDepartureDate, selectedReturnDate);
@@ -189,6 +189,9 @@ namespace BookingSystemUI
             // mainForm.ShowFormInMainPanel(basket);
 
             // Close the BookingInit form if needed
+            Basket basket = new Basket(booking, mainForm);
+
+            mainForm.ShowFormInMainPanel(basket);
             this.Close();
         }
 
