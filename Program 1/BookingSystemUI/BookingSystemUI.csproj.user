@@ -7,7 +7,7 @@
     <Compile Update="UI\BookingUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="UI\CarRentalUI.cs">
+    <Compile Update="UI\VehicleUI.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="UI\AirportUI.cs">

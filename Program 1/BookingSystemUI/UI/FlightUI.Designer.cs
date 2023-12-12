@@ -49,6 +49,7 @@
             label2.Size = new Size(143, 30);
             label2.TabIndex = 3;
             label2.Text = "Select Flights";
+            label2.Click += label2_Click;
             // 
             // nxtBtn
             // 
@@ -60,7 +61,7 @@
             nxtBtn.UseVisualStyleBackColor = true;
             nxtBtn.Click += nxtBtn_Click;
             // 
-            // SelectFlightUI
+            // FlightUI
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -70,7 +71,7 @@
             Controls.Add(label2);
             Controls.Add(flightPanel);
             FormBorderStyle = FormBorderStyle.None;
-            Name = "SelectFlightUI";
+            Name = "FlightUI";
             Text = "SelectFlightUI";
             ResumeLayout(false);
             PerformLayout();

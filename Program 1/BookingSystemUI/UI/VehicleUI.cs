@@ -1,4 +1,7 @@
-﻿using System;
+﻿using BookingSystemUI.Model;
+using BookingSystemUI.Service;
+using BookingSystemUI.UI.UIUtils;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,116 +13,128 @@ using System.Windows.Forms;
 
 namespace BookingSystemUI
 {
-    
 
 
-    public partial class CarRentalUI : Form
+
+    public partial class VehicleUI : Form
     {
         private const string ConsoleAppUrl = "http://localhost:8080";
-        
-        private MainMenu mainForm;
-        private string selectedCountry;
-        private string selectedOrigin;
-        private int selectedOriginID;
-        private int selectedCountryID;
-        private DateTime selectedDepartureDate;
-        private string selectedReturnDate;
 
-        public CarRentalUI(string selectedCountry, string selectedOrigin, int selectedOriginID, int selectedCountryID, MainMenu mainForm, DateTime selectedDepartureDate, string selectedReturnDate)
+        private MainMenu mainForm;
+        private Booking booking;
+        private VehicleService vehicleSerivce;
+
+        public VehicleUI(Booking booking, MainMenu mainForm)
         {
             InitializeComponent();
             this.mainForm = mainForm;
+            this.vehicleSerivce = new VehicleService();
+            this.Load += Vehicle_Load;
+            this.booking = booking;
 
-            // Assign the values to the class members
-            this.selectedCountry = selectedCountry;
-            this.selectedOrigin = selectedOrigin;
-            this.selectedOriginID = selectedOriginID;
-            this.selectedCountryID = selectedCountryID;
-            this.selectedDepartureDate = selectedDepartureDate;
-            this.selectedReturnDate = selectedReturnDate;
-
-            MessageBox.Show($"btnNext_Click:\nselectedCountry: {selectedCountry}\nselectedOrigin: {selectedOrigin}\nselectedOriginID: {selectedOriginID}\nselectedCountryID: {selectedCountryID}");
 
 
         }
 
-        private async void CarRental_Load(object sender, EventArgs e)
+        private async void Vehicle_Load(object sender, EventArgs e)
         {
-
-
-            try
+            MessageBox.Show("Vehicle Load");
             {
-                await Send_Vehicles("SEND_VEHICLE_DATA");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error occurred: {ex.Message}");
-            }
-
-        }
-
-        private async Task Send_Vehicles(string messageType)
-        {
-            //pass the message and the selectedCountry/OriginID
-            string message = messageType;
-
-            try
-            {
-                // Create a new HTTPclient
-                using (HttpClient client = new HttpClient())
+                if (booking != null)
                 {
+                    Task<List<Vehicle>> vehicleTask = vehicleSerivce.GetVehicle();
+                    await vehicleTask;
 
-                    // Data variable has the message passed in.
-                    var data = new StringContent(message, Encoding.UTF8, "application/json");
+                    List<Vehicle> vehicles = vehicleTask.Result;
 
-                    // Data is actually sent here.
-                    Task<HttpResponseMessage> responseTask = client.PostAsync(ConsoleAppUrl, data);
-
-                    // Use Task.WhenAny to wait for the response or a delay
-                    Task completedTask = await Task.WhenAny(responseTask, Task.Delay(TimeSpan.FromSeconds(3))); // Adjust the timeout duration as needed
-
-
-                    if (completedTask == responseTask)
+                    int yOffset = 8;
+                    foreach (var vehicle in vehicles)
                     {
-                        // Response received within the timeout
-                        HttpResponseMessage response = await responseTask;
+                        String labelText = $"Vehicle ID: {vehicle.VehicleID}," +
+                            $"Vehicle Type: {vehicle.VehicleType}, " +
+                            $"Price Per Day: {vehicle.PricePerDay}, ";
+                        Label label = Utils.createLabelWithLabelText(labelText);
+                        Panel panel = Utils.createPanel(yOffset, vehiclePanel, label);
+                        yOffset += panel.Height;
 
-                        // If the response is successful
-                        if (response.IsSuccessStatusCode)
-                        {
-                            // Load the received flight data to the front end.
-                            var responseData = await response.Content.ReadAsStringAsync();
-                            // TODO: Deserialize and process the responseData
-                        }
-                        else
-                        {
-                            Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
-                        }
-                    }
-                    else
-                    {
-                        // Timeout occurred, show a message
-                        MessageBox.Show($"No response received within the specified time for message: {message}");
+                        panel.Click += (sender, e) => Panel_Click(sender, e, vehicle);
                     }
                 }
-            }
-            catch (HttpRequestException ex)
-            {
-                Console.WriteLine($"HTTP Request Error: {ex.Message}");
-                Console.WriteLine($"HTTP Request Error Details: {ex}");
-            }
-            catch (TaskCanceledException ex)
-            {
-                Console.WriteLine($"Task Canceled Error: {ex.Message}");
-                Console.WriteLine($"Task Canceled Error Details: {ex}");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error occurred: {ex.Message}");
-                Console.WriteLine($"Error Details: {ex}");
-            }
-        }
 
+            }
+           
+
+        }
+        public void Panel_Click(object sender, EventArgs e, Vehicle vehicle)
+        {
+            booking.Vehicle = vehicle;
+            MessageBox.Show(vehicle.ToString());
+            vehiclePanel.Visible = false;
+
+        }
+        /*  private async Task Send_Vehicles(string messageType)
+          {
+              //pass the message and the selectedCountry/OriginID
+              string message = messageType;
+
+              try
+              {
+                  // Create a new HTTPclient
+                  using (HttpClient client = new HttpClient())
+                  {
+
+                      // Data variable has the message passed in.
+                      var data = new StringContent(message, Encoding.UTF8, "application/json");
+
+                      // Data is actually sent here.
+                      Task<HttpResponseMessage> responseTask = client.PostAsync(ConsoleAppUrl, data);
+
+                      // Use Task.WhenAny to wait for the response or a delay
+                      Task completedTask = await Task.WhenAny(responseTask, Task.Delay(TimeSpan.FromSeconds(3))); // Adjust the timeout duration as needed
+
+
+                      if (completedTask == responseTask)
+                      {
+                          // Response received within the timeout
+                          HttpResponseMessage response = await responseTask;
+
+                          // If the response is successful
+                          if (response.IsSuccessStatusCode)
+                          {
+                              // Load the received flight data to the front end.
+                              var responseData = await response.Content.ReadAsStringAsync();
+                              // TODO: Deserialize and process the responseData
+                          }
+                          else
+                          {
+                              Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                          }
+                      }
+                      else
+                      {
+                          // Timeout occurred, show a message
+                          MessageBox.Show($"No response received within the specified time for message: {message}");
+                      }
+                  }
+              }
+              catch (HttpRequestException ex)
+              {
+                  Console.WriteLine($"HTTP Request Error: {ex.Message}");
+                  Console.WriteLine($"HTTP Request Error Details: {ex}");
+              }
+              catch (TaskCanceledException ex)
+              {
+                  Console.WriteLine($"Task Canceled Error: {ex.Message}");
+                  Console.WriteLine($"Task Canceled Error Details: {ex}");
+              }
+              catch (Exception ex)
+              {
+                  Console.WriteLine($"An error occurred: {ex.Message}");
+                  Console.WriteLine($"Error Details: {ex}");
+              }
+          }
+
+          */
 
         private void SearchCar_Click(object sender, EventArgs e)
         {
@@ -141,11 +156,11 @@ namespace BookingSystemUI
 
         }
 
-        
+
 
         private async void btnNext_Click(object sender, EventArgs e)
         {
-
+            /*
             try
             {
                 //Change this variable when the selected vehicle ID can be detected.
@@ -166,6 +181,7 @@ namespace BookingSystemUI
 
             // Close the BookingInit form if needed
             this.Close();
+            */
         }
 
         // Also just here for testing. Remove when you hvae the selectediD

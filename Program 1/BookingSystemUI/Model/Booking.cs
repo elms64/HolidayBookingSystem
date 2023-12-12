@@ -12,6 +12,9 @@ namespace BookingSystemUI.Model
         public FlightDetails FlightDetails { get; set; }
         public Hotel Hotel { get; set; }    
         public Flight Flight { get; set; }
+        public Vehicle Vehicle { get; set; }
+
+        public Insurance Insurance { get; set; }
 
         public override string ToString()
         {

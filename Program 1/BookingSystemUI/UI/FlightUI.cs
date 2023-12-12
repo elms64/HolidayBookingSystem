@@ -39,7 +39,7 @@ namespace BookingSystemUI.UI
             await taskFlight;
             List<Flight> flights = taskFlight.Result;
 
-            MessageBox.Show(flights.ToString());
+            //MessageBox.Show(flights.ToString());
             int yOffset = 0;
             foreach (var flight in flights)
             {
@@ -59,17 +59,23 @@ namespace BookingSystemUI.UI
 
         public void Panel_Click(object sender, EventArgs e, Flight flight)
         {
-            MessageBox.Show("clicked Panel");
+            MessageBox.Show("Flight Selected");
             booking.Flight = flight;
-
+            flightPanel.Visible = false;
         }
 
         private void nxtBtn_Click(object sender, EventArgs e)
         {
-            HotelUI hotelUI = new HotelUI(booking);
-            
+            HotelUI hotelUI = new HotelUI(booking, mainForm);
+
             mainForm.ShowFormInMainPanel(hotelUI);
             this.Close();
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

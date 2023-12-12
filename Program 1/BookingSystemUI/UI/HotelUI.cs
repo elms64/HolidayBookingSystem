@@ -19,7 +19,6 @@ namespace BookingSystemUI
 
     public partial class HotelUI : Form
     {
-        private const string ConsoleAppUrl = "http://localhost:8080";
 
 
 
@@ -28,7 +27,7 @@ namespace BookingSystemUI
         private MainMenu mainForm;
         private HotelService hotelService;
 
-        public HotelUI(Booking booking)
+        public HotelUI(Booking booking, MainMenu mainForm)
         {
 
             InitializeComponent();
@@ -82,10 +81,17 @@ namespace BookingSystemUI
             booking.Hotel = hotel;
             MessageBox.Show(hotel.ToString());
             hotelPanel.Visible = false;
+            
         }
 
         private void btnNext_Click(object sender, EventArgs e)
         {
+            VehicleUI vehicleUI = new VehicleUI(booking, mainForm);
+
+            mainForm.ShowFormInMainPanel(vehicleUI);
+            this.Close();
+
+
             /*
             CarRentalUI carRental = new CarRentalUI(booking, mainForm);
 

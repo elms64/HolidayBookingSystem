@@ -194,7 +194,7 @@ namespace BookingSystemUI
         private void btnNext_Click(object sender, EventArgs e)
         {
 
-            MessageBox.Show(booking.ToString());
+           // MessageBox.Show(booking.ToString());
 
 
 

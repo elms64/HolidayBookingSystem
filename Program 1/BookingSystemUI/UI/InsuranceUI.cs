@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BookingSystemUI.Model;
+using BookingSystemUI.Service;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,19 +18,29 @@ namespace BookingSystemUI
 
 
         private MainMenu mainForm;
+        private Booking booking;
+        private InsuranceService insuranceService;
+
+        /*
         private string selectedCountry;
         private string selectedOrigin;
         private int selectedOriginID;
         private int selectedCountryID;
         private DateTime selectedDepartureDate;
         private string selectedReturnDate;
+        */
 
-        public InsuranceUI(string selectedCountry, string selectedOrigin, int selectedOriginID, int selectedCountryID, MainMenu mainForm, DateTime selectedDepartureDate, string selectedReturnDate)
+        public InsuranceUI(Booking booking)
         {
             InitializeComponent();
             this.mainForm = mainForm;
+            this.booking = booking;
+            this.insuranceService = new InsuranceService();
+            this.Load += InsuranceUI_Load;
+
 
             // Assign the values to the class members
+            /*
             this.selectedCountry = selectedCountry;
             this.selectedOrigin = selectedOrigin;
             this.selectedOriginID = selectedOriginID;
@@ -37,8 +49,10 @@ namespace BookingSystemUI
             this.selectedReturnDate = selectedReturnDate;
 
             MessageBox.Show($"btnNext_Click:\nselectedCountry: {selectedCountry}\nselectedOrigin: {selectedOrigin}\nselectedOriginID: {selectedOriginID}\nselectedCountryID: {selectedCountryID}");
+            */
         }
-        private async void Insurance_Load(object sender, EventArgs e)
+
+        private async void InsuranceUI_Load(object? sender, EventArgs e)
         {
             try
             {
@@ -122,7 +136,7 @@ namespace BookingSystemUI
 
         }
 
-        
+
 
         private async void btnNext_Click(object sender, EventArgs e)
         {
@@ -145,10 +159,10 @@ namespace BookingSystemUI
 
 
 
-            Basket basket = new Basket(selectedCountry, selectedOrigin, selectedOriginID, selectedCountryID, mainForm, selectedDepartureDate, selectedReturnDate);
+           // Basket basket = new Basket(selectedCountry, selectedOrigin, selectedOriginID, selectedCountryID, mainForm, selectedDepartureDate, selectedReturnDate);
 
             // Show the Flight form
-            mainForm.ShowFormInMainPanel(basket);
+           // mainForm.ShowFormInMainPanel(basket);
 
             // Close the BookingInit form if needed
             this.Close();
@@ -157,7 +171,7 @@ namespace BookingSystemUI
         private async Task Send_Selected_Insurance(string messageType, int value)
         {
             //pass the message and the selectedCountry/OriginID
-            string message = $"{messageType}:{value}";
+            /* string message = $"{messageType}:{value}";
 
             try
             {
@@ -216,6 +230,7 @@ namespace BookingSystemUI
                 Console.WriteLine($"An error occurred: {ex.Message}");
                 Console.WriteLine($"Error Details: {ex}");
             }
+            */
         }
     }
 }
