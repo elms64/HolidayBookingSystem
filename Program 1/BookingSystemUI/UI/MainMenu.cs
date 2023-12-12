@@ -43,7 +43,7 @@ namespace BookingSystemUI
 
         private void btnBookingInit_Click(object sender, EventArgs e)
         {
-            BookingInit bookinginit = new BookingInit(this); // Pass reference to the main form
+            BookingUI bookinginit = new BookingUI(this); // Pass reference to the main form
             bookinginit.TopLevel = false;
             MainPanel.Controls.Add(bookinginit);
             bookinginit.Show();

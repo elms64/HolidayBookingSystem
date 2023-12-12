@@ -1,6 +1,6 @@
 ﻿namespace BookingSystemUI
 {
-    partial class Flight
+    partial class AirportUI
     {
         /// <summary>
         /// Required designer variable.
@@ -38,7 +38,10 @@
             lblSelectDepartureAirport = new Label();
             lblOriginCountryUpdate = new Label();
             lblOriginIdDEBUG = new Label();
-            pnlFlight = new Panel();
+            departureAirportsPanel = new Panel();
+            lbshowdeparture = new Label();
+            lbshowarrival = new Label();
+            arrivalAirportsPanel = new Panel();
             SuspendLayout();
             // 
             // label2
@@ -47,9 +50,9 @@
             label2.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point);
             label2.Location = new Point(390, 72);
             label2.Name = "label2";
-            label2.Size = new Size(214, 30);
+            label2.Size = new Size(232, 30);
             label2.TabIndex = 2;
-            label2.Text = "Searching for flights";
+            label2.Text = "Searching for Airports";
             // 
             // label3
             // 
@@ -134,21 +137,50 @@
             lblOriginIdDEBUG.TabIndex = 23;
             lblOriginIdDEBUG.Text = "lblOriginIdDEBUG";
             // 
-            // pnlFlight
+            // departureAirportsPanel
             // 
-            pnlFlight.BackColor = SystemColors.ActiveCaption;
-            pnlFlight.Location = new Point(95, 244);
-            pnlFlight.Name = "pnlFlight";
-            pnlFlight.Size = new Size(898, 302);
-            pnlFlight.TabIndex = 24;
+            departureAirportsPanel.BackColor = SystemColors.ActiveCaption;
+            departureAirportsPanel.Location = new Point(95, 244);
+            departureAirportsPanel.Name = "departureAirportsPanel";
+            departureAirportsPanel.Size = new Size(898, 302);
+            departureAirportsPanel.TabIndex = 24;
             // 
-            // Flight
+            // lbshowdeparture
+            // 
+            lbshowdeparture.AutoSize = true;
+            lbshowdeparture.Location = new Point(731, 172);
+            lbshowdeparture.Name = "lbshowdeparture";
+            lbshowdeparture.Size = new Size(96, 15);
+            lbshowdeparture.TabIndex = 26;
+            lbshowdeparture.Text = "lbshowdeparture";
+            // 
+            // lbshowarrival
+            // 
+            lbshowarrival.AutoSize = true;
+            lbshowarrival.Location = new Point(731, 187);
+            lbshowarrival.Name = "lbshowarrival";
+            lbshowarrival.Size = new Size(77, 15);
+            lbshowarrival.TabIndex = 27;
+            lbshowarrival.Text = "lbshowarrival";
+            // 
+            // arrivalAirportsPanel
+            // 
+            arrivalAirportsPanel.BackColor = SystemColors.ActiveCaption;
+            arrivalAirportsPanel.Location = new Point(95, 244);
+            arrivalAirportsPanel.Name = "arrivalAirportsPanel";
+            arrivalAirportsPanel.Size = new Size(898, 302);
+            arrivalAirportsPanel.TabIndex = 25;
+            // 
+            // SelectAirportUI
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(1034, 611);
-            Controls.Add(pnlFlight);
+            Controls.Add(arrivalAirportsPanel);
+            Controls.Add(lbshowarrival);
+            Controls.Add(lbshowdeparture);
+            Controls.Add(departureAirportsPanel);
             Controls.Add(lblOriginIdDEBUG);
             Controls.Add(lblOriginCountryUpdate);
             Controls.Add(lblSelectDepartureAirport);
@@ -160,9 +192,9 @@
             Controls.Add(label3);
             Controls.Add(label2);
             FormBorderStyle = FormBorderStyle.None;
-            Name = "Flight";
+            Name = "SelectAirportUI";
             Text = "Flight";
-            Load += Flight_Load;
+            Load += Airport_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -179,6 +211,9 @@
         private Label lblOriginCountryUpdate;
         private Label lblOriginIdDEBUG;
         private FlowLayoutPanel flwPnlFlight;
-        private Panel pnlFlight;
+        private Panel departureAirportsPanel;
+        private Label lbshowdeparture;
+        private Label lbshowarrival;
+        private Panel arrivalAirportsPanel;
     }
 }

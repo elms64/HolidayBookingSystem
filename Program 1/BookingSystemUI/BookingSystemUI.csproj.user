@@ -1,37 +1,40 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Compile Update="Basket.cs">
+    <Compile Update="UI\Basket.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="BookingInit.cs">
+    <Compile Update="UI\BookingUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="CarRental.cs">
+    <Compile Update="UI\VehicleUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Flight.cs">
+    <Compile Update="UI\AirportUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Form1.cs">
+    <Compile Update="UI\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="SplashScreen.cs">
+    <Compile Update="UI\FlightUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Hotel.cs">
+    <Compile Update="UI\SplashScreen.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Insurance.cs">
+    <Compile Update="UI\HotelUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="MainMenu.cs">
+    <Compile Update="UI\InsuranceUI.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="MainMenu2.cs">
+    <Compile Update="UI\MainMenu.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="ViewOrders.cs">
+    <Compile Update="UI\MainMenu2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="UI\ViewOrders.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
