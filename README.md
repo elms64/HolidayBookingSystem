@@ -1,3 +1,5 @@
+Project Timeline run out. Alex and James did everything :/
+
 Holiday Booking System. Group project for the BSc Computing Class of 2024 at University Centre Farnborough.
 
 This is a two part system consisting of a Winforms application to interface with the end user and a .NET Console application that performs back-end functions and maintains communication with the front-end using HTTP.
